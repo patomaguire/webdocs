@@ -1,11 +1,37 @@
+import { z } from "zod";
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
+import {
+  getSetting,
+  getAllSettings,
+  upsertSetting,
+  getHeroSection,
+  upsertHeroSection,
+  getAllTabs,
+  getTabByNumber,
+  upsertTab,
+  getAllTeamMembers,
+  getTeamMember,
+  createTeamMember,
+  updateTeamMember,
+  deleteTeamMember,
+  getAllProjects,
+  getProject,
+  createProject,
+  updateProject,
+  deleteProject,
+  addComment,
+  getCommentsByTab,
+  getAllComments,
+  markCommentAsRead,
+  deleteComment,
+} from "./db";
 
 export const appRouter = router({
-    // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
+  
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
@@ -17,12 +43,187 @@ export const appRouter = router({
     }),
   }),
 
-  // TODO: add feature routers here, e.g.
-  // todo: router({
-  //   list: protectedProcedure.query(({ ctx }) =>
-  //     db.getUserTodos(ctx.user.id)
-  //   ),
-  // }),
+  // Settings router
+  settings: router({
+    getAll: publicProcedure.query(async () => await getAllSettings()),
+    get: publicProcedure
+      .input(z.object({ key: z.string() }))
+      .query(async ({ input }) => await getSetting(input.key)),
+    upsert: publicProcedure
+      .input(z.object({ key: z.string(), value: z.string() }))
+      .mutation(async ({ input }) => {
+        await upsertSetting(input.key, input.value);
+        return { success: true };
+      }),
+  }),
+
+  // Hero section router
+  hero: router({
+    get: publicProcedure.query(async () => await getHeroSection()),
+    upsert: publicProcedure
+      .input(z.object({
+        mainTitle: z.string(),
+        subtitle: z.string().optional(),
+        stampText: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await upsertHeroSection(input);
+        return { success: true };
+      }),
+  }),
+
+  // Tabs content router
+  tabs: router({
+    getAll: publicProcedure.query(async () => await getAllTabs()),
+    getByNumber: publicProcedure
+      .input(z.object({ tabNumber: z.number() }))
+      .query(async ({ input }) => await getTabByNumber(input.tabNumber)),
+    upsert: publicProcedure
+      .input(z.object({
+        tabNumber: z.number(),
+        tabTitle: z.string(),
+        htmlContent: z.string().optional(),
+        isVisible: z.boolean().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await upsertTab(input);
+        return { success: true };
+      }),
+  }),
+
+  // Team members router
+  team: router({
+    getAll: publicProcedure.query(async () => await getAllTeamMembers()),
+    get: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => await getTeamMember(input.id)),
+    create: publicProcedure
+      .input(z.object({
+        name: z.string(),
+        title: z.string(),
+        bio: z.string().optional(),
+        photoUrl: z.string().optional(),
+        yearsExperience: z.number().optional(),
+        keySkills: z.string().optional(),
+        sortOrder: z.number().optional(),
+        isVisible: z.boolean().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const member = await createTeamMember(input);
+        return { success: true, member };
+      }),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        title: z.string().optional(),
+        bio: z.string().optional(),
+        photoUrl: z.string().optional(),
+        yearsExperience: z.number().optional(),
+        keySkills: z.string().optional(),
+        sortOrder: z.number().optional(),
+        isVisible: z.boolean().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        await updateTeamMember(id, data);
+        return { success: true };
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await deleteTeamMember(input.id);
+        return { success: true };
+      }),
+  }),
+
+  // Projects router
+  projects: router({
+    getAll: publicProcedure.query(async () => await getAllProjects()),
+    get: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => await getProject(input.id)),
+    create: publicProcedure
+      .input(z.object({
+        projectName: z.string(),
+        entity: z.string(),
+        client: z.string().optional(),
+        location: z.string().optional(),
+        country: z.string().optional(),
+        latitude: z.string().optional(),
+        longitude: z.string().optional(),
+        projectValue: z.string().optional(),
+        projectYear: z.string().optional(),
+        services: z.string().optional(),
+        description: z.string().optional(),
+        sortOrder: z.number().optional(),
+        isVisible: z.boolean().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const project = await createProject(input);
+        return { success: true, project };
+      }),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        projectName: z.string().optional(),
+        entity: z.string().optional(),
+        client: z.string().optional(),
+        location: z.string().optional(),
+        country: z.string().optional(),
+        latitude: z.string().optional(),
+        longitude: z.string().optional(),
+        projectValue: z.string().optional(),
+        projectYear: z.string().optional(),
+        services: z.string().optional(),
+        description: z.string().optional(),
+        sortOrder: z.number().optional(),
+        isVisible: z.boolean().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        await updateProject(id, data);
+        return { success: true };
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await deleteProject(input.id);
+        return { success: true };
+      }),
+  }),
+
+  // Comments router
+  commentsRouter: router({
+    add: publicProcedure
+      .input(z.object({
+        tabNumber: z.number(),
+        tabName: z.string(),
+        authorName: z.string(),
+        authorEmail: z.string().optional(),
+        commentText: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const comment = await addComment(input);
+        return { success: true, comment };
+      }),
+    getByTab: publicProcedure
+      .input(z.object({ tabNumber: z.number() }))
+      .query(async ({ input }) => await getCommentsByTab(input.tabNumber)),
+    getAll: publicProcedure.query(async () => await getAllComments()),
+    markAsRead: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await markCommentAsRead(input.id);
+        return { success: true };
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await deleteComment(input.id);
+        return { success: true };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
