@@ -58,4 +58,12 @@
 - [x] Change Entity and Service filters from dropdowns to buttons
 - [x] Add Client filter alongside Entity and Service filters
 - [x] Test all fixes
+- [x] Save final checkpoint
+
+## Phase 9: Additional User-Reported Issues
+- [x] Fix "Print All" button to print entire document (all tabs), not just current section
+- [x] Reduce all button sizes to 70% by default
+- [x] Move tab buttons horizontally under hero section (tabs 0-11 in 2 rows)
+- [x] Add horizontal scrolling for tabs on mobile view
+- [x] Test all fixes
 - [ ] Save final checkpoint

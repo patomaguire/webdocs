@@ -131,20 +131,91 @@ function ProposalContent() {
   };
 
   const printAll = () => {
+    // Save current tab
+    const savedTab = activeTab;
+    
+    // Create a hidden container with all tabs
+    const printContainer = document.createElement('div');
+    printContainer.id = 'print-all-container';
+    printContainer.style.display = 'none';
+    
+    visibleTabs.forEach((tab, index) => {
+      const tabSection = document.createElement('div');
+      tabSection.className = 'print-tab-section';
+      tabSection.style.pageBreakAfter = index < visibleTabs.length - 1 ? 'always' : 'auto';
+      
+      const title = document.createElement('h2');
+      title.textContent = `${tab.tabNumber}. ${tab.tabTitle}`;
+      title.style.color = primaryColor;
+      title.style.fontSize = '24pt';
+      title.style.marginBottom = '16px';
+      tabSection.appendChild(title);
+      
+      const content = document.createElement('div');
+      content.className = 'prose';
+      content.innerHTML = language === "es" && tab.htmlContentEs ? tab.htmlContentEs : tab.htmlContent || "";
+      tabSection.appendChild(content);
+      
+      // Add team members for tab 8
+      if (tab.tabNumber === 8 && teamMembers) {
+        teamMembers.filter(m => m.isVisible).forEach(member => {
+          const memberDiv = document.createElement('div');
+          memberDiv.style.marginTop = '16px';
+          memberDiv.style.padding = '12px';
+          memberDiv.style.border = '1px solid #ddd';
+          memberDiv.innerHTML = `
+            <h3 style="font-size: 14pt; margin-bottom: 8px;">${member.name}</h3>
+            ${member.title ? `<p style="color: #666; margin-bottom: 8px;">${member.title}</p>` : ''}
+            ${member.bio ? `<p style="font-size: 10pt; margin-bottom: 8px;">${language === "es" && member.bioEs ? member.bioEs : member.bio}</p>` : ''}
+            ${member.yearsExperience ? `<p style="font-size: 10pt;"><strong>${language === "en" ? "Experience:" : "Experiencia:"}</strong> ${member.yearsExperience} ${language === "en" ? "years" : "años"}</p>` : ''}
+            ${member.keySkills ? `<p style="font-size: 10pt;"><strong>${language === "en" ? "Skills:" : "Habilidades:"}</strong> ${member.keySkills}</p>` : ''}
+          `;
+          tabSection.appendChild(memberDiv);
+        });
+      }
+      
+      // Add projects for tab 11
+      if (tab.tabNumber === 11 && projects) {
+        projects.filter(p => p.isVisible).forEach(project => {
+          const projectDiv = document.createElement('div');
+          projectDiv.style.marginTop = '16px';
+          projectDiv.style.padding = '12px';
+          projectDiv.style.border = '1px solid #ddd';
+          projectDiv.innerHTML = `
+            <h3 style="font-size: 14pt; margin-bottom: 8px;">${project.projectName}</h3>
+            <p style="font-size: 10pt;"><strong>Client:</strong> ${project.client || 'N/A'}</p>
+            <p style="font-size: 10pt;"><strong>Location:</strong> ${project.location}</p>
+            <p style="font-size: 10pt;"><strong>Value:</strong> ${project.projectValue || 'N/A'}</p>
+            <p style="font-size: 10pt;"><strong>Year:</strong> ${project.projectYear || 'N/A'}</p>
+            <p style="font-size: 10pt;"><strong>Entity:</strong> ${project.entity}</p>
+          `;
+          tabSection.appendChild(projectDiv);
+        });
+      }
+      
+      printContainer.appendChild(tabSection);
+    });
+    
+    document.body.appendChild(printContainer);
+    
+    // Add print styles
     const style = document.createElement('style');
     style.id = 'print-override';
     style.textContent = `
       @media print {
+        body > *:not(#print-all-container) { display: none !important; }
+        #print-all-container { display: block !important; }
+        .print-tab-section { padding: 20px; }
         body, body * { font-size: 9pt !important; }
-        .no-print { display: none !important; }
-        .tab-content { display: block !important; page-break-after: always; }
       }
     `;
     document.head.appendChild(style);
     
     window.print();
     
+    // Cleanup
     document.getElementById('print-override')?.remove();
+    printContainer.remove();
   };
 
   const printComments = () => {
@@ -220,7 +291,8 @@ function ProposalContent() {
             <nav className="flex gap-2">
               <button
                 onClick={() => setActiveTab(0)}
-                className="px-4 py-2 rounded text-white hover:bg-white/20 transition flex items-center gap-2"
+                className="px-3 py-1.5 rounded text-white hover:bg-white/20 transition flex items-center gap-1.5 text-sm"
+                style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -232,8 +304,9 @@ function ProposalContent() {
               {/* Language Toggle - Show target language flag */}
               <button
                 onClick={() => setLanguage(language === "en" ? "es" : "en")}
-                className="px-3 py-2 rounded border border-white/30 hover:bg-white/20 transition"
+                className="px-2 py-1 rounded border border-white/30 hover:bg-white/20 transition"
                 title={language === "en" ? "Switch to Spanish" : "Cambiar a Inglés"}
+                style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
               >
                 {language === "en" ? (
                   // Spanish Flag SVG (show when in English to switch to Spanish)
@@ -277,7 +350,8 @@ function ProposalContent() {
         <div className="flex gap-3 justify-center pb-3 no-print">
           <button
             onClick={printSection}
-            className="px-3 py-2 bg-white/90 text-gray-800 rounded text-sm flex items-center gap-2 hover:bg-white transition"
+            className="px-2 py-1.5 bg-white/90 text-gray-800 rounded text-xs flex items-center gap-1 hover:bg-white transition"
+            style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
               <polyline points="6 9 6 2 18 2 18 9"/>
@@ -288,7 +362,8 @@ function ProposalContent() {
           </button>
           <button
             onClick={printAll}
-            className="px-3 py-2 bg-white/90 text-gray-800 rounded text-sm flex items-center gap-2 hover:bg-white transition"
+            className="px-2 py-1.5 bg-white/90 text-gray-800 rounded text-xs flex items-center gap-1 hover:bg-white transition"
+            style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
               <polyline points="6 9 6 2 18 2 18 9"/>
@@ -299,7 +374,8 @@ function ProposalContent() {
           </button>
           <button
             onClick={printComments}
-            className="px-3 py-2 bg-white/90 text-gray-800 rounded text-sm flex items-center gap-2 hover:bg-white transition"
+            className="px-2 py-1.5 bg-white/90 text-gray-800 rounded text-xs flex items-center gap-1 hover:bg-white transition"
+            style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -328,45 +404,53 @@ function ProposalContent() {
         </div>
       )}
 
-      {/* Main Layout with Vertical Sidebar */}
-      <div className="flex">
-        
-        {/* Vertical Sidebar Navigation */}
-        <aside 
-          className={`${sidebarCollapsed ? 'w-16' : 'w-64'} bg-gray-900 text-white transition-all duration-300 sticky top-[140px] h-[calc(100vh-140px)] overflow-y-auto no-print`}
-        >
-          <div className="p-4">
-            <button
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="w-full text-left mb-4 text-gray-400 hover:text-white text-sm"
-            >
-              {sidebarCollapsed ? '→' : '← Collapse'}
-            </button>
-            
-            <nav className="space-y-1">
-              {visibleTabs.map((tab) => (
-                <button
-                  key={tab.tabNumber}
-                  onClick={() => setActiveTab(tab.tabNumber)}
-                  className={`w-full text-left px-3 py-2 rounded transition text-sm ${
-                    activeTab === tab.tabNumber
-                      ? 'text-white'
-                      : 'text-gray-400 hover:text-white hover:bg-gray-800'
-                  }`}
-                  style={{
-                    backgroundColor: activeTab === tab.tabNumber ? primaryColor : undefined,
-                  }}
-                >
-                  {sidebarCollapsed ? (
-                    <span className="font-bold">{tab.tabNumber}</span>
-                  ) : (
-                    <span>{tab.tabNumber}. {tab.tabTitle}</span>
-                  )}
-                </button>
-              ))}
-            </nav>
+      {/* Horizontal Tab Navigation under Hero */}
+      <div className="bg-gray-100 border-y border-gray-300 no-print">
+        <div className="container mx-auto px-4 py-4">
+          {/* First Row: Tabs 0-5 */}
+          <div className="flex gap-2 mb-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
+            {visibleTabs.filter(t => t.tabNumber >= 0 && t.tabNumber <= 5).map((tab) => (
+              <button
+                key={tab.tabNumber}
+                onClick={() => setActiveTab(tab.tabNumber)}
+                className={`px-4 py-2 rounded whitespace-nowrap text-sm transition flex-shrink-0 ${
+                  activeTab === tab.tabNumber
+                    ? 'text-white font-semibold'
+                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                }`}
+                style={{
+                  backgroundColor: activeTab === tab.tabNumber ? primaryColor : undefined,
+                }}
+              >
+                {tab.tabNumber}. {tab.tabTitle}
+              </button>
+            ))}
           </div>
-        </aside>
+          
+          {/* Second Row: Tabs 6-11 */}
+          <div className="flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
+            {visibleTabs.filter(t => t.tabNumber >= 6 && t.tabNumber <= 11).map((tab) => (
+              <button
+                key={tab.tabNumber}
+                onClick={() => setActiveTab(tab.tabNumber)}
+                className={`px-4 py-2 rounded whitespace-nowrap text-sm transition flex-shrink-0 ${
+                  activeTab === tab.tabNumber
+                    ? 'text-white font-semibold'
+                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                }`}
+                style={{
+                  backgroundColor: activeTab === tab.tabNumber ? primaryColor : undefined,
+                }}
+              >
+                {tab.tabNumber}. {tab.tabTitle}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content Area (Full Width) */}
+      <div className="flex">
 
         {/* Main Content Area */}
         <main className="flex-1 p-8">
