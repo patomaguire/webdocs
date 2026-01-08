@@ -53,6 +53,7 @@ export const tabsContent = mysqlTable("tabs_content", {
   tabNumber: int("tabNumber").notNull().unique(),
   tabTitle: varchar("tabTitle", { length: 255 }).notNull(),
   htmlContent: text("htmlContent"),
+  htmlContentEs: text("htmlContentEs"), // Spanish translation
   isVisible: boolean("isVisible").default(true).notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -66,8 +67,9 @@ export type InsertTabContent = typeof tabsContent.$inferInsert;
 export const teamMembers = mysqlTable("team_members", {
   id: int("id").autoincrement().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
-  title: varchar("title", { length: 255 }).notNull(),
+  title: varchar("title", { length: 255 }),
   bio: text("bio"),
+  bioEs: text("bioEs"), // Spanish translation
   photoUrl: text("photoUrl"),
   yearsExperience: int("yearsExperience"),
   keySkills: text("keySkills"),

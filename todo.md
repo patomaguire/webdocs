@@ -41,3 +41,13 @@
 - [x] Test filters on Experience Map
 - [x] Test comment submission
 - [x] Save checkpoint for publishing
+
+## Phase 7: Fix Missing Features
+- [x] Review BID_TEMPLATE_INSTRUCTIONS.md for all requirements
+- [x] Add 4-logo header layout (2 left, 2 right) with proper display
+- [x] Add Print button to header
+- [x] Add Language selector to header
+- [x] Fix tab layout - vertical side navigation instead of horizontal
+- [x] Implement interactive Google Maps for Experience Map section
+- [x] Test all corrections
+- [ ] Save updated checkpoint
