@@ -50,4 +50,12 @@
 - [x] Fix tab layout - vertical side navigation instead of horizontal
 - [x] Implement interactive Google Maps for Experience Map section
 - [x] Test all corrections
-- [ ] Save updated checkpoint
+- [x] Save updated checkpoint
+
+## Phase 8: Fix User-Reported Issues
+- [x] Remove duplicate "Experience map" button from header (keep only in sidebar)
+- [x] Fix language flag logic - show Spanish flag when in English mode, UK flag when in Spanish mode
+- [x] Change Entity and Service filters from dropdowns to buttons
+- [x] Add Client filter alongside Entity and Service filters
+- [x] Test all fixes
+- [ ] Save final checkpoint

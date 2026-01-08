@@ -228,36 +228,26 @@ function ProposalContent() {
                 </svg>
                 {language === "en" ? "Who we are" : "Quiénes somos"}
               </button>
-              <button
-                onClick={() => setActiveTab(11)}
-                className="px-4 py-2 rounded text-white hover:bg-white/20 transition flex items-center gap-2"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                  <circle cx="12" cy="10" r="3"/>
-                </svg>
-                {language === "en" ? "Experience map" : "Mapa de experiencia"}
-              </button>
               
-              {/* Language Toggle */}
+              {/* Language Toggle - Show target language flag */}
               <button
                 onClick={() => setLanguage(language === "en" ? "es" : "en")}
                 className="px-3 py-2 rounded border border-white/30 hover:bg-white/20 transition"
                 title={language === "en" ? "Switch to Spanish" : "Cambiar a Inglés"}
               >
                 {language === "en" ? (
-                  // UK Flag SVG
-                  <svg viewBox="0 0 60 40" className="w-6 h-4">
-                    <rect width="60" height="13.33" fill="#00247D"/>
-                    <rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/>
-                    <rect y="26.67" width="60" height="13.33" fill="#CF142B"/>
-                  </svg>
-                ) : (
-                  // Spanish Flag SVG
+                  // Spanish Flag SVG (show when in English to switch to Spanish)
                   <svg viewBox="0 0 60 40" className="w-6 h-4">
                     <rect width="60" height="10" fill="#AA151B"/>
                     <rect y="10" width="60" height="20" fill="#F1BF00"/>
                     <rect y="30" width="60" height="10" fill="#AA151B"/>
+                  </svg>
+                ) : (
+                  // UK Flag SVG (show when in Spanish to switch to English)
+                  <svg viewBox="0 0 60 40" className="w-6 h-4">
+                    <rect width="60" height="13.33" fill="#00247D"/>
+                    <rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/>
+                    <rect y="26.67" width="60" height="13.33" fill="#CF142B"/>
                   </svg>
                 )}
               </button>
@@ -548,6 +538,7 @@ function ExperienceMapSection({
   const [markers, setMarkers] = useState<google.maps.Marker[]>([]);
   const [entityFilter, setEntityFilter] = useState("all");
   const [serviceFilter, setServiceFilter] = useState("all");
+  const [clientFilter, setClientFilter] = useState("all");
 
   // Load Google Maps script
   useEffect(() => {
@@ -594,6 +585,7 @@ function ExperienceMapSection({
     
     const filteredProjects = projects.filter(p => {
       if (entityFilter !== "all" && p.entity !== entityFilter) return false;
+      if (clientFilter !== "all" && p.client !== clientFilter) return false;
       if (serviceFilter !== "all") {
         try {
           const services = JSON.parse(p.services || "[]");
@@ -651,9 +643,10 @@ function ExperienceMapSection({
     });
     
     setMarkers(newMarkers);
-  }, [map, projects, entityFilter, serviceFilter, primaryColor]);
+  }, [map, projects, entityFilter, clientFilter, serviceFilter, primaryColor]);
 
   const entities = Array.from(new Set(projects.map(p => p.entity).filter(Boolean)));
+  const clients = Array.from(new Set(projects.map(p => p.client).filter(Boolean)));
   const allServices = projects.flatMap(p => {
     try { return JSON.parse(p.services || "[]"); } 
     catch { return []; }
@@ -663,6 +656,7 @@ function ExperienceMapSection({
   const filteredProjects = projects.filter(p => {
     if (!p.isVisible) return false;
     if (entityFilter !== "all" && p.entity !== entityFilter) return false;
+    if (clientFilter !== "all" && p.client !== clientFilter) return false;
     if (serviceFilter !== "all") {
       try {
         const projectServices = JSON.parse(p.services || "[]");
@@ -682,36 +676,119 @@ function ExperienceMapSection({
       />
       
       {/* Filters */}
-      <div className="flex flex-wrap gap-4 mb-6">
-        <div>
-          <Label className="block text-sm font-medium mb-1">
-            {language === "en" ? "Entity" : "Entidad"}
+      <div className="mb-6">
+        {/* Entity Filter */}
+        <div className="mb-4">
+          <Label className="block text-sm font-medium mb-2">
+            {language === "en" ? "Filter by Entity:" : "Filtrar por Entidad:"}
           </Label>
-          <select
-            value={entityFilter}
-            onChange={(e) => setEntityFilter(e.target.value)}
-            className="border rounded px-3 py-2"
-          >
-            <option value="all">{language === "en" ? "All Entities" : "Todas"}</option>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setEntityFilter("all")}
+              className={`px-4 py-2 rounded transition ${
+                entityFilter === "all"
+                  ? "text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+              style={{
+                backgroundColor: entityFilter === "all" ? primaryColor : undefined,
+              }}
+            >
+              {language === "en" ? "All" : "Todas"}
+            </button>
             {entities.map(e => (
-              <option key={e} value={e}>{e}</option>
+              <button
+                key={e}
+                onClick={() => setEntityFilter(e)}
+                className={`px-4 py-2 rounded transition ${
+                  entityFilter === e
+                    ? "text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+                style={{
+                  backgroundColor: entityFilter === e ? primaryColor : undefined,
+                }}
+              >
+                {e}
+              </button>
             ))}
-          </select>
+          </div>
         </div>
-        <div>
-          <Label className="block text-sm font-medium mb-1">
-            {language === "en" ? "Service" : "Servicio"}
+
+        {/* Client Filter */}
+        <div className="mb-4">
+          <Label className="block text-sm font-medium mb-2">
+            {language === "en" ? "Filter by Client:" : "Filtrar por Cliente:"}
           </Label>
-          <select
-            value={serviceFilter}
-            onChange={(e) => setServiceFilter(e.target.value)}
-            className="border rounded px-3 py-2"
-          >
-            <option value="all">{language === "en" ? "All Services" : "Todos"}</option>
-            {services.map(s => (
-              <option key={s} value={s}>{s}</option>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setClientFilter("all")}
+              className={`px-4 py-2 rounded transition ${
+                clientFilter === "all"
+                  ? "text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+              style={{
+                backgroundColor: clientFilter === "all" ? primaryColor : undefined,
+              }}
+            >
+              {language === "en" ? "All" : "Todos"}
+            </button>
+            {clients.map(c => (
+              <button
+                key={c}
+                onClick={() => setClientFilter(c)}
+                className={`px-4 py-2 rounded transition ${
+                  clientFilter === c
+                    ? "text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+                style={{
+                  backgroundColor: clientFilter === c ? primaryColor : undefined,
+                }}
+              >
+                {c}
+              </button>
             ))}
-          </select>
+          </div>
+        </div>
+
+        {/* Service Filter */}
+        <div className="mb-4">
+          <Label className="block text-sm font-medium mb-2">
+            {language === "en" ? "Filter by Service:" : "Filtrar por Servicio:"}
+          </Label>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setServiceFilter("all")}
+              className={`px-4 py-2 rounded transition ${
+                serviceFilter === "all"
+                  ? "text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+              style={{
+                backgroundColor: serviceFilter === "all" ? primaryColor : undefined,
+              }}
+            >
+              {language === "en" ? "All" : "Todos"}
+            </button>
+            {services.map(s => (
+              <button
+                key={s}
+                onClick={() => setServiceFilter(s)}
+                className={`px-4 py-2 rounded transition ${
+                  serviceFilter === s
+                    ? "text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+                style={{
+                  backgroundColor: serviceFilter === s ? primaryColor : undefined,
+                }}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
