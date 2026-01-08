@@ -259,9 +259,31 @@ function ProposalContent() {
     });
   };
 
+  const backgroundType = settingsMap.background_type || "color";
+  const backgroundValue = settingsMap.background_value || "#FFFFFF";
+  
+  const backgroundStyle = backgroundType === "image" ? {
+    backgroundImage: `url(${backgroundValue})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
+    animation: 'subtleMove 20s ease-in-out infinite',
+  } : {
+    backgroundColor: backgroundValue,
+  };
+
   return (
-    <div className="min-h-screen">
-      {/* Header */}
+    <>
+      {backgroundType === "image" && (
+        <style>{`
+          @keyframes subtleMove {
+            0%, 100% { background-position: center center; }
+            50% { background-position: center calc(50% + 20px); }
+          }
+        `}</style>
+      )}
+      <div className="min-h-screen" style={backgroundStyle}>
+      {/* Minimal Header with Logos, Print, and Language */}
       <header 
         className="sticky top-0 z-50 shadow-md"
         style={{ backgroundColor: primaryColor }}
@@ -269,7 +291,7 @@ function ProposalContent() {
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             
-            {/* Left Logos (Logo 1 + Logo 3) */}
+            {/* Far Left: Logos 1 + 3 */}
             <div className="flex items-center gap-4">
               {settingsMap.logo1_url && (
                 <img 
@@ -287,21 +309,44 @@ function ProposalContent() {
               )}
             </div>
 
-            {/* Center Navigation */}
-            <nav className="flex gap-2">
+            {/* Center: Print Buttons and Language Toggle */}
+            <div className="flex gap-3 items-center no-print">
               <button
-                onClick={() => setActiveTab(0)}
-                className="px-3 py-1.5 rounded text-white hover:bg-white/20 transition flex items-center gap-1.5 text-sm"
+                onClick={printSection}
+                className="px-2 py-1.5 bg-white/90 text-gray-800 rounded text-xs flex items-center gap-1 hover:bg-white transition"
                 style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
+                  <polyline points="6 9 6 2 18 2 18 9"/>
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                  <rect x="6" y="14" width="12" height="8"/>
                 </svg>
-                {language === "en" ? "Who we are" : "Quiénes somos"}
+                {language === "en" ? "Print Section" : "Imprimir Sección"}
+              </button>
+              <button
+                onClick={printAll}
+                className="px-2 py-1.5 bg-white/90 text-gray-800 rounded text-xs flex items-center gap-1 hover:bg-white transition"
+                style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+                  <polyline points="6 9 6 2 18 2 18 9"/>
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                  <rect x="6" y="14" width="12" height="8"/>
+                </svg>
+                {language === "en" ? "Print All" : "Imprimir Todo"}
+              </button>
+              <button
+                onClick={printComments}
+                className="px-2 py-1.5 bg-white/90 text-gray-800 rounded text-xs flex items-center gap-1 hover:bg-white transition"
+                style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                {language === "en" ? "Print Comments" : "Imprimir Comentarios"}
               </button>
               
-              {/* Language Toggle - Show target language flag */}
+              {/* Language Toggle with proper Union Jack */}
               <button
                 onClick={() => setLanguage(language === "en" ? "es" : "en")}
                 className="px-2 py-1 rounded border border-white/30 hover:bg-white/20 transition"
@@ -309,24 +354,24 @@ function ProposalContent() {
                 style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
               >
                 {language === "en" ? (
-                  // Spanish Flag SVG (show when in English to switch to Spanish)
+                  // Spanish Flag (show when in English)
                   <svg viewBox="0 0 60 40" className="w-6 h-4">
                     <rect width="60" height="10" fill="#AA151B"/>
                     <rect y="10" width="60" height="20" fill="#F1BF00"/>
                     <rect y="30" width="60" height="10" fill="#AA151B"/>
                   </svg>
                 ) : (
-                  // UK Flag SVG (show when in Spanish to switch to English)
-                  <svg viewBox="0 0 60 40" className="w-6 h-4">
-                    <rect width="60" height="13.33" fill="#00247D"/>
-                    <rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/>
-                    <rect y="26.67" width="60" height="13.33" fill="#CF142B"/>
-                  </svg>
+                  // Union Jack image
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/60px-Flag_of_the_United_Kingdom_%281-2%29.svg.png" 
+                    alt="UK Flag" 
+                    className="w-6 h-4 object-cover"
+                  />
                 )}
               </button>
-            </nav>
+            </div>
 
-            {/* Right Logos (Logo 4 + Logo 2) */}
+            {/* Far Right: Logos 4 + 2 */}
             <div className="flex items-center gap-4">
               {settingsMap.logo4_url && (
                 <img 
@@ -345,47 +390,9 @@ function ProposalContent() {
             </div>
           </div>
         </div>
-
-        {/* Print Buttons */}
-        <div className="flex gap-3 justify-center pb-3 no-print">
-          <button
-            onClick={printSection}
-            className="px-2 py-1.5 bg-white/90 text-gray-800 rounded text-xs flex items-center gap-1 hover:bg-white transition"
-            style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-              <polyline points="6 9 6 2 18 2 18 9"/>
-              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
-              <rect x="6" y="14" width="12" height="8"/>
-            </svg>
-            {language === "en" ? "Print Section" : "Imprimir Sección"}
-          </button>
-          <button
-            onClick={printAll}
-            className="px-2 py-1.5 bg-white/90 text-gray-800 rounded text-xs flex items-center gap-1 hover:bg-white transition"
-            style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-              <polyline points="6 9 6 2 18 2 18 9"/>
-              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
-              <rect x="6" y="14" width="12" height="8"/>
-            </svg>
-            {language === "en" ? "Print All" : "Imprimir Todo"}
-          </button>
-          <button
-            onClick={printComments}
-            className="px-2 py-1.5 bg-white/90 text-gray-800 rounded text-xs flex items-center gap-1 hover:bg-white transition"
-            style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
-            {language === "en" ? "Print Comments" : "Imprimir Comentarios"}
-          </button>
-        </div>
       </header>
 
-      {/* Hero Section */}
+      {/* Hero Section with Navigation Buttons */}
       {hero && (
         <div className="py-12 text-center" style={{ backgroundColor: `${primaryColor}10` }}>
           <div className="container mx-auto px-4">
@@ -396,20 +403,48 @@ function ProposalContent() {
               <p className="text-xl text-gray-700 mb-4">{hero.subtitle}</p>
             )}
             {hero.stampText && (
-              <div className="inline-block px-6 py-2 border-2 rotate-[-5deg]" style={{ borderColor: primaryColor, color: primaryColor }}>
+              <div className="inline-block px-6 py-2 border-2 rotate-[-5deg] mb-6" style={{ borderColor: primaryColor, color: primaryColor }}>
                 <span className="font-bold text-lg">{hero.stampText}</span>
               </div>
             )}
+            
+            {/* Navigation Buttons below stamp */}
+            <div className="flex gap-4 justify-center mt-6 no-print">
+              <button
+                onClick={() => setActiveTab(0)}
+                className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
+                style={{ backgroundColor: primaryColor }}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                {language === "en" ? "Who we are" : "Quiénes somos"}
+              </button>
+              <button
+                onClick={() => setActiveTab(11)}
+                className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
+                style={{ backgroundColor: primaryColor }}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                {language === "en" ? "Experience map" : "Mapa de experiencia"}
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Horizontal Tab Navigation under Hero */}
+      {/* Horizontal Tab Navigation (Tabs 1-10 only) */}
       <div className="bg-gray-100 border-y border-gray-300 no-print">
         <div className="container mx-auto px-4 py-4">
-          {/* First Row: Tabs 0-5 */}
+          {/* First Row: Tabs 1-5 */}
           <div className="flex gap-2 mb-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
-            {visibleTabs.filter(t => t.tabNumber >= 0 && t.tabNumber <= 5).map((tab) => (
+            {visibleTabs.filter(t => t.tabNumber >= 1 && t.tabNumber <= 5).map((tab) => (
               <button
                 key={tab.tabNumber}
                 onClick={() => setActiveTab(tab.tabNumber)}
@@ -427,9 +462,9 @@ function ProposalContent() {
             ))}
           </div>
           
-          {/* Second Row: Tabs 6-11 */}
+          {/* Second Row: Tabs 6-10 */}
           <div className="flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
-            {visibleTabs.filter(t => t.tabNumber >= 6 && t.tabNumber <= 11).map((tab) => (
+            {visibleTabs.filter(t => t.tabNumber >= 6 && t.tabNumber <= 10).map((tab) => (
               <button
                 key={tab.tabNumber}
                 onClick={() => setActiveTab(tab.tabNumber)}
@@ -530,8 +565,22 @@ function ProposalContent() {
                 />
               )}
 
+              {/* Back to Top Button */}
+              <div className="mt-12 flex justify-center">
+                <button
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
+                  style={{ backgroundColor: primaryColor }}
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                    <path d="M18 15l-6-6-6 6"/>
+                  </svg>
+                  {language === "en" ? "Back to Top" : "Volver arriba"}
+                </button>
+              </div>
+
               {/* Comments Section */}
-              <div className="mt-12 border-t pt-8">
+              <div className="mt-8 border-t pt-8">
                 <h3 className="text-2xl font-bold mb-4" style={{ color: primaryColor }}>
                   {language === "en" ? "Comments" : "Comentarios"}
                 </h3>
@@ -601,7 +650,8 @@ function ProposalContent() {
           )}
         </main>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 

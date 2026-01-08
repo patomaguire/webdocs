@@ -66,4 +66,15 @@
 - [x] Move tab buttons horizontally under hero section (tabs 0-11 in 2 rows)
 - [x] Add horizontal scrolling for tabs on mobile view
 - [x] Test all fixes
+- [x] Save final checkpoint
+
+## Phase 10: UI Improvements and Customization
+- [x] Move "Who we are" and "Experience map" buttons to hero section (below stamp)
+- [x] Simplify top banner to show only Print and Language buttons
+- [x] Fix Union Jack flag to show proper design (not horizontal stripes)
+- [x] Limit tab navigation to show only tabs 1-10
+- [x] Add "Back to Top" button before comments section on each tab
+- [x] Add background customization option (flat color or soft moving image)
+- [x] Add Google Maps API key field to Admin → Settings
+- [x] Test all changes
 - [ ] Save final checkpoint
