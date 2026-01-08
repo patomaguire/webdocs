@@ -77,10 +77,14 @@ function ProposalContent() {
     { enabled: true }
   );
   
+  const utils = trpc.useUtils();
+  
   const addCommentMutation = trpc.commentsRouter.add.useMutation({
     onSuccess: () => {
       toast.success("Comment submitted!");
       setCommentForm({ authorName: "", authorEmail: "", commentText: "" });
+      // Invalidate and refetch comments for current tab
+      utils.commentsRouter.getByTab.invalidate({ tabNumber: activeTab });
     },
   });
 
@@ -218,26 +222,57 @@ function ProposalContent() {
     printContainer.remove();
   };
 
-  const printComments = () => {
+  const printComments = async () => {
     const printWindow = window.open('', '_blank');
     if (!printWindow) return;
+    
+    // Fetch all comments
+    const allCommentsPromises = tabs?.map(async (tab) => {
+      const tabComments = await utils.commentsRouter.getByTab.fetch({ tabNumber: tab.tabNumber });
+      return { tab, comments: tabComments };
+    }) || [];
+    
+    const allTabComments = await Promise.all(allCommentsPromises);
     
     let html = `
       <html>
       <head>
         <title>Comments</title>
         <style>
-          body { font-family: Arial, sans-serif; font-size: 9pt; padding: 20px; }
-          .comment { border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 5px; }
-          .tab-title { font-size: 12pt; font-weight: bold; margin-top: 20px; border-bottom: 2px solid ${primaryColor}; }
+          body { font-family: Arial, sans-serif; font-size: 10pt; padding: 20px; }
+          .comment { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px; background: #f9f9f9; }
+          .tab-title { font-size: 14pt; font-weight: bold; margin-top: 30px; padding-bottom: 10px; border-bottom: 2px solid ${primaryColor}; color: ${primaryColor}; }
+          .comment-author { font-weight: bold; color: #333; }
+          .comment-email { font-size: 9pt; color: #666; }
+          .comment-date { font-size: 9pt; color: #999; float: right; }
+          .comment-text { margin-top: 10px; color: #444; }
+          .no-comments { font-style: italic; color: #999; margin: 10px 0; }
         </style>
       </head>
       <body>
         <h1 style="color: ${primaryColor};">Project Comments</h1>
     `;
     
-    tabs?.forEach(tab => {
-      html += `<div class="tab-title">${tab.tabTitle}</div>`;
+    allTabComments.forEach(({ tab, comments: tabComments }) => {
+      html += `<div class="tab-title">${tab.tabNumber}. ${tab.tabTitle}</div>`;
+      
+      if (tabComments && tabComments.length > 0) {
+        tabComments.forEach((comment: any) => {
+          const date = new Date(comment.createdAt).toLocaleDateString();
+          html += `
+            <div class="comment">
+              <div>
+                <span class="comment-author">${comment.authorName}</span>
+                ${comment.authorEmail ? `<span class="comment-email"> (${comment.authorEmail})</span>` : ''}
+                <span class="comment-date">${date}</span>
+              </div>
+              <div class="comment-text">${comment.commentText}</div>
+            </div>
+          `;
+        });
+      } else {
+        html += '<div class="no-comments">No comments for this section</div>';
+      }
     });
     
     html += '</body></html>';

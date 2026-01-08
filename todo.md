@@ -77,4 +77,11 @@
 - [x] Add background customization option (flat color or soft moving image)
 - [x] Add Google Maps API key field to Admin → Settings
 - [x] Test all changes
+- [x] Save final checkpoint
+
+## Phase 11: Fix Comments Functionality
+- [x] Display submitted comments below the comment form
+- [x] Ensure comments are properly saved to database
+- [x] Fix Print Comments to show all submitted comments with proper formatting
+- [x] Test comment submission and display
 - [ ] Save final checkpoint
