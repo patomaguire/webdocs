@@ -443,7 +443,7 @@ function ProposalContent() {
 
       {/* Hero Section with Navigation Buttons */}
       {hero && (
-        <div className="py-12 text-center" style={{ backgroundColor: `${primaryColor}10` }}>
+        <div className="py-8 text-center" style={{ backgroundColor: `${primaryColor}10` }}>
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold mb-4" style={{ color: primaryColor }}>
               {hero.mainTitle}
@@ -452,13 +452,13 @@ function ProposalContent() {
               <p className="text-xl text-gray-700 mb-4">{hero.subtitle}</p>
             )}
             {hero.stampText && (
-              <div className="inline-block px-6 py-2 border-2 rotate-[-5deg] mb-6" style={{ borderColor: primaryColor, color: primaryColor }}>
+              <div className="inline-block px-6 py-2 border-2 mb-4" style={{ borderColor: primaryColor, color: primaryColor }}>
                 <span className="font-bold text-lg">{hero.stampText}</span>
               </div>
             )}
             
             {/* Navigation Buttons below stamp */}
-            <div className="flex gap-4 justify-center mt-6 no-print">
+            <div className="flex gap-4 justify-center mt-4 no-print">
               <button
                 onClick={() => setActiveTab(0)}
                 className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
@@ -499,8 +499,13 @@ function ProposalContent() {
                 onClick={() => {
                   setActiveTab(tab.tabNumber);
                   setTimeout(() => {
-                    mainContentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }, 50);
+                    const element = mainContentRef.current;
+                    if (element) {
+                      const yOffset = -20; // Small offset from top
+                      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                      window.scrollTo({ top: y, behavior: 'smooth' });
+                    }
+                  }, 100);
                 }}
                 className={`min-w-[140px] px-4 py-2.5 rounded-lg text-sm font-medium transition ${
                   activeTab === tab.tabNumber
@@ -526,8 +531,13 @@ function ProposalContent() {
                   onClick={() => {
                     setActiveTab(tab.tabNumber);
                     setTimeout(() => {
-                      mainContentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 50);
+                      const element = mainContentRef.current;
+                      if (element) {
+                        const yOffset = -20;
+                        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                        window.scrollTo({ top: y, behavior: 'smooth' });
+                      }
+                    }, 100);
                   }}
                   className={`min-w-[140px] px-4 py-2.5 rounded-lg text-sm font-medium transition flex-shrink-0 ${
                     activeTab === tab.tabNumber
@@ -551,8 +561,13 @@ function ProposalContent() {
                   onClick={() => {
                     setActiveTab(tab.tabNumber);
                     setTimeout(() => {
-                      mainContentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 50);
+                      const element = mainContentRef.current;
+                      if (element) {
+                        const yOffset = -20;
+                        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                        window.scrollTo({ top: y, behavior: 'smooth' });
+                      }
+                    }, 100);
                   }}
                   className={`min-w-[140px] px-4 py-2.5 rounded-lg text-sm font-medium transition flex-shrink-0 ${
                     activeTab === tab.tabNumber
@@ -573,7 +588,7 @@ function ProposalContent() {
 
       {/* Main Content Area (Full Width) */}
       <div className="flex">
-        <div ref={mainContentRef} style={{ position: 'absolute', top: '-100px' }}></div>
+        <div ref={mainContentRef} className="scroll-mt-4"></div>
 
         {/* Main Content Area */}
         <main className="flex-1 p-8">
@@ -904,7 +919,7 @@ function ExperienceMapSection({
       {/* Filters and Map Layout */}
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         {/* Left Sidebar: Entity and Client Filters */}
-        <div className="w-full md:w-48 flex-shrink-0 space-y-4">
+        <div className="w-full md:w-48 flex-shrink-0 space-y-4 md:max-h-[500px] md:overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
           {/* Entity Filter */}
           <div>
             <Label className="block text-sm font-medium mb-2">
@@ -928,7 +943,7 @@ function ExperienceMapSection({
               <button
                 key={e}
                 onClick={() => setEntityFilter(e)}
-                className={`px-3 py-1.5 rounded text-sm transition ${
+                className={`px-3 py-1 rounded text-xs transition ${
                   entityFilter === e
                     ? "text-white"
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300"
@@ -966,7 +981,7 @@ function ExperienceMapSection({
               <button
                 key={c}
                 onClick={() => setClientFilter(c)}
-                className={`px-3 py-1.5 rounded text-sm transition ${
+                className={`px-3 py-1 rounded text-xs transition ${
                   clientFilter === c
                     ? "text-white"
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300"
@@ -998,7 +1013,7 @@ function ExperienceMapSection({
         </div>
 
         {/* Right Sidebar: Service Filter */}
-        <div className="w-full md:w-48 flex-shrink-0">
+        <div className="w-full md:w-48 flex-shrink-0 md:max-h-[500px] md:overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
           <div>
             <Label className="block text-sm font-medium mb-2">
               {language === "en" ? "Service" : "Servicio"}
@@ -1021,7 +1036,7 @@ function ExperienceMapSection({
               <button
                 key={s}
                 onClick={() => setServiceFilter(s)}
-                className={`px-3 py-1.5 rounded text-sm transition ${
+                className={`px-3 py-1 rounded text-xs transition ${
                   serviceFilter === s
                     ? "text-white"
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300"

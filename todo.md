@@ -135,3 +135,9 @@
 - [x] Make all tab buttons same size with rounded contours
 - [x] Desktop: fit all 1-10 buttons in single line if possible
 - [x] Mobile: use 2 lines by default with horizontal drag capability
+
+## Phase 18: Map Filters, Home Screen, and Tab Scroll Fixes
+- [x] Adjust map filter button heights to shrink dynamically so filter list doesn't exceed map height
+- [x] Make home screen status label (TEMP STAMP) horizontal instead of vertical
+- [x] Minimize line spacing between sections on home screen
+- [x] Fix tab button scroll to properly jump to beginning of section content (third attempt)
