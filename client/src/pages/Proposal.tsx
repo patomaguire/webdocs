@@ -73,10 +73,8 @@ function ProposalContent() {
   const { data: tabs } = trpc.tabs.getAll.useQuery();
   const { data: teamMembers } = trpc.team.getAll.useQuery();
   const { data: projects } = trpc.projects.getAll.useQuery();
-  const { data: comments } = trpc.commentsRouter.getByTab.useQuery(
-    { tabNumber: activeTab },
-    { enabled: true }
-  );
+  const { data: comments } = trpc.comments.getAll.useQuery();
+  const { data: mapsConfig } = trpc.settings.getGoogleMapsApiKey.useQuery();
   
   const utils = trpc.useUtils();
   
@@ -611,7 +609,7 @@ function ProposalContent() {
                   projects={projects || []} 
                   primaryColor={primaryColor}
                   language={language}
-                  apiKey={settingsMap.google_maps_api_key}
+                  apiKey={mapsConfig?.apiKey || settingsMap.google_maps_api_key}
                 />
               )}
 

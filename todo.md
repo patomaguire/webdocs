@@ -122,3 +122,9 @@
 - [x] Fix tab button scroll - not jumping to section start
 - [x] Enable Google Maps API immediately with dummy coordinates
 - [x] Make map markers visible with test data
+
+## Phase 16: Google Maps API Key from Environment
+- [x] Add GOOGLE_MAPS_API_KEY to server environment configuration
+- [x] Create backend endpoint to expose API key from environment
+- [x] Update frontend to fetch API key from environment endpoint
+- [x] Write and pass test for API key endpoint

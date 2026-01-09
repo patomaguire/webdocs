@@ -3,6 +3,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
+import { ENV } from "./_core/env";
 import {
   getSetting,
   getAllSettings,
@@ -46,6 +47,9 @@ export const appRouter = router({
   // Settings router
   settings: router({
     getAll: publicProcedure.query(async () => await getAllSettings()),
+    getGoogleMapsApiKey: publicProcedure.query(() => {
+      return { apiKey: ENV.googleMapsApiKey };
+    }),
     get: publicProcedure
       .input(z.object({ key: z.string() }))
       .query(async ({ input }) => await getSetting(input.key)),
