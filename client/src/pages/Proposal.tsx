@@ -357,8 +357,9 @@ function ProposalContent() {
               )}
             </div>
 
-            {/* Center: Print Buttons Only */}
-            <div className="flex gap-3 items-center justify-center no-print">
+            {/* Center: Print Buttons + Language Toggle */}
+            <div className="flex flex-col items-center gap-1 no-print">
+              <div className="flex gap-3">
               <button
                 onClick={printSection}
                 className="px-2 py-1.5 bg-white/90 text-gray-800 rounded text-xs flex items-center gap-1 hover:bg-white transition"
@@ -393,14 +394,12 @@ function ProposalContent() {
                 </svg>
                 {language === "en" ? "Print Comments" : "Imprimir Comentarios"}
               </button>
-            </div>
-
-            {/* Far Right: Language Toggle + Logos */}
-            <div className="flex items-center gap-4 justify-end">
-              {/* Language Toggle with proper Union Jack */}
+              </div>
+              
+              {/* Language Toggle below print buttons */}
               <button
                 onClick={() => setLanguage(language === "en" ? "es" : "en")}
-                className="px-2 py-1 rounded border border-white/30 hover:bg-white/20 transition no-print"
+                className="px-2 py-1 rounded border border-white/30 hover:bg-white/20 transition"
                 title={language === "en" ? "Switch to Spanish" : "Cambiar a Inglés"}
                 style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
               >
@@ -420,6 +419,10 @@ function ProposalContent() {
                   />
                 )}
               </button>
+            </div>
+
+            {/* Far Right: Logos */}
+            <div className="flex items-center gap-4 justify-end">
               
               {/* Logos 4 + 2 */}
               {settingsMap.logo4_url && (
@@ -443,22 +446,22 @@ function ProposalContent() {
 
       {/* Hero Section with Navigation Buttons */}
       {hero && (
-        <div className="py-8 text-center" style={{ backgroundColor: `${primaryColor}10` }}>
+        <div className="py-4 text-center" style={{ backgroundColor: `${primaryColor}10` }}>
           <div className="container mx-auto px-4">
-            <h1 className="text-4xl font-bold mb-4" style={{ color: primaryColor }}>
+            <h1 className="text-3xl font-bold mb-0" style={{ color: primaryColor }}>
               {hero.mainTitle}
             </h1>
             {hero.subtitle && (
-              <p className="text-xl text-gray-700 mb-4">{hero.subtitle}</p>
+              <p className="text-base text-gray-700 mb-0">{hero.subtitle}</p>
             )}
             {hero.stampText && (
-              <div className="inline-block px-6 py-2 border-2 mb-4" style={{ borderColor: primaryColor, color: primaryColor }}>
-                <span className="font-bold text-lg">{hero.stampText}</span>
+              <div className="inline-block px-5 py-1.5 border-2 mb-0 mt-1" style={{ borderColor: primaryColor, color: primaryColor }}>
+                <span className="font-bold text-sm">{hero.stampText}</span>
               </div>
             )}
             
             {/* Navigation Buttons below stamp */}
-            <div className="flex gap-4 justify-center mt-4 no-print">
+            <div className="flex gap-4 justify-center mt-2 no-print">
               <button
                 onClick={() => setActiveTab(0)}
                 className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
@@ -507,7 +510,7 @@ function ProposalContent() {
                     }
                   }, 100);
                 }}
-                className={`px-4 py-2.5 rounded-lg text-sm font-medium transition ${
+                className={`px-3 py-2 rounded-lg text-xs font-medium transition ${
                   activeTab === tab.tabNumber
                     ? 'text-white shadow-md'
                     : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
@@ -539,7 +542,7 @@ function ProposalContent() {
                       }
                     }, 100);
                   }}
-                  className={`px-4 py-2.5 rounded-lg text-sm font-medium transition flex-shrink-0 ${
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition flex-shrink-0 ${
                     activeTab === tab.tabNumber
                       ? 'text-white shadow-md'
                       : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
@@ -569,7 +572,7 @@ function ProposalContent() {
                       }
                     }, 100);
                   }}
-                  className={`px-4 py-2.5 rounded-lg text-sm font-medium transition flex-shrink-0 ${
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition flex-shrink-0 ${
                     activeTab === tab.tabNumber
                       ? 'text-white shadow-md'
                       : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'

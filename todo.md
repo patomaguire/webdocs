@@ -145,3 +145,9 @@
 ## Phase 19: Tab Button Dynamic Sizing
 - [x] Remove min-width constraint and make tab buttons resize dynamically based on content
 - [x] Ensure all buttons maintain consistent height and styling
+
+## Phase 20: Reduce Vertical Space and Optimize Layout
+- [x] Move language toggle button right below the 3 print buttons in header
+- [x] Reduce hero section font sizes by 20%
+- [x] Minimize all line spacing in hero section to zero
+- [x] Reduce tab button font size dynamically so all 1-10 fit in one line
