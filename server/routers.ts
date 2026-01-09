@@ -4,6 +4,9 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { ENV } from "./_core/env";
+
+// Default bid ID for single-tenant mode (will be replaced with dynamic bidId in multi-tenant mode)
+const DEFAULT_BID_ID = 1;
 import {
   getSetting,
   getAllSettings,
@@ -46,24 +49,24 @@ export const appRouter = router({
 
   // Settings router
   settings: router({
-    getAll: publicProcedure.query(async () => await getAllSettings()),
+    getAll: publicProcedure.query(async () => await getAllSettings(DEFAULT_BID_ID)),
     getGoogleMapsApiKey: publicProcedure.query(() => {
       return { apiKey: ENV.googleMapsApiKey };
     }),
     get: publicProcedure
       .input(z.object({ key: z.string() }))
-      .query(async ({ input }) => await getSetting(input.key)),
+      .query(async ({ input }) => await getSetting(DEFAULT_BID_ID, input.key)),
     upsert: publicProcedure
       .input(z.object({ key: z.string(), value: z.string() }))
       .mutation(async ({ input }) => {
-        await upsertSetting(input.key, input.value);
+        await upsertSetting(DEFAULT_BID_ID, input.key, input.value);
         return { success: true };
       }),
   }),
 
   // Hero section router
   hero: router({
-    get: publicProcedure.query(async () => await getHeroSection()),
+    get: publicProcedure.query(async () => await getHeroSection(DEFAULT_BID_ID)),
     upsert: publicProcedure
       .input(z.object({
         mainTitle: z.string(),
@@ -71,17 +74,17 @@ export const appRouter = router({
         stampText: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        await upsertHeroSection(input);
+        await upsertHeroSection({ ...input, bidId: DEFAULT_BID_ID });
         return { success: true };
       }),
   }),
 
   // Tabs content router
   tabs: router({
-    getAll: publicProcedure.query(async () => await getAllTabs()),
+    getAll: publicProcedure.query(async () => await getAllTabs(DEFAULT_BID_ID)),
     getByNumber: publicProcedure
       .input(z.object({ tabNumber: z.number() }))
-      .query(async ({ input }) => await getTabByNumber(input.tabNumber)),
+      .query(async ({ input }) => await getTabByNumber(DEFAULT_BID_ID, input.tabNumber)),
     upsert: publicProcedure
       .input(z.object({
         tabNumber: z.number(),
@@ -90,14 +93,14 @@ export const appRouter = router({
         isVisible: z.boolean().optional(),
       }))
       .mutation(async ({ input }) => {
-        await upsertTab(input);
+        await upsertTab({ ...input, bidId: DEFAULT_BID_ID });
         return { success: true };
       }),
   }),
 
   // Team members router
   team: router({
-    getAll: publicProcedure.query(async () => await getAllTeamMembers()),
+    getAll: publicProcedure.query(async () => await getAllTeamMembers(DEFAULT_BID_ID)),
     get: publicProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ input }) => await getTeamMember(input.id)),
@@ -113,7 +116,7 @@ export const appRouter = router({
         isVisible: z.boolean().optional(),
       }))
       .mutation(async ({ input }) => {
-        const member = await createTeamMember(input);
+        const member = await createTeamMember({ ...input, bidId: DEFAULT_BID_ID });
         return { success: true, member };
       }),
     update: publicProcedure
@@ -143,7 +146,7 @@ export const appRouter = router({
 
   // Projects router
   projects: router({
-    getAll: publicProcedure.query(async () => await getAllProjects()),
+    getAll: publicProcedure.query(async () => await getAllProjects(DEFAULT_BID_ID)),
     get: publicProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ input }) => await getProject(input.id)),
@@ -164,7 +167,7 @@ export const appRouter = router({
         isVisible: z.boolean().optional(),
       }))
       .mutation(async ({ input }) => {
-        const project = await createProject(input);
+        const project = await createProject({ ...input, bidId: DEFAULT_BID_ID });
         return { success: true, project };
       }),
     update: publicProcedure
@@ -198,7 +201,7 @@ export const appRouter = router({
   }),
 
   // Comments router
-  commentsRouter: router({
+  comments: router({
     add: publicProcedure
       .input(z.object({
         tabNumber: z.number(),
@@ -208,13 +211,13 @@ export const appRouter = router({
         commentText: z.string(),
       }))
       .mutation(async ({ input }) => {
-        const comment = await addComment(input);
+        const comment = await addComment({ ...input, bidId: DEFAULT_BID_ID });
         return { success: true, comment };
       }),
     getByTab: publicProcedure
       .input(z.object({ tabNumber: z.number() }))
-      .query(async ({ input }) => await getCommentsByTab(input.tabNumber)),
-    getAll: publicProcedure.query(async () => await getAllComments()),
+      .query(async ({ input }) => await getCommentsByTab(DEFAULT_BID_ID, input.tabNumber)),
+    getAll: publicProcedure.query(async () => await getAllComments(DEFAULT_BID_ID)),
     markAsRead: publicProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {

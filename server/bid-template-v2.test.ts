@@ -114,7 +114,7 @@ describe("Bid Template V2 Features", () => {
     const caller = appRouter.createCaller(ctx);
 
     // Add a test comment
-    const result = await caller.commentsRouter.add({
+    const result = await caller.comments.add({
       tabNumber: 1,
       tabName: "Test Tab",
       authorName: "Test Author",
@@ -126,7 +126,7 @@ describe("Bid Template V2 Features", () => {
     // Comment was added successfully
 
     // Retrieve comments for the tab
-    const comments = await caller.commentsRouter.getByTab({ tabNumber: 1 });
+    const comments = await caller.comments.getByTab({ tabNumber: 1 });
     
     expect(comments).toBeDefined();
     expect(Array.isArray(comments)).toBe(true);
