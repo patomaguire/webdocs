@@ -160,3 +160,11 @@
 - [x] Add support for embedding images in markdown content
 - [x] Add support for charts and visuals in markdown content
 - [x] Test markdown rendering with images and charts
+
+## Phase 22: Per-Tab Background Options
+- [x] Add backgroundType and backgroundValue fields to tabs_content table
+- [x] Update database schema migration
+- [x] Update backend routers to support per-tab background settings
+- [x] Update frontend Proposal.tsx to render per-tab backgrounds
+- [x] Update Admin interface to configure background for each tab
+- [x] Remove global background in favor of per-tab backgrounds

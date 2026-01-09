@@ -331,7 +331,7 @@ function ProposalContent() {
           }
         `}</style>
       )}
-      <div className="min-h-screen" style={backgroundStyle}>
+      <div className="min-h-screen" style={{ backgroundColor: '#f5f5f5' }}>
       {/* Minimal Header with Logos, Print, and Language */}
       <header 
         className="sticky top-0 z-50 shadow-md"
@@ -594,8 +594,20 @@ function ProposalContent() {
       <div className="flex">
         <div ref={mainContentRef} className="scroll-mt-4"></div>
 
-        {/* Main Content Area */}
-        <main className="flex-1 p-8">
+        {/* Main Content Area with Per-Tab Background */}
+        <main 
+          className="flex-1 p-8 transition-all duration-300" 
+          style={{
+            ...(currentTab?.backgroundType === "image" && currentTab?.backgroundValue ? {
+              backgroundImage: `url(${currentTab.backgroundValue})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed',
+            } : {
+              backgroundColor: currentTab?.backgroundValue || '#FFFFFF',
+            })
+          }}
+        >
           {currentTab && (
             <div>
               <h2 className="text-3xl font-bold mb-6" style={{ color: primaryColor }}>

@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "f0ee98c6-2a6c-46b3-9b83-64834c36af00",
-  "prevId": "8d3fdccd-fa5f-4a1d-b720-7e01f434a696",
+  "id": "3ca20344-d8bd-44e6-9945-60362044747f",
+  "prevId": "f0ee98c6-2a6c-46b3-9b83-64834c36af00",
   "tables": {
     "bids": {
       "name": "bids",
@@ -451,6 +451,21 @@
         },
         "htmlContentEs": {
           "name": "htmlContentEs",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "backgroundType": {
+          "name": "backgroundType",
+          "type": "enum('color','image')",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'color'"
+        },
+        "backgroundValue": {
+          "name": "backgroundValue",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
