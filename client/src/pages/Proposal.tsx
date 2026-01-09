@@ -491,9 +491,9 @@ function ProposalContent() {
       {/* Horizontal Tab Navigation (Tabs 1-10 only) */}
       <div className="bg-gray-100 border-y border-gray-300 no-print">
         <div className="container mx-auto px-4 py-4">
-          {/* First Row: Tabs 1-5 */}
-          <div className="flex gap-2 mb-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
-            {visibleTabs.filter(t => t.tabNumber >= 1 && t.tabNumber <= 5).map((tab) => (
+          {/* Desktop: Single row if all fit, Mobile: Two rows with horizontal scroll */}
+          <div className="hidden md:flex gap-2 flex-wrap justify-center">
+            {visibleTabs.filter(t => t.tabNumber >= 1 && t.tabNumber <= 10).map((tab) => (
               <button
                 key={tab.tabNumber}
                 onClick={() => {
@@ -502,9 +502,9 @@ function ProposalContent() {
                     mainContentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }, 50);
                 }}
-                className={`px-4 py-2 rounded whitespace-nowrap text-sm transition flex-shrink-0 ${
+                className={`min-w-[140px] px-4 py-2.5 rounded-lg text-sm font-medium transition ${
                   activeTab === tab.tabNumber
-                    ? 'text-white font-semibold'
+                    ? 'text-white shadow-md'
                     : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
                 }`}
                 style={{
@@ -516,29 +516,57 @@ function ProposalContent() {
             ))}
           </div>
           
-          {/* Second Row: Tabs 6-10 */}
-          <div className="flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
-            {visibleTabs.filter(t => t.tabNumber >= 6 && t.tabNumber <= 10).map((tab) => (
-              <button
-                key={tab.tabNumber}
-                onClick={() => {
-                  setActiveTab(tab.tabNumber);
-                  setTimeout(() => {
-                    mainContentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }, 50);
-                }}
-                className={`px-4 py-2 rounded whitespace-nowrap text-sm transition flex-shrink-0 ${
-                  activeTab === tab.tabNumber
-                    ? 'text-white font-semibold'
-                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
-                }`}
-                style={{
-                  backgroundColor: activeTab === tab.tabNumber ? primaryColor : undefined,
-                }}
-              >
-                {tab.tabNumber}. {tab.tabTitle}
-              </button>
-            ))}
+          {/* Mobile: Two rows with horizontal drag */}
+          <div className="md:hidden space-y-2">
+            {/* First Row: Tabs 1-5 */}
+            <div className="flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
+              {visibleTabs.filter(t => t.tabNumber >= 1 && t.tabNumber <= 5).map((tab) => (
+                <button
+                  key={tab.tabNumber}
+                  onClick={() => {
+                    setActiveTab(tab.tabNumber);
+                    setTimeout(() => {
+                      mainContentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 50);
+                  }}
+                  className={`min-w-[140px] px-4 py-2.5 rounded-lg text-sm font-medium transition flex-shrink-0 ${
+                    activeTab === tab.tabNumber
+                      ? 'text-white shadow-md'
+                      : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                  }`}
+                  style={{
+                    backgroundColor: activeTab === tab.tabNumber ? primaryColor : undefined,
+                  }}
+                >
+                  {tab.tabNumber}. {tab.tabTitle}
+                </button>
+              ))}
+            </div>
+            
+            {/* Second Row: Tabs 6-10 */}
+            <div className="flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
+              {visibleTabs.filter(t => t.tabNumber >= 6 && t.tabNumber <= 10).map((tab) => (
+                <button
+                  key={tab.tabNumber}
+                  onClick={() => {
+                    setActiveTab(tab.tabNumber);
+                    setTimeout(() => {
+                      mainContentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 50);
+                  }}
+                  className={`min-w-[140px] px-4 py-2.5 rounded-lg text-sm font-medium transition flex-shrink-0 ${
+                    activeTab === tab.tabNumber
+                      ? 'text-white shadow-md'
+                      : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                  }`}
+                  style={{
+                    backgroundColor: activeTab === tab.tabNumber ? primaryColor : undefined,
+                  }}
+                >
+                  {tab.tabNumber}. {tab.tabTitle}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -873,14 +901,16 @@ function ExperienceMapSection({
         className="prose max-w-none mb-6"
       />
       
-      {/* Filters */}
-      <div className="mb-6">
-        {/* Entity Filter */}
-        <div className="mb-4">
-          <Label className="block text-sm font-medium mb-2">
-            {language === "en" ? "Filter by Entity:" : "Filtrar por Entidad:"}
-          </Label>
-          <div className="flex flex-wrap gap-2">
+      {/* Filters and Map Layout */}
+      <div className="flex flex-col md:flex-row gap-4 mb-8">
+        {/* Left Sidebar: Entity and Client Filters */}
+        <div className="w-full md:w-48 flex-shrink-0 space-y-4">
+          {/* Entity Filter */}
+          <div>
+            <Label className="block text-sm font-medium mb-2">
+              {language === "en" ? "Entity" : "Entidad"}
+            </Label>
+            <div className="flex flex-col gap-2">
             <button
               onClick={() => setEntityFilter("all")}
               className={`px-4 py-2 rounded transition ${
@@ -898,7 +928,7 @@ function ExperienceMapSection({
               <button
                 key={e}
                 onClick={() => setEntityFilter(e)}
-                className={`px-4 py-2 rounded transition ${
+                className={`px-3 py-1.5 rounded text-sm transition ${
                   entityFilter === e
                     ? "text-white"
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300"
@@ -910,15 +940,15 @@ function ExperienceMapSection({
                 {e}
               </button>
             ))}
+            </div>
           </div>
-        </div>
 
-        {/* Client Filter */}
-        <div className="mb-4">
-          <Label className="block text-sm font-medium mb-2">
-            {language === "en" ? "Filter by Client:" : "Filtrar por Cliente:"}
-          </Label>
-          <div className="flex flex-wrap gap-2">
+          {/* Client Filter */}
+          <div>
+            <Label className="block text-sm font-medium mb-2">
+              {language === "en" ? "Client" : "Cliente"}
+            </Label>
+            <div className="flex flex-col gap-2">
             <button
               onClick={() => setClientFilter("all")}
               className={`px-4 py-2 rounded transition ${
@@ -936,7 +966,7 @@ function ExperienceMapSection({
               <button
                 key={c}
                 onClick={() => setClientFilter(c)}
-                className={`px-4 py-2 rounded transition ${
+                className={`px-3 py-1.5 rounded text-sm transition ${
                   clientFilter === c
                     ? "text-white"
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300"
@@ -948,15 +978,32 @@ function ExperienceMapSection({
                 {c}
               </button>
             ))}
+            </div>
           </div>
         </div>
 
-        {/* Service Filter */}
-        <div className="mb-4">
-          <Label className="block text-sm font-medium mb-2">
-            {language === "en" ? "Filter by Service:" : "Filtrar por Servicio:"}
-          </Label>
-          <div className="flex flex-wrap gap-2">
+        {/* Center: Google Map */}
+        <div className="flex-1 order-first md:order-none">
+          {apiKey ? (
+            <div 
+              ref={mapRef} 
+              className="w-full h-[500px] rounded-lg shadow-lg"
+              style={{ background: '#e5e7eb' }}
+            />
+          ) : (
+            <div className="w-full h-[500px] rounded-lg shadow-lg bg-gray-200 flex items-center justify-center">
+              <p className="text-gray-600">{language === "en" ? "Map requires Google Maps API key" : "El mapa requiere clave API de Google Maps"}</p>
+            </div>
+          )}
+        </div>
+
+        {/* Right Sidebar: Service Filter */}
+        <div className="w-full md:w-48 flex-shrink-0">
+          <div>
+            <Label className="block text-sm font-medium mb-2">
+              {language === "en" ? "Service" : "Servicio"}
+            </Label>
+            <div className="flex flex-col gap-2">
             <button
               onClick={() => setServiceFilter("all")}
               className={`px-4 py-2 rounded transition ${
@@ -974,7 +1021,7 @@ function ExperienceMapSection({
               <button
                 key={s}
                 onClick={() => setServiceFilter(s)}
-                className={`px-4 py-2 rounded transition ${
+                className={`px-3 py-1.5 rounded text-sm transition ${
                   serviceFilter === s
                     ? "text-white"
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300"
@@ -986,22 +1033,10 @@ function ExperienceMapSection({
                 {s}
               </button>
             ))}
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Google Map */}
-      {apiKey ? (
-        <div 
-          ref={mapRef} 
-          className="w-full h-[500px] rounded-lg shadow-lg mb-8"
-          style={{ background: '#e5e7eb' }}
-        />
-      ) : (
-        <div className="w-full h-[500px] rounded-lg shadow-lg mb-8 bg-gray-200 flex items-center justify-center">
-          <p className="text-gray-600">{language === "en" ? "Map requires Google Maps API key" : "El mapa requiere clave API de Google Maps"}</p>
-        </div>
-      )}
 
       {/* Project Cards Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">

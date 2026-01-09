@@ -128,3 +128,10 @@
 - [x] Create backend endpoint to expose API key from environment
 - [x] Update frontend to fetch API key from environment endpoint
 - [x] Write and pass test for API key endpoint
+
+## Phase 17: Map Filters and Tab Buttons Redesign
+- [x] Place map filter buttons vertically: entity and client on left side of map
+- [x] Place service filter button vertically on right side of map
+- [x] Make all tab buttons same size with rounded contours
+- [x] Desktop: fit all 1-10 buttons in single line if possible
+- [x] Mobile: use 2 lines by default with horizontal drag capability
