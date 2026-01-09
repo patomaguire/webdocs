@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
+import { renderContent } from "@/lib/markdown";
 
 export default function Proposal() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -606,9 +607,11 @@ function ProposalContent() {
                 <div className="mb-8">
                   <div 
                     dangerouslySetInnerHTML={{ 
-                      __html: language === "es" && currentTab.htmlContentEs 
-                        ? currentTab.htmlContentEs 
-                        : currentTab.htmlContent || "" 
+                      __html: renderContent(
+                        language === "es" && currentTab.htmlContentEs 
+                          ? currentTab.htmlContentEs 
+                          : currentTab.htmlContent
+                      )
                     }} 
                     className="prose max-w-none mb-8"
                   />
@@ -663,9 +666,11 @@ function ProposalContent() {
               {activeTab !== 8 && activeTab !== 11 && (
                 <div 
                   dangerouslySetInnerHTML={{ 
-                    __html: language === "es" && currentTab.htmlContentEs 
-                      ? currentTab.htmlContentEs 
-                      : currentTab.htmlContent || "" 
+                    __html: renderContent(
+                      language === "es" && currentTab.htmlContentEs 
+                        ? currentTab.htmlContentEs 
+                        : currentTab.htmlContent
+                    )
                   }} 
                   className="prose max-w-none"
                 />
