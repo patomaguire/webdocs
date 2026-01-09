@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO proposal_settings (bidId, settingKey, settingValue) VALUES (1, 'google_maps_api_key', 'AIzaSyDummy_Key_For_Testing') ON DUPLICATE KEY UPDATE settingValue='AIzaSyDummy_Key_For_Testing'",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute INSERT INTO proposal_settings (bidId, settingKey, settingValue) VALUES (1, 'google_maps_api_key', 'AIzaSyDummy_Key_For_Testing') ON DUPLICATE KEY UPDATE settingValue='AIzaSyDummy_Key_For_Testing'",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 75
+}

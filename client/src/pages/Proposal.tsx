@@ -59,6 +59,7 @@ function ProposalContent() {
   // Navigation
   const [activeTab, setActiveTab] = useState(0);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const mainContentRef = useRef<HTMLDivElement>(null);
   
   // Language
   const [language, setLanguage] = useState<"en" | "es">("en");
@@ -338,30 +339,28 @@ function ProposalContent() {
         style={{ backgroundColor: primaryColor }}
       >
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
+          <div className="grid grid-cols-3 items-center gap-4">
             
             {/* Far Left: Logos 1 + 3 */}
-            {(settingsMap.logo1_url || settingsMap.logo3_url) && (
-              <div className="flex items-center gap-4">
-                {settingsMap.logo1_url && (
-                  <img 
-                    src={settingsMap.logo1_url} 
-                    alt="Logo 1" 
-                    className="h-10 max-w-[120px] object-contain" 
-                  />
-                )}
-                {settingsMap.logo3_url && (
-                  <img 
-                    src={settingsMap.logo3_url} 
-                    alt="Logo 3" 
-                    className="h-10 max-w-[120px] object-contain" 
-                  />
-                )}
-              </div>
-            )}
+            <div className="flex items-center gap-4 justify-start">
+              {settingsMap.logo1_url && (
+                <img 
+                  src={settingsMap.logo1_url} 
+                  alt="Logo 1" 
+                  className="h-10 max-w-[120px] object-contain" 
+                />
+              )}
+              {settingsMap.logo3_url && (
+                <img 
+                  src={settingsMap.logo3_url} 
+                  alt="Logo 3" 
+                  className="h-10 max-w-[120px] object-contain" 
+                />
+              )}
+            </div>
 
-            {/* Center: Print Buttons and Language Toggle */}
-            <div className="flex gap-3 items-center no-print">
+            {/* Center: Print Buttons Only */}
+            <div className="flex gap-3 items-center justify-center no-print">
               <button
                 onClick={printSection}
                 className="px-2 py-1.5 bg-white/90 text-gray-800 rounded text-xs flex items-center gap-1 hover:bg-white transition"
@@ -396,11 +395,14 @@ function ProposalContent() {
                 </svg>
                 {language === "en" ? "Print Comments" : "Imprimir Comentarios"}
               </button>
-              
+            </div>
+
+            {/* Far Right: Language Toggle + Logos */}
+            <div className="flex items-center gap-4 justify-end">
               {/* Language Toggle with proper Union Jack */}
               <button
                 onClick={() => setLanguage(language === "en" ? "es" : "en")}
-                className="px-2 py-1 rounded border border-white/30 hover:bg-white/20 transition"
+                className="px-2 py-1 rounded border border-white/30 hover:bg-white/20 transition no-print"
                 title={language === "en" ? "Switch to Spanish" : "Cambiar a Inglés"}
                 style={{ transform: 'scale(0.7)', transformOrigin: 'center' }}
               >
@@ -420,27 +422,23 @@ function ProposalContent() {
                   />
                 )}
               </button>
+              
+              {/* Logos 4 + 2 */}
+              {settingsMap.logo4_url && (
+                <img 
+                  src={settingsMap.logo4_url} 
+                  alt="Logo 4" 
+                  className="h-10 max-w-[120px] object-contain" 
+                />
+              )}
+              {settingsMap.logo2_url && (
+                <img 
+                  src={settingsMap.logo2_url} 
+                  alt="Logo 2" 
+                  className="h-10 max-w-[120px] object-contain" 
+                />
+              )}
             </div>
-
-            {/* Far Right: Logos 4 + 2 */}
-            {(settingsMap.logo4_url || settingsMap.logo2_url) && (
-              <div className="flex items-center gap-4">
-                {settingsMap.logo4_url && (
-                  <img 
-                    src={settingsMap.logo4_url} 
-                    alt="Logo 4" 
-                    className="h-10 max-w-[120px] object-contain" 
-                  />
-                )}
-                {settingsMap.logo2_url && (
-                  <img 
-                    src={settingsMap.logo2_url} 
-                    alt="Logo 2" 
-                    className="h-10 max-w-[120px] object-contain" 
-                  />
-                )}
-              </div>
-            )}
           </div>
         </div>
       </header>
@@ -502,7 +500,9 @@ function ProposalContent() {
                 key={tab.tabNumber}
                 onClick={() => {
                   setActiveTab(tab.tabNumber);
-                  document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  setTimeout(() => {
+                    mainContentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 50);
                 }}
                 className={`px-4 py-2 rounded whitespace-nowrap text-sm transition flex-shrink-0 ${
                   activeTab === tab.tabNumber
@@ -525,7 +525,9 @@ function ProposalContent() {
                 key={tab.tabNumber}
                 onClick={() => {
                   setActiveTab(tab.tabNumber);
-                  document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  setTimeout(() => {
+                    mainContentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 50);
                 }}
                 className={`px-4 py-2 rounded whitespace-nowrap text-sm transition flex-shrink-0 ${
                   activeTab === tab.tabNumber
@@ -545,7 +547,7 @@ function ProposalContent() {
 
       {/* Main Content Area (Full Width) */}
       <div className="flex">
-        <div id="main-content" style={{ position: 'absolute', top: '-80px' }}></div>
+        <div ref={mainContentRef} style={{ position: 'absolute', top: '-100px' }}></div>
 
         {/* Main Content Area */}
         <main className="flex-1 p-8">

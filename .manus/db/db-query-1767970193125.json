@@ -1,0 +1,9 @@
+{
+  "query": "\nINSERT INTO projects (bidId, projectName, entity, client, location, country, latitude, longitude, projectValue, projectYear, services, isVisible) VALUES\n(1, 'Sample Project NYC', 'EPCM', 'Client A', 'New York, USA', 'USA', '40.7128', '-74.0060', '$5M', '2024', '[\"Engineering\", \"Construction\"]', 1),\n(1, 'Sample Project London', 'PMC', 'Client B', 'London, UK', 'UK', '51.5074', '-0.1278', '$3M', '2023', '[\"Project Management\"]', 1),\n(1, 'Sample Project Tokyo', 'EPCM', 'Client C', 'Tokyo, Japan', 'Japan', '35.6762', '139.6503', '$8M', '2024', '[\"Engineering\"]', 1)\nON DUPLICATE KEY UPDATE projectName=projectName\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute \nINSERT INTO projects (bidId, projectName, entity, client, location, country, latitude, longitude, projectValue, projectYear, services, isVisible) VALUES\n(1, 'Sample Project NYC', 'EPCM', 'Client A', 'New York, USA', 'USA', '40.7128', '-74.0060', '$5M', '2024', '[\"Engineering\", \"Construction\"]', 1),\n(1, 'Sample Project London', 'PMC', 'Client B', 'London, UK', 'UK', '51.5074', '-0.1278', '$3M', '2023', '[\"Project Management\"]', 1),\n(1, 'Sample Project Tokyo', 'EPCM', 'Client C', 'Tokyo, Japan', 'Japan', '35.6762', '139.6503', '$8M', '2024', '[\"Engineering\"]', 1)\nON DUPLICATE KEY UPDATE projectName=projectName\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 61
+}

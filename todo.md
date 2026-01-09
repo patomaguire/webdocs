@@ -115,3 +115,10 @@
 - [x] Fix Print Comments button - displays comments but doesn't trigger print dialog
 - [x] Fix tab navigation buttons - must scroll to beginning of section content
 - [x] Fix Experience Map - showing blank map instead of project markers
+
+## Phase 15: Header Layout and Map Fixes
+- [x] Center 3 print buttons horizontally in header
+- [x] Move language toggle to far right in header
+- [x] Fix tab button scroll - not jumping to section start
+- [x] Enable Google Maps API immediately with dummy coordinates
+- [x] Make map markers visible with test data
