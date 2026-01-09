@@ -1,0 +1,18 @@
+{
+  "query": "\nSELECT \n  (SELECT COUNT(*) FROM proposal_settings WHERE bidId = 1) as settings_count,\n  (SELECT COUNT(*) FROM hero_section WHERE bidId = 1) as hero_count,\n  (SELECT COUNT(*) FROM tabs_content WHERE bidId = 1) as tabs_count,\n  (SELECT COUNT(*) FROM team_members WHERE bidId = 1) as team_count,\n  (SELECT COUNT(*) FROM projects WHERE bidId = 1) as projects_count,\n  (SELECT COUNT(*) FROM comments WHERE bidId = 1) as comments_count\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute \nSELECT \n  (SELECT COUNT(*) FROM proposal_settings WHERE bidId = 1) as settings_count,\n  (SELECT COUNT(*) FROM hero_section WHERE bidId = 1) as hero_count,\n  (SELECT COUNT(*) FROM tabs_content WHERE bidId = 1) as tabs_count,\n  (SELECT COUNT(*) FROM team_members WHERE bidId = 1) as team_count,\n  (SELECT COUNT(*) FROM projects WHERE bidId = 1) as projects_count,\n  (SELECT COUNT(*) FROM comments WHERE bidId = 1) as comments_count\n",
+  "rows": [
+    {
+      "settings_count": "0",
+      "hero_count": "0",
+      "tabs_count": "0",
+      "team_count": "0",
+      "projects_count": "0",
+      "comments_count": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "settings_count\thero_count\ttabs_count\tteam_count\tprojects_count\tcomments_count\n0\t0\t0\t0\t0\t0\n",
+  "stderr": "",
+  "execution_time_ms": 91
+}

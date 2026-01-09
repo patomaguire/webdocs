@@ -1,0 +1,30 @@
+{
+  "query": "\nSELECT \n  'hero_section' as table_name, COUNT(*) as has_bidId FROM information_schema.COLUMNS \n  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'hero_section' AND COLUMN_NAME = 'bidId'\nUNION ALL\nSELECT 'tabs_content', COUNT(*) FROM information_schema.COLUMNS \n  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'tabs_content' AND COLUMN_NAME = 'bidId'\nUNION ALL\nSELECT 'team_members', COUNT(*) FROM information_schema.COLUMNS \n  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'team_members' AND COLUMN_NAME = 'bidId'\nUNION ALL\nSELECT 'projects', COUNT(*) FROM information_schema.COLUMNS \n  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'projects' AND COLUMN_NAME = 'bidId'\nUNION ALL\nSELECT 'comments', COUNT(*) FROM information_schema.COLUMNS \n  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'comments' AND COLUMN_NAME = 'bidId'\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute \nSELECT \n  'hero_section' as table_name, COUNT(*) as has_bidId FROM information_schema.COLUMNS \n  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'hero_section' AND COLUMN_NAME = 'bidId'\nUNION ALL\nSELECT 'tabs_content', COUNT(*) FROM information_schema.COLUMNS \n  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'tabs_content' AND COLUMN_NAME = 'bidId'\nUNION ALL\nSELECT 'team_members', COUNT(*) FROM information_schema.COLUMNS \n  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'team_members' AND COLUMN_NAME = 'bidId'\nUNION ALL\nSELECT 'projects', COUNT(*) FROM information_schema.COLUMNS \n  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'projects' AND COLUMN_NAME = 'bidId'\nUNION ALL\nSELECT 'comments', COUNT(*) FROM information_schema.COLUMNS \n  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'comments' AND COLUMN_NAME = 'bidId'\n",
+  "rows": [
+    {
+      "table_name": "comments",
+      "has_bidId": "1"
+    },
+    {
+      "table_name": "tabs_content",
+      "has_bidId": "1"
+    },
+    {
+      "table_name": "hero_section",
+      "has_bidId": "1"
+    },
+    {
+      "table_name": "team_members",
+      "has_bidId": "1"
+    },
+    {
+      "table_name": "projects",
+      "has_bidId": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\thas_bidId\ncomments\t1\ntabs_content\t1\nhero_section\t1\nteam_members\t1\nprojects\t1\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

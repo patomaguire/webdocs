@@ -327,22 +327,24 @@ function ProposalContent() {
           <div className="flex items-center justify-between">
             
             {/* Far Left: Logos 1 + 3 */}
-            <div className="flex items-center gap-4">
-              {settingsMap.logo1_url && (
-                <img 
-                  src={settingsMap.logo1_url} 
-                  alt="Logo 1" 
-                  className="h-10 max-w-[120px] object-contain" 
-                />
-              )}
-              {settingsMap.logo3_url && (
-                <img 
-                  src={settingsMap.logo3_url} 
-                  alt="Logo 3" 
-                  className="h-10 max-w-[120px] object-contain" 
-                />
-              )}
-            </div>
+            {(settingsMap.logo1_url || settingsMap.logo3_url) && (
+              <div className="flex items-center gap-4">
+                {settingsMap.logo1_url && (
+                  <img 
+                    src={settingsMap.logo1_url} 
+                    alt="Logo 1" 
+                    className="h-10 max-w-[120px] object-contain" 
+                  />
+                )}
+                {settingsMap.logo3_url && (
+                  <img 
+                    src={settingsMap.logo3_url} 
+                    alt="Logo 3" 
+                    className="h-10 max-w-[120px] object-contain" 
+                  />
+                )}
+              </div>
+            )}
 
             {/* Center: Print Buttons and Language Toggle */}
             <div className="flex gap-3 items-center no-print">
@@ -407,22 +409,24 @@ function ProposalContent() {
             </div>
 
             {/* Far Right: Logos 4 + 2 */}
-            <div className="flex items-center gap-4">
-              {settingsMap.logo4_url && (
-                <img 
-                  src={settingsMap.logo4_url} 
-                  alt="Logo 4" 
-                  className="h-10 max-w-[120px] object-contain" 
-                />
-              )}
-              {settingsMap.logo2_url && (
-                <img 
-                  src={settingsMap.logo2_url} 
-                  alt="Logo 2" 
-                  className="h-10 max-w-[120px] object-contain" 
-                />
-              )}
-            </div>
+            {(settingsMap.logo4_url || settingsMap.logo2_url) && (
+              <div className="flex items-center gap-4">
+                {settingsMap.logo4_url && (
+                  <img 
+                    src={settingsMap.logo4_url} 
+                    alt="Logo 4" 
+                    className="h-10 max-w-[120px] object-contain" 
+                  />
+                )}
+                {settingsMap.logo2_url && (
+                  <img 
+                    src={settingsMap.logo2_url} 
+                    alt="Logo 2" 
+                    className="h-10 max-w-[120px] object-contain" 
+                  />
+                )}
+              </div>
+            )}
           </div>
         </div>
       </header>
