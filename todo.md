@@ -109,3 +109,9 @@
 - [x] Update header logo display to hide empty logo slots
 - [x] Ensure no placeholders or gaps when logos are not provided
 - [x] Test with 1, 2, 3, and 4 logos to verify graceful layout
+
+## Phase 14: Critical Bug Fixes (Mobile & Print Issues)
+- [x] Fix Print All button - currently only prints current page instead of all tabs
+- [x] Fix Print Comments button - displays comments but doesn't trigger print dialog
+- [x] Fix tab navigation buttons - must scroll to beginning of section content
+- [x] Fix Experience Map - showing blank map instead of project markers

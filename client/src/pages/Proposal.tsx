@@ -138,10 +138,13 @@ function ProposalContent() {
     // Save current tab
     const savedTab = activeTab;
     
-    // Create a hidden container with all tabs
+    // Create a visible container with all tabs for printing
     const printContainer = document.createElement('div');
     printContainer.id = 'print-all-container';
-    printContainer.style.display = 'none';
+    printContainer.style.position = 'absolute';
+    printContainer.style.left = '-9999px';
+    printContainer.style.top = '0';
+    printContainer.style.width = '100%';
     
     visibleTabs.forEach((tab, index) => {
       const tabSection = document.createElement('div');
@@ -278,7 +281,18 @@ function ProposalContent() {
     html += '</body></html>';
     printWindow.document.write(html);
     printWindow.document.close();
-    printWindow.print();
+    
+    // Wait for content to load before printing
+    printWindow.onload = () => {
+      printWindow.print();
+      printWindow.onafterprint = () => printWindow.close();
+    };
+    
+    // Fallback for browsers that don't support onload
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.onafterprint = () => printWindow.close();
+    }, 250);
   };
 
   const handleCommentSubmit = (e: React.FormEvent) => {
@@ -486,7 +500,10 @@ function ProposalContent() {
             {visibleTabs.filter(t => t.tabNumber >= 1 && t.tabNumber <= 5).map((tab) => (
               <button
                 key={tab.tabNumber}
-                onClick={() => setActiveTab(tab.tabNumber)}
+                onClick={() => {
+                  setActiveTab(tab.tabNumber);
+                  document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
                 className={`px-4 py-2 rounded whitespace-nowrap text-sm transition flex-shrink-0 ${
                   activeTab === tab.tabNumber
                     ? 'text-white font-semibold'
@@ -506,7 +523,10 @@ function ProposalContent() {
             {visibleTabs.filter(t => t.tabNumber >= 6 && t.tabNumber <= 10).map((tab) => (
               <button
                 key={tab.tabNumber}
-                onClick={() => setActiveTab(tab.tabNumber)}
+                onClick={() => {
+                  setActiveTab(tab.tabNumber);
+                  document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
                 className={`px-4 py-2 rounded whitespace-nowrap text-sm transition flex-shrink-0 ${
                   activeTab === tab.tabNumber
                     ? 'text-white font-semibold'
@@ -525,6 +545,7 @@ function ProposalContent() {
 
       {/* Main Content Area (Full Width) */}
       <div className="flex">
+        <div id="main-content" style={{ position: 'absolute', top: '-80px' }}></div>
 
         {/* Main Content Area */}
         <main className="flex-1 p-8">
@@ -715,7 +736,11 @@ function ExperienceMapSection({
 
   // Load Google Maps script
   useEffect(() => {
-    if (!apiKey || typeof google !== 'undefined') return;
+    if (!apiKey) return;
+    if (typeof google !== 'undefined' && google.maps) {
+      initMap();
+      return;
+    }
     
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
