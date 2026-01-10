@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
+import { useParams } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,13 +10,19 @@ import { toast } from "sonner";
 import { renderContent } from "@/lib/markdown";
 
 export default function Proposal() {
+  const params = useParams();
+  const slug = params.slug || 'default';
+  
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
-  const { data: storedPassword } = trpc.settings.get.useQuery({ key: "password" });
+  
+  // Fetch document by slug
+  const { data: document } = trpc.documents.getBySlug.useQuery({ slug });
+  const documentId = document?.id || 1;
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordInput === storedPassword) {
+    if (passwordInput === document?.password) {
       setIsAuthenticated(true);
       toast.success("Access granted!");
     } else {
@@ -53,10 +60,10 @@ export default function Proposal() {
     );
   }
 
-  return <ProposalContent />;
+  return <ProposalContent documentId={documentId} />;
 }
 
-function ProposalContent() {
+function ProposalContent({ documentId }: { documentId: number }) {
   // Navigation
   const [activeTab, setActiveTab] = useState(0);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);

@@ -235,3 +235,14 @@
 - [ ] Test print behavior with partial tab visibility
 - [ ] Run all vitest tests
 - [ ] Save checkpoint
+
+## Phase 25: Frontend Routing for Multi-Document Access
+- [x] Add /doc/:slug route to App.tsx
+- [x] Update Proposal.tsx to extract slug from URL params
+- [x] Fetch document by slug using trpc.documents.getBySlug
+- [x] Update password validation to use document.password
+- [x] Pass documentId to all content queries (settings, hero, tabs, team, projects, comments)
+- [x] Test /proposal route still works (default document)
+- [x] Test /doc/default route works
+- [x] Create test document with slug "test-001" and verify access
+- [x] Save checkpoint
