@@ -1,11 +1,8 @@
-import { eq, desc, asc, sql, and } from "drizzle-orm";
+import { eq, desc, asc, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
   users,
-  bids,
-  Bid,
-  InsertBid,
   proposalSettings,
   ProposalSetting,
   InsertProposalSetting,
@@ -115,14 +112,12 @@ export async function getUserByOpenId(openId: string) {
 
 // ============= Settings Functions =============
 
-export async function getSetting(bidId: number, key: string): Promise<string | null> {
+export async function getSetting(key: string): Promise<string | null> {
   const db = await getDb();
   if (!db) return null;
   
   try {
-    const result = await db.select().from(proposalSettings)
-      .where(and(eq(proposalSettings.bidId, bidId), eq(proposalSettings.settingKey, key)))
-      .limit(1);
+    const result = await db.select().from(proposalSettings).where(eq(proposalSettings.settingKey, key)).limit(1);
     return result.length > 0 ? result[0].settingValue : null;
   } catch (error) {
     console.error("[Database] Failed to get setting:", error);
@@ -130,25 +125,25 @@ export async function getSetting(bidId: number, key: string): Promise<string | n
   }
 }
 
-export async function getAllSettings(bidId: number): Promise<ProposalSetting[]> {
+export async function getAllSettings(): Promise<ProposalSetting[]> {
   const db = await getDb();
   if (!db) return [];
   
   try {
-    return await db.select().from(proposalSettings).where(eq(proposalSettings.bidId, bidId));
+    return await db.select().from(proposalSettings);
   } catch (error) {
     console.error("[Database] Failed to get all settings:", error);
     return [];
   }
 }
 
-export async function upsertSetting(bidId: number, key: string, value: string): Promise<void> {
+export async function upsertSetting(key: string, value: string): Promise<void> {
   const db = await getDb();
   if (!db) return;
   
   try {
     await db.insert(proposalSettings)
-      .values({ bidId, settingKey: key, settingValue: value })
+      .values({ settingKey: key, settingValue: value })
       .onDuplicateKeyUpdate({ set: { settingValue: value } });
   } catch (error) {
     console.error("[Database] Failed to upsert setting:", error);
@@ -157,12 +152,12 @@ export async function upsertSetting(bidId: number, key: string, value: string): 
 
 // ============= Hero Section Functions =============
 
-export async function getHeroSection(bidId: number): Promise<HeroSection | null> {
+export async function getHeroSection(): Promise<HeroSection | null> {
   const db = await getDb();
   if (!db) return null;
   
   try {
-    const result = await db.select().from(heroSection).where(eq(heroSection.bidId, bidId)).limit(1);
+    const result = await db.select().from(heroSection).limit(1);
     return result.length > 0 ? result[0] : null;
   } catch (error) {
     console.error("[Database] Failed to get hero section:", error);
@@ -175,7 +170,7 @@ export async function upsertHeroSection(data: Omit<InsertHeroSection, 'id'>): Pr
   if (!db) return;
   
   try {
-    const existing = await db.select().from(heroSection).where(eq(heroSection.bidId, data.bidId)).limit(1);
+    const existing = await db.select().from(heroSection).limit(1);
     if (existing.length > 0) {
       await db.update(heroSection).set(data).where(eq(heroSection.id, existing[0].id));
     } else {
@@ -188,28 +183,24 @@ export async function upsertHeroSection(data: Omit<InsertHeroSection, 'id'>): Pr
 
 // ============= Tabs Content Functions =============
 
-export async function getAllTabs(bidId: number): Promise<TabContent[]> {
+export async function getAllTabs(): Promise<TabContent[]> {
   const db = await getDb();
   if (!db) return [];
   
   try {
-    return await db.select().from(tabsContent)
-      .where(eq(tabsContent.bidId, bidId))
-      .orderBy(asc(tabsContent.tabNumber));
+    return await db.select().from(tabsContent).orderBy(asc(tabsContent.tabNumber));
   } catch (error) {
     console.error("[Database] Failed to get all tabs:", error);
     return [];
   }
 }
 
-export async function getTabByNumber(bidId: number, tabNumber: number): Promise<TabContent | null> {
+export async function getTabByNumber(tabNumber: number): Promise<TabContent | null> {
   const db = await getDb();
   if (!db) return null;
   
   try {
-    const result = await db.select().from(tabsContent)
-      .where(and(eq(tabsContent.bidId, bidId), eq(tabsContent.tabNumber, tabNumber)))
-      .limit(1);
+    const result = await db.select().from(tabsContent).where(eq(tabsContent.tabNumber, tabNumber)).limit(1);
     return result.length > 0 ? result[0] : null;
   } catch (error) {
     console.error("[Database] Failed to get tab:", error);
@@ -238,14 +229,12 @@ export async function upsertTab(data: Omit<InsertTabContent, 'id'>): Promise<voi
 
 // ============= Team Members Functions =============
 
-export async function getAllTeamMembers(bidId: number): Promise<TeamMember[]> {
+export async function getAllTeamMembers(): Promise<TeamMember[]> {
   const db = await getDb();
   if (!db) return [];
   
   try {
-    return await db.select().from(teamMembers)
-      .where(eq(teamMembers.bidId, bidId))
-      .orderBy(asc(teamMembers.sortOrder));
+    return await db.select().from(teamMembers).orderBy(asc(teamMembers.sortOrder));
   } catch (error) {
     console.error("[Database] Failed to get team members:", error);
     return [];
@@ -303,14 +292,12 @@ export async function deleteTeamMember(id: number): Promise<void> {
 
 // ============= Projects Functions =============
 
-export async function getAllProjects(bidId: number): Promise<Project[]> {
+export async function getAllProjects(): Promise<Project[]> {
   const db = await getDb();
   if (!db) return [];
   
   try {
-    return await db.select().from(projects)
-      .where(eq(projects.bidId, bidId))
-      .orderBy(asc(projects.sortOrder));
+    return await db.select().from(projects).orderBy(asc(projects.sortOrder));
   } catch (error) {
     console.error("[Database] Failed to get projects:", error);
     return [];
@@ -383,28 +370,24 @@ export async function addComment(data: Omit<InsertComment, 'id' | 'createdAt'>):
   }
 }
 
-export async function getCommentsByTab(bidId: number, tabNumber: number): Promise<Comment[]> {
+export async function getCommentsByTab(tabNumber: number): Promise<Comment[]> {
   const db = await getDb();
   if (!db) return [];
   
   try {
-    return await db.select().from(comments)
-      .where(and(eq(comments.bidId, bidId), eq(comments.tabNumber, tabNumber)))
-      .orderBy(desc(comments.createdAt));
+    return await db.select().from(comments).where(eq(comments.tabNumber, tabNumber)).orderBy(desc(comments.createdAt));
   } catch (error) {
     console.error("[Database] Failed to get comments by tab:", error);
     return [];
   }
 }
 
-export async function getAllComments(bidId: number): Promise<Comment[]> {
+export async function getAllComments(): Promise<Comment[]> {
   const db = await getDb();
   if (!db) return [];
   
   try {
-    return await db.select().from(comments)
-      .where(eq(comments.bidId, bidId))
-      .orderBy(desc(comments.createdAt));
+    return await db.select().from(comments).orderBy(desc(comments.createdAt));
   } catch (error) {
     console.error("[Database] Failed to get all comments:", error);
     return [];
@@ -430,90 +413,5 @@ export async function deleteComment(id: number): Promise<void> {
     await db.delete(comments).where(eq(comments.id, id));
   } catch (error) {
     console.error("[Database] Failed to delete comment:", error);
-  }
-}
-
-// ============= Bids Functions =============
-
-export async function getAllBids(): Promise<Bid[]> {
-  const db = await getDb();
-  if (!db) return [];
-  
-  try {
-    return await db.select().from(bids).orderBy(desc(bids.createdAt));
-  } catch (error) {
-    console.error("[Database] Failed to get all bids:", error);
-    return [];
-  }
-}
-
-export async function getBidById(id: number): Promise<Bid | null> {
-  const db = await getDb();
-  if (!db) return null;
-  
-  try {
-    const result = await db.select().from(bids).where(eq(bids.id, id)).limit(1);
-    return result.length > 0 ? result[0] : null;
-  } catch (error) {
-    console.error("[Database] Failed to get bid by ID:", error);
-    return null;
-  }
-}
-
-export async function getBidBySlug(slug: string): Promise<Bid | null> {
-  const db = await getDb();
-  if (!db) return null;
-  
-  try {
-    const result = await db.select().from(bids).where(eq(bids.slug, slug)).limit(1);
-    return result.length > 0 ? result[0] : null;
-  } catch (error) {
-    console.error("[Database] Failed to get bid by slug:", error);
-    return null;
-  }
-}
-
-export async function createBid(data: Omit<InsertBid, 'id' | 'createdAt' | 'updatedAt'>): Promise<Bid | null> {
-  const db = await getDb();
-  if (!db) return null;
-  
-  try {
-    const result = await db.insert(bids).values(data);
-    const insertId = result[0].insertId;
-    return await getBidById(Number(insertId));
-  } catch (error) {
-    console.error("[Database] Failed to create bid:", error);
-    return null;
-  }
-}
-
-export async function updateBid(id: number, data: Partial<Omit<InsertBid, 'id' | 'createdAt' | 'updatedAt'>>): Promise<void> {
-  const db = await getDb();
-  if (!db) return;
-  
-  try {
-    await db.update(bids).set(data).where(eq(bids.id, id));
-  } catch (error) {
-    console.error("[Database] Failed to update bid:", error);
-  }
-}
-
-export async function deleteBid(id: number): Promise<void> {
-  const db = await getDb();
-  if (!db) return;
-  
-  try {
-    // Delete all related data first
-    await db.delete(proposalSettings).where(eq(proposalSettings.bidId, id));
-    await db.delete(heroSection).where(eq(heroSection.bidId, id));
-    await db.delete(tabsContent).where(eq(tabsContent.bidId, id));
-    await db.delete(teamMembers).where(eq(teamMembers.bidId, id));
-    await db.delete(projects).where(eq(projects.bidId, id));
-    await db.delete(comments).where(eq(comments.bidId, id));
-    
-    // Finally delete the bid itself
-    await db.delete(bids).where(eq(bids.id, id));
-  } catch (error) {
-    console.error("[Database] Failed to delete bid:", error);
   }
 }

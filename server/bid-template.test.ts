@@ -279,11 +279,11 @@ describe("Bid Template System", () => {
         commentText: "This is a test comment",
       };
 
-      const addResult = await caller.comments.add(commentData);
+      const addResult = await caller.commentsRouter.add(commentData);
       expect(addResult.success).toBe(true);
       expect(addResult.comment).toBeDefined();
 
-      const comments = await caller.comments.getByTab({ tabNumber: 1 });
+      const comments = await caller.commentsRouter.getByTab({ tabNumber: 1 });
       expect(Array.isArray(comments)).toBe(true);
       expect(comments.length).toBeGreaterThan(0);
     });
@@ -299,13 +299,13 @@ describe("Bid Template System", () => {
         commentText: "Test comment for read status",
       };
 
-      const addResult = await caller.comments.add(commentData);
+      const addResult = await caller.commentsRouter.add(commentData);
       expect(addResult.success).toBe(true);
 
       if (addResult.comment) {
         expect(addResult.comment.isRead).toBe(false);
 
-        const markResult = await caller.comments.markAsRead({ id: addResult.comment.id });
+        const markResult = await caller.commentsRouter.markAsRead({ id: addResult.comment.id });
         expect(markResult.success).toBe(true);
       }
     });
@@ -321,11 +321,11 @@ describe("Bid Template System", () => {
         commentText: "Comment to be deleted",
       };
 
-      const addResult = await caller.comments.add(commentData);
+      const addResult = await caller.commentsRouter.add(commentData);
       expect(addResult.success).toBe(true);
 
       if (addResult.comment) {
-        const deleteResult = await caller.comments.delete({ id: addResult.comment.id });
+        const deleteResult = await caller.commentsRouter.delete({ id: addResult.comment.id });
         expect(deleteResult.success).toBe(true);
       }
     });
@@ -334,7 +334,7 @@ describe("Bid Template System", () => {
       const { ctx } = createTestContext();
       const caller = appRouter.createCaller(ctx);
 
-      const allComments = await caller.comments.getAll();
+      const allComments = await caller.commentsRouter.getAll();
       expect(Array.isArray(allComments)).toBe(true);
     });
   });

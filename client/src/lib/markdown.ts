@@ -6,6 +6,8 @@ import { marked } from 'marked';
 marked.setOptions({
   breaks: true, // Convert \n to <br>
   gfm: true, // GitHub Flavored Markdown
+  headerIds: true, // Add IDs to headers
+  mangle: false, // Don't escape email addresses
 });
 
 /**
