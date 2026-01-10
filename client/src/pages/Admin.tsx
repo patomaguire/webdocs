@@ -837,14 +837,14 @@ function ProjectsTab() {
 
 // ============= Comments Tab =============
 function CommentsTab() {
-  const { data: comments, isLoading, refetch } = trpc.commentsRouter.getAll.useQuery();
-  const deleteMutation = trpc.commentsRouter.delete.useMutation({
+  const { data: comments, isLoading, refetch } = trpc.comments.getAll.useQuery();
+  const deleteMutation = trpc.comments.delete.useMutation({
     onSuccess: () => {
       toast.success("Comment deleted!");
       refetch();
     },
   });
-  const markAsReadMutation = trpc.commentsRouter.markAsRead.useMutation({
+  const markAsReadMutation = trpc.comments.markAsRead.useMutation({
     onSuccess: () => {
       refetch();
     },
