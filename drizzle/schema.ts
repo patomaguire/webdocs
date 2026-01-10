@@ -19,12 +19,31 @@ export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
 /**
+ * Documents - each represents a bid, capstat, business plan, monthly report, etc.
+ */
+export const documents = mysqlTable("documents", {
+  id: int("id").autoincrement().primaryKey(),
+  slug: varchar("slug", { length: 100 }).notNull().unique(),
+  name: varchar("name", { length: 255 }).notNull(),
+  password: varchar("password", { length: 255 }).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Document = typeof documents.$inferSelect;
+export type InsertDocument = typeof documents.$inferInsert;
+
+/**
  * Proposal settings - password, colors, logos, etc.
  */
 export const proposalSettings = mysqlTable("proposal_settings", {
   id: int("id").autoincrement().primaryKey(),
+  documentId: int("documentId").notNull().default(1),
   settingKey: varchar("settingKey", { length: 100 }).notNull(),
   settingValue: text("settingValue"),
+  showMap: boolean("showMap").default(true).notNull(),
+  showTeam: boolean("showTeam").default(true).notNull(),
+  showComments: boolean("showComments").default(true).notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
@@ -36,6 +55,7 @@ export type InsertProposalSetting = typeof proposalSettings.$inferInsert;
  */
 export const heroSection = mysqlTable("hero_section", {
   id: int("id").autoincrement().primaryKey(),
+  documentId: int("documentId").notNull().default(1),
   mainTitle: text("mainTitle").notNull(),
   subtitle: text("subtitle"),
   stampText: varchar("stampText", { length: 255 }),
@@ -50,6 +70,7 @@ export type InsertHeroSection = typeof heroSection.$inferInsert;
  */
 export const tabsContent = mysqlTable("tabs_content", {
   id: int("id").autoincrement().primaryKey(),
+  documentId: int("documentId").notNull().default(1),
   tabNumber: int("tabNumber").notNull(),
   tabTitle: varchar("tabTitle", { length: 255 }).notNull(),
   htmlContent: text("htmlContent"),
@@ -68,6 +89,7 @@ export type InsertTabContent = typeof tabsContent.$inferInsert;
  */
 export const teamMembers = mysqlTable("team_members", {
   id: int("id").autoincrement().primaryKey(),
+  documentId: int("documentId").notNull().default(1),
   name: varchar("name", { length: 255 }).notNull(),
   title: varchar("title", { length: 255 }),
   bio: text("bio"),
@@ -89,6 +111,7 @@ export type InsertTeamMember = typeof teamMembers.$inferInsert;
  */
 export const projects = mysqlTable("projects", {
   id: int("id").autoincrement().primaryKey(),
+  documentId: int("documentId").notNull().default(1),
   projectName: varchar("projectName", { length: 255 }).notNull(),
   entity: varchar("entity", { length: 100 }).notNull(),
   client: varchar("client", { length: 255 }),
@@ -114,6 +137,7 @@ export type InsertProject = typeof projects.$inferInsert;
  */
 export const comments = mysqlTable("comments", {
   id: int("id").autoincrement().primaryKey(),
+  documentId: int("documentId").notNull().default(1),
   tabNumber: int("tabNumber").notNull(),
   tabName: varchar("tabName", { length: 255 }).notNull(),
   authorName: varchar("authorName", { length: 255 }).notNull(),

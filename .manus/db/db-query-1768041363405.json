@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE `proposal_settings` ADD COLUMN `documentId` int NOT NULL DEFAULT 1 AFTER `id`;\nALTER TABLE `proposal_settings` ADD COLUMN `showMap` boolean NOT NULL DEFAULT true;\nALTER TABLE `proposal_settings` ADD COLUMN `showTeam` boolean NOT NULL DEFAULT true;\nALTER TABLE `proposal_settings` ADD COLUMN `showComments` boolean NOT NULL DEFAULT true;\n\nALTER TABLE `hero_section` ADD COLUMN `documentId` int NOT NULL DEFAULT 1 AFTER `id`;\nALTER TABLE `tabs_content` ADD COLUMN `documentId` int NOT NULL DEFAULT 1 AFTER `id`;\nALTER TABLE `team_members` ADD COLUMN `documentId` int NOT NULL DEFAULT 1 AFTER `id`;\nALTER TABLE `projects` ADD COLUMN `documentId` int NOT NULL DEFAULT 1 AFTER `id`;\nALTER TABLE `comments` ADD COLUMN `documentId` int NOT NULL DEFAULT 1 AFTER `id`;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute ALTER TABLE `proposal_settings` ADD COLUMN `documentId` int NOT NULL DEFAULT 1 AFTER `id`;\nALTER TABLE `proposal_settings` ADD COLUMN `showMap` boolean NOT NULL DEFAULT true;\nALTER TABLE `proposal_settings` ADD COLUMN `showTeam` boolean NOT NULL DEFAULT true;\nALTER TABLE `proposal_settings` ADD COLUMN `showComments` boolean NOT NULL DEFAULT true;\n\nALTER TABLE `hero_section` ADD COLUMN `documentId` int NOT NULL DEFAULT 1 AFTER `id`;\nALTER TABLE `tabs_content` ADD COLUMN `documentId` int NOT NULL DEFAULT 1 AFTER `id`;\nALTER TABLE `team_members` ADD COLUMN `documentId` int NOT NULL DEFAULT 1 AFTER `id`;\nALTER TABLE `projects` ADD COLUMN `documentId` int NOT NULL DEFAULT 1 AFTER `id`;\nALTER TABLE `comments` ADD COLUMN `documentId` int NOT NULL DEFAULT 1 AFTER `id`;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 3404
+}

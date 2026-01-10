@@ -5,6 +5,12 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { ENV } from "./_core/env";
 import {
+  createDocument,
+  getDocumentBySlug,
+  getDocumentById,
+  getAllDocuments,
+  updateDocument,
+  deleteDocument,
   getSetting,
   getAllSettings,
   upsertSetting,
@@ -193,6 +199,42 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {
         await deleteProject(input.id);
+        return { success: true };
+      }),
+  }),
+
+  // Documents router
+  documents: router({
+    create: publicProcedure
+      .input(z.object({
+        slug: z.string(),
+        name: z.string(),
+        password: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const doc = await createDocument(input);
+        return { success: true, document: doc };
+      }),
+    getBySlug: publicProcedure
+      .input(z.object({ slug: z.string() }))
+      .query(async ({ input }) => await getDocumentBySlug(input.slug)),
+    getAll: publicProcedure.query(async () => await getAllDocuments()),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        slug: z.string().optional(),
+        name: z.string().optional(),
+        password: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...updates } = input;
+        const doc = await updateDocument(id, updates);
+        return { success: true, document: doc };
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await deleteDocument(input.id);
         return { success: true };
       }),
   }),

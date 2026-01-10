@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `documents` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `slug` varchar(100) NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `password` varchar(255) NOT NULL,\n  `type` enum('bid','capstat','busplan','mpr','other') NOT NULL DEFAULT 'bid',\n  `createdAt` timestamp NOT NULL DEFAULT (now()),\n  `updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `slug_unique` (`slug`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute CREATE TABLE IF NOT EXISTS `documents` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `slug` varchar(100) NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `password` varchar(255) NOT NULL,\n  `type` enum('bid','capstat','busplan','mpr','other') NOT NULL DEFAULT 'bid',\n  `createdAt` timestamp NOT NULL DEFAULT (now()),\n  `updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `slug_unique` (`slug`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 491
+}

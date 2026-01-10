@@ -3,6 +3,9 @@ import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
   users,
+  documents,
+  Document,
+  InsertDocument,
   proposalSettings,
   ProposalSetting,
   InsertProposalSetting,
@@ -414,4 +417,56 @@ export async function deleteComment(id: number): Promise<void> {
   } catch (error) {
     console.error("[Database] Failed to delete comment:", error);
   }
+}
+
+// ============================================================================
+// Document Functions
+// ============================================================================
+
+export async function createDocument(doc: InsertDocument): Promise<Document> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const [result] = await db.insert(documents).values(doc);
+  const [created] = await db.select().from(documents).where(eq(documents.id, result.insertId));
+  return created;
+}
+
+export async function getDocumentBySlug(slug: string): Promise<Document | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const [doc] = await db.select().from(documents).where(eq(documents.slug, slug));
+  return doc;
+}
+
+export async function getDocumentById(id: number): Promise<Document | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const [doc] = await db.select().from(documents).where(eq(documents.id, id));
+  return doc;
+}
+
+export async function getAllDocuments(): Promise<Document[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(documents).orderBy(desc(documents.createdAt));
+}
+
+export async function updateDocument(id: number, updates: Partial<InsertDocument>): Promise<Document | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  await db.update(documents).set(updates).where(eq(documents.id, id));
+  return await getDocumentById(id);
+}
+
+export async function deleteDocument(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  
+  await db.delete(documents).where(eq(documents.id, id));
+  return true;
 }

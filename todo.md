@@ -168,3 +168,70 @@
 - [x] Update frontend Proposal.tsx to render per-tab backgrounds
 - [x] Update Admin interface to configure background for each tab
 - [x] Remove global background in favor of per-tab backgrounds
+
+## Phase 24: Multi-Document System with Notion Integration
+
+### Phase 1: Database Schema
+- [x] Create documents table (id, slug, name, password, type, createdAt, updatedAt)
+- [x] Add documentId foreign key to all content tables (hero_section, tabs_content, team_members, projects, comments, proposal_settings)
+- [x] Add visibility fields for sections (showMap, showTeam, showComments) to proposal_settings
+- [x] Push schema changes to database
+
+### Phase 2: Backend Operations
+- [ ] Add document CRUD functions to server/db.ts (create, getBySlug, getAll, update, delete)
+- [ ] Add documents router to server/routers.ts
+- [ ] Create Notion integration helper in server/notion.ts (fetch database, parse data)
+- [ ] Update all existing database functions to accept documentId parameter
+
+### Phase 3: Markdown Parser Enhancement
+- [ ] Extend client/src/lib/markdown.ts to parse {{notion:...}} tags
+- [ ] Create parameter parser for chart configuration
+- [ ] Add validation for required/optional parameters
+- [ ] Create error handling for invalid syntax
+
+### Phase 4: Chart Components
+- [ ] Create client/src/components/charts/GanttChart.tsx
+- [ ] Create client/src/components/charts/DataTable.tsx
+- [ ] Create client/src/components/charts/BarChart.tsx
+- [ ] Create client/src/components/charts/PieChart.tsx
+- [ ] Create client/src/components/charts/LineChart.tsx
+- [ ] Create client/src/components/charts/ChartRenderer.tsx (orchestrator)
+
+### Phase 5: Frontend Routing
+- [ ] Add /doc/:slug route to App.tsx
+- [ ] Update Proposal.tsx to detect document slug from URL
+- [ ] Fetch document by slug and pass documentId to all API calls
+- [ ] Add document password validation
+- [ ] Maintain backward compatibility with /proposal route (default document)
+
+### Phase 6: Admin UI Updates
+- [ ] Add document selector dropdown in Admin header
+- [ ] Add "Create New Document" button and form (slug, name, password, type)
+- [ ] Add slug editor in document settings
+- [ ] Add visibility toggles for tabs (1-10) in tabs management
+- [ ] Add visibility toggles for sections (map, team, comments) in settings
+- [ ] Update all Admin forms to use selected documentId
+
+### Phase 7: Admin Cheatsheet
+- [ ] Create client/src/components/MarkdownCheatsheet.tsx component
+- [ ] Add collapsible "?" help panel next to markdown editor in Admin
+- [ ] Include complete examples for each chart type (Gantt, Table, Bar, Pie, Line)
+- [ ] Add parameter reference table with descriptions and defaults
+- [ ] Add copy-paste template buttons
+- [ ] Include visual previews of chart types
+
+### Phase 8: Print Behavior
+- [ ] Update printAll function to only include visible tabs for current document
+- [ ] Ensure printTab works with current visible tab
+- [ ] Ensure printComments works with current document's comments
+- [ ] Test print functionality with different visibility configurations
+
+### Phase 9: Testing
+- [ ] Create test document with slug "test-001"
+- [ ] Test document creation, slug editing, password validation
+- [ ] Test tab visibility toggles
+- [ ] Test section visibility toggles (map, team, comments)
+- [ ] Test Notion chart embedding with all chart types
+- [ ] Test print behavior with partial tab visibility
+- [ ] Run all vitest tests
+- [ ] Save checkpoint
