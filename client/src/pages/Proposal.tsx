@@ -74,7 +74,7 @@ function ProposalContent() {
   const { data: tabs } = trpc.tabs.getAll.useQuery();
   const { data: teamMembers } = trpc.team.getAll.useQuery();
   const { data: projects } = trpc.projects.getAll.useQuery();
-  const { data: comments } = trpc.comments.getAll.useQuery();
+  const { data: comments } = trpc.commentsRouter.getAll.useQuery();
   const { data: mapsConfig } = trpc.settings.getGoogleMapsApiKey.useQuery();
   
   const utils = trpc.useUtils();
