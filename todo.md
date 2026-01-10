@@ -264,4 +264,20 @@
 - [x] Create test content for document "test-001" (documentId=2)
 - [x] Verify each document shows different content
 - [ ] Run vitest tests
+- [x] Save checkpoint
+
+## Phase 5: Admin Document Manager UI
+- [x] Read current Admin.tsx to understand structure
+- [x] Add document selector dropdown in Admin header showing all documents
+- [x] Add "New Document" button that opens dialog with form (slug, name, password)
+- [x] Wire up create document mutation to trpc.documents.create
+- [x] Add document switcher that updates current documentId in Admin state
+- [ ] Add slug editor in document settings section
+- [ ] Add password editor in document settings section
+- [ ] Add delete document button with confirmation dialog
+- [x] Update all Admin queries/mutations to use selected documentId
+- [x] Test creating new document from Admin
+- [x] Test switching between documents in Admin
+- [ ] Test editing slug and password
+- [ ] Test deleting document
 - [ ] Save checkpoint

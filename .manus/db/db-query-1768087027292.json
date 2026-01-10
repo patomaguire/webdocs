@@ -1,0 +1,34 @@
+{
+  "query": "SELECT * FROM documents ORDER BY createdAt DESC LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT * FROM documents ORDER BY createdAt DESC LIMIT 5;",
+  "rows": [
+    {
+      "id": "60002",
+      "slug": "acme-2025",
+      "name": "ACME Corporation Proposal 2025",
+      "password": "acme123",
+      "createdAt": "2026-01-10 23:16:23",
+      "updatedAt": "2026-01-10 23:16:23"
+    },
+    {
+      "id": "30002",
+      "slug": "test-001",
+      "name": "Test Document",
+      "password": "test123",
+      "createdAt": "2026-01-10 15:12:04",
+      "updatedAt": "2026-01-10 15:12:04"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "password": "demo2024",
+      "createdAt": "2026-01-10 10:36:11",
+      "updatedAt": "2026-01-10 15:11:31"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tslug\tname\tpassword\tcreatedAt\tupdatedAt\n60002\tacme-2025\tACME Corporation Proposal 2025\tacme123\t2026-01-10 23:16:23\t2026-01-10 23:16:23\n30002\ttest-001\tTest Document\ttest123\t2026-01-10 15:12:04\t2026-01-10 15:12:04\n1\tdefault\tDefault Proposal\tdemo2024\t2026-01-10 10:36:11\t2026-01-10 15:11:31\n",
+  "stderr": "",
+  "execution_time_ms": 87
+}

@@ -9,14 +9,167 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Loader2, Trash2, Plus } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { FileText } from "lucide-react";
+
+// ============= Document Selector Component =============
+function DocumentSelector({ selectedDocumentId, onDocumentChange }: { 
+  selectedDocumentId: number;
+  onDocumentChange: (id: number) => void;
+}) {
+  const { data: documents, isLoading } = trpc.documents.getAll.useQuery();
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [createForm, setCreateForm] = useState({ slug: "", name: "", password: "" });
+  const utils = trpc.useUtils();
+  
+  const createMutation = trpc.documents.create.useMutation({
+    onSuccess: (result) => {
+      toast.success("Document created successfully!");
+      utils.documents.getAll.invalidate();
+      setIsCreateDialogOpen(false);
+      setCreateForm({ slug: "", name: "", password: "" });
+      if (result.document) {
+        onDocumentChange(result.document.id);
+      }
+    },
+    onError: () => {
+      toast.error("Failed to create document");
+    },
+  });
+
+  const handleCreate = () => {
+    if (!createForm.slug || !createForm.name || !createForm.password) {
+      toast.error("All fields are required");
+      return;
+    }
+    createMutation.mutate(createForm);
+  };
+
+  const selectedDoc = documents?.find(d => d.id === selectedDocumentId);
+
+  return (
+    <Card className="mb-6">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <FileText className="w-5 h-5" />
+          Document Manager
+        </CardTitle>
+        <CardDescription>
+          Select a document to edit or create a new one
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="flex gap-4 items-end">
+          <div className="flex-1">
+            <Label>Current Document</Label>
+            <Select
+              value={selectedDocumentId.toString()}
+              onValueChange={(value) => onDocumentChange(Number(value))}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select document" />
+              </SelectTrigger>
+              <SelectContent>
+                {documents?.map((doc) => (
+                  <SelectItem key={doc.id} value={doc.id.toString()}>
+                    {doc.name} ({doc.slug})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                New Document
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Create New Document</DialogTitle>
+                <DialogDescription>
+                  Create a new proposal document with its own content and password
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div>
+                  <Label htmlFor="slug">Slug (URL identifier)</Label>
+                  <Input
+                    id="slug"
+                    placeholder="client-proposal-2024"
+                    value={createForm.slug}
+                    onChange={(e) => setCreateForm({ ...createForm, slug: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="name">Document Name</Label>
+                  <Input
+                    id="name"
+                    placeholder="Client Proposal 2024"
+                    value={createForm.name}
+                    onChange={(e) => setCreateForm({ ...createForm, name: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Enter password"
+                    value={createForm.password}
+                    onChange={(e) => setCreateForm({ ...createForm, password: e.target.value })}
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleCreate} disabled={createMutation.isPending}>
+                  {createMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                  Create
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
+
+        {selectedDoc && (
+          <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+            <div className="grid grid-cols-3 gap-4 text-sm">
+              <div>
+                <span className="font-semibold">Name:</span> {selectedDoc.name}
+              </div>
+              <div>
+                <span className="font-semibold">Slug:</span> {selectedDoc.slug}
+              </div>
+              <div>
+                <span className="font-semibold">URL:</span> /doc/{selectedDoc.slug}
+              </div>
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
 
 export default function Admin() {
   const [activeTab, setActiveTab] = useState("settings");
+  const [selectedDocumentId, setSelectedDocumentId] = useState<number>(1);
   
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto py-8">
         <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+        
+        <DocumentSelector 
+          selectedDocumentId={selectedDocumentId}
+          onDocumentChange={setSelectedDocumentId}
+        />
         
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-6">
@@ -29,27 +182,27 @@ export default function Admin() {
           </TabsList>
 
           <TabsContent value="settings">
-            <SettingsTab />
+            <SettingsTab documentId={selectedDocumentId} />
           </TabsContent>
 
           <TabsContent value="hero">
-            <HeroTab />
+            <HeroTab documentId={selectedDocumentId} />
           </TabsContent>
 
           <TabsContent value="tabs">
-            <TabsContentTab />
+            <TabsContentTab documentId={selectedDocumentId} />
           </TabsContent>
 
           <TabsContent value="team">
-            <TeamTab />
+            <TeamTab documentId={selectedDocumentId} />
           </TabsContent>
 
           <TabsContent value="projects">
-            <ProjectsTab />
+            <ProjectsTab documentId={selectedDocumentId} />
           </TabsContent>
 
           <TabsContent value="comments">
-            <CommentsTab />
+            <CommentsTab documentId={selectedDocumentId} />
           </TabsContent>
         </Tabs>
       </div>
@@ -58,8 +211,8 @@ export default function Admin() {
 }
 
 // ============= Settings Tab =============
-function SettingsTab() {
-  const { data: settings, isLoading } = trpc.settings.getAll.useQuery();
+function SettingsTab({ documentId }: { documentId: number }) {
+  const { data: settings, isLoading } = trpc.settings.getAll.useQuery({ documentId });
   const upsertMutation = trpc.settings.upsert.useMutation();
   
   const [formData, setFormData] = useState({
@@ -180,8 +333,8 @@ function SettingsTab() {
 }
 
 // ============= Hero Tab =============
-function HeroTab() {
-  const { data: hero, isLoading } = trpc.hero.get.useQuery();
+function HeroTab({ documentId }: { documentId: number }) {
+  const { data: hero, isLoading } = trpc.hero.get.useQuery({ documentId });
   const upsertMutation = trpc.hero.upsert.useMutation({
     onSuccess: () => {
       toast.success("Hero section updated!");
@@ -257,8 +410,8 @@ function HeroTab() {
 }
 
 // ============= Tabs Content Tab =============
-function TabsContentTab() {
-  const { data: tabs, isLoading, refetch } = trpc.tabs.getAll.useQuery();
+function TabsContentTab({ documentId }: { documentId: number }) {
+  const { data: tabs, isLoading, refetch } = trpc.tabs.getAll.useQuery({ documentId });
   const upsertMutation = trpc.tabs.upsert.useMutation({
     onSuccess: () => {
       toast.success("Tab updated!");
@@ -372,8 +525,8 @@ function TabsContentTab() {
 }
 
 // ============= Team Tab =============
-function TeamTab() {
-  const { data: members, isLoading, refetch } = trpc.team.getAll.useQuery();
+function TeamTab({ documentId }: { documentId: number }) {
+  const { data: members, isLoading, refetch } = trpc.team.getAll.useQuery({ documentId });
   const createMutation = trpc.team.create.useMutation({
     onSuccess: () => {
       toast.success("Team member added!");
@@ -575,8 +728,8 @@ function TeamTab() {
 }
 
 // ============= Projects Tab =============
-function ProjectsTab() {
-  const { data: projects, isLoading, refetch } = trpc.projects.getAll.useQuery();
+function ProjectsTab({ documentId }: { documentId: number }) {
+  const { data: projects, isLoading, refetch } = trpc.projects.getAll.useQuery({ documentId });
   const createMutation = trpc.projects.create.useMutation({
     onSuccess: () => {
       toast.success("Project added!");
@@ -836,8 +989,8 @@ function ProjectsTab() {
 }
 
 // ============= Comments Tab =============
-function CommentsTab() {
-  const { data: comments, isLoading, refetch } = trpc.commentsRouter.getAll.useQuery();
+function CommentsTab({ documentId }: { documentId: number }) {
+  const { data: comments, isLoading, refetch } = trpc.commentsRouter.getAll.useQuery({ documentId });
   const deleteMutation = trpc.commentsRouter.delete.useMutation({
     onSuccess: () => {
       toast.success("Comment deleted!");
