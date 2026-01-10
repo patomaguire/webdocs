@@ -8,6 +8,12 @@ import { ENV } from "./_core/env";
 // Default bid ID for single-tenant mode (will be replaced with dynamic bidId in multi-tenant mode)
 const DEFAULT_BID_ID = 1;
 import {
+  getAllBids,
+  getBidById,
+  getBidBySlug,
+  createBid,
+  updateBid,
+  deleteBid,
   getSetting,
   getAllSettings,
   upsertSetting,
@@ -228,6 +234,45 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {
         await deleteComment(input.id);
+        return { success: true };
+      }),
+  }),
+
+  // Bids router
+  bids: router({
+    getAll: publicProcedure.query(async () => await getAllBids()),
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => await getBidById(input.id)),
+    getBySlug: publicProcedure
+      .input(z.object({ slug: z.string() }))
+      .query(async ({ input }) => await getBidBySlug(input.slug)),
+    create: publicProcedure
+      .input(z.object({
+        name: z.string(),
+        slug: z.string(),
+        password: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const bid = await createBid(input);
+        return { success: true, bid };
+      }),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        slug: z.string().optional(),
+        password: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        await updateBid(id, data);
+        return { success: true };
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await deleteBid(input.id);
         return { success: true };
       }),
   }),

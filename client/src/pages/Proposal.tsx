@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,15 +7,48 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { renderContent } from "@/lib/markdown";
+import { useParams } from "wouter";
 
 export default function Proposal() {
+  const params = useParams<{ slug?: string }>();
+  const slug = params.slug || "default";
+  
+  // Fetch bid by slug
+  const { data: bid, isLoading: bidLoading } = trpc.bids.getBySlug.useQuery({ slug });
+  const bidId = bid?.id || 1; // Default to 1 if no bid found
+  
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
   const { data: storedPassword } = trpc.settings.get.useQuery({ key: "password" });
+  
+  if (bidLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
+  }
+  
+  if (!bid && slug !== "default") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-center">Proposal Not Found</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-center text-gray-600">The proposal "{slug}" does not exist.</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordInput === storedPassword) {
+    // Use bid-specific password if bid exists, otherwise use settings password
+    const correctPassword = bid?.password || storedPassword;
+    if (passwordInput === correctPassword) {
       setIsAuthenticated(true);
       toast.success("Access granted!");
     } else {
@@ -53,10 +86,10 @@ export default function Proposal() {
     );
   }
 
-  return <ProposalContent />;
+  return <ProposalContent bidId={bidId} />;
 }
 
-function ProposalContent() {
+function ProposalContent({ bidId }: { bidId: number }) {
   // Navigation
   const [activeTab, setActiveTab] = useState(0);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);

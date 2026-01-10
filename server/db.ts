@@ -3,6 +3,9 @@ import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
   users,
+  bids,
+  Bid,
+  InsertBid,
   proposalSettings,
   ProposalSetting,
   InsertProposalSetting,
@@ -427,5 +430,90 @@ export async function deleteComment(id: number): Promise<void> {
     await db.delete(comments).where(eq(comments.id, id));
   } catch (error) {
     console.error("[Database] Failed to delete comment:", error);
+  }
+}
+
+// ============= Bids Functions =============
+
+export async function getAllBids(): Promise<Bid[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  try {
+    return await db.select().from(bids).orderBy(desc(bids.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get all bids:", error);
+    return [];
+  }
+}
+
+export async function getBidById(id: number): Promise<Bid | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  try {
+    const result = await db.select().from(bids).where(eq(bids.id, id)).limit(1);
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to get bid by ID:", error);
+    return null;
+  }
+}
+
+export async function getBidBySlug(slug: string): Promise<Bid | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  try {
+    const result = await db.select().from(bids).where(eq(bids.slug, slug)).limit(1);
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to get bid by slug:", error);
+    return null;
+  }
+}
+
+export async function createBid(data: Omit<InsertBid, 'id' | 'createdAt' | 'updatedAt'>): Promise<Bid | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  try {
+    const result = await db.insert(bids).values(data);
+    const insertId = result[0].insertId;
+    return await getBidById(Number(insertId));
+  } catch (error) {
+    console.error("[Database] Failed to create bid:", error);
+    return null;
+  }
+}
+
+export async function updateBid(id: number, data: Partial<Omit<InsertBid, 'id' | 'createdAt' | 'updatedAt'>>): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  
+  try {
+    await db.update(bids).set(data).where(eq(bids.id, id));
+  } catch (error) {
+    console.error("[Database] Failed to update bid:", error);
+  }
+}
+
+export async function deleteBid(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  
+  try {
+    // Delete all related data first
+    await db.delete(proposalSettings).where(eq(proposalSettings.bidId, id));
+    await db.delete(heroSection).where(eq(heroSection.bidId, id));
+    await db.delete(tabsContent).where(eq(tabsContent.bidId, id));
+    await db.delete(teamMembers).where(eq(teamMembers.bidId, id));
+    await db.delete(projects).where(eq(projects.bidId, id));
+    await db.delete(comments).where(eq(comments.bidId, id));
+    
+    // Finally delete the bid itself
+    await db.delete(bids).where(eq(bids.id, id));
+  } catch (error) {
+    console.error("[Database] Failed to delete bid:", error);
   }
 }

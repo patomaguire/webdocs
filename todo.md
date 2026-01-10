@@ -175,3 +175,15 @@
 - [x] Fix TypeScript errors related to bidId requirements
 - [x] Run tests to verify multi-tenancy backend works
 - [x] Document bidId usage for future development
+
+## Phase 23 (Batch 3): Multi-Tenancy Frontend Updates
+- [x] Add bids router to server/routers.ts with CRUD operations (create, list, get by slug, update, delete)
+- [x] Add bid management functions to server/db.ts
+- [x] Update Proposal page to extract bid slug from URL path
+- [x] Update Proposal page to fetch bidId from slug and pass to all API calls
+- [ ] Update Admin page to show bid selector dropdown
+- [ ] Update Admin page to pass selected bidId to all API calls
+- [x] Test creating second bid and verifying data isolation
+- [ ] Test switching between bids in Admin interface
+- [ ] Write tests for bid CRUD operations
+- [x] Save checkpoint for Batch 3 completion
