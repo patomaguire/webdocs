@@ -79,12 +79,12 @@ function ProposalContent() {
   
   const utils = trpc.useUtils();
   
-  const addCommentMutation = trpc.comments.add.useMutation({
+  const addCommentMutation = trpc.commentsRouter.add.useMutation({
     onSuccess: () => {
       toast.success("Comment submitted!");
       setCommentForm({ authorName: "", authorEmail: "", commentText: "" });
       // Invalidate and refetch comments for current tab
-      utils.comments.getByTab.invalidate({ tabNumber: activeTab });
+      utils.commentsRouter.getByTab.invalidate({ tabNumber: activeTab });
     },
   });
 
@@ -231,7 +231,7 @@ function ProposalContent() {
     
     // Fetch all comments
     const allCommentsPromises = tabs?.map(async (tab) => {
-      const tabComments = await utils.comments.getByTab.fetch({ tabNumber: tab.tabNumber });
+      const tabComments = await utils.commentsRouter.getByTab.fetch({ tabNumber: tab.tabNumber });
       return { tab, comments: tabComments };
     }) || [];
     
