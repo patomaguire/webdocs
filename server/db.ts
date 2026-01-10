@@ -1,4 +1,4 @@
-import { eq, desc, asc, sql } from "drizzle-orm";
+import { eq, desc, asc, sql, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -128,12 +128,12 @@ export async function getSetting(key: string): Promise<string | null> {
   }
 }
 
-export async function getAllSettings(): Promise<ProposalSetting[]> {
+export async function getAllSettings(documentId: number = 1): Promise<ProposalSetting[]> {
   const db = await getDb();
   if (!db) return [];
   
   try {
-    return await db.select().from(proposalSettings);
+    return await db.select().from(proposalSettings).where(eq(proposalSettings.documentId, documentId));
   } catch (error) {
     console.error("[Database] Failed to get all settings:", error);
     return [];
@@ -155,12 +155,12 @@ export async function upsertSetting(key: string, value: string): Promise<void> {
 
 // ============= Hero Section Functions =============
 
-export async function getHeroSection(): Promise<HeroSection | null> {
+export async function getHeroSection(documentId: number = 1): Promise<HeroSection | null> {
   const db = await getDb();
   if (!db) return null;
   
   try {
-    const result = await db.select().from(heroSection).limit(1);
+    const result = await db.select().from(heroSection).where(eq(heroSection.documentId, documentId)).limit(1);
     return result.length > 0 ? result[0] : null;
   } catch (error) {
     console.error("[Database] Failed to get hero section:", error);
@@ -186,24 +186,26 @@ export async function upsertHeroSection(data: Omit<InsertHeroSection, 'id'>): Pr
 
 // ============= Tabs Content Functions =============
 
-export async function getAllTabs(): Promise<TabContent[]> {
+export async function getAllTabs(documentId: number = 1): Promise<TabContent[]> {
   const db = await getDb();
   if (!db) return [];
   
   try {
-    return await db.select().from(tabsContent).orderBy(asc(tabsContent.tabNumber));
+    return await db.select().from(tabsContent).where(eq(tabsContent.documentId, documentId)).orderBy(asc(tabsContent.tabNumber));
   } catch (error) {
     console.error("[Database] Failed to get all tabs:", error);
     return [];
   }
 }
 
-export async function getTabByNumber(tabNumber: number): Promise<TabContent | null> {
+export async function getTabByNumber(tabNumber: number, documentId: number = 1): Promise<TabContent | null> {
   const db = await getDb();
   if (!db) return null;
   
   try {
-    const result = await db.select().from(tabsContent).where(eq(tabsContent.tabNumber, tabNumber)).limit(1);
+    const result = await db.select().from(tabsContent)
+      .where(and(eq(tabsContent.tabNumber, tabNumber), eq(tabsContent.documentId, documentId)))
+      .limit(1);
     return result.length > 0 ? result[0] : null;
   } catch (error) {
     console.error("[Database] Failed to get tab:", error);
@@ -232,12 +234,12 @@ export async function upsertTab(data: Omit<InsertTabContent, 'id'>): Promise<voi
 
 // ============= Team Members Functions =============
 
-export async function getAllTeamMembers(): Promise<TeamMember[]> {
+export async function getAllTeamMembers(documentId: number = 1): Promise<TeamMember[]> {
   const db = await getDb();
   if (!db) return [];
   
   try {
-    return await db.select().from(teamMembers).orderBy(asc(teamMembers.sortOrder));
+    return await db.select().from(teamMembers).where(eq(teamMembers.documentId, documentId)).orderBy(asc(teamMembers.sortOrder));
   } catch (error) {
     console.error("[Database] Failed to get team members:", error);
     return [];
@@ -295,12 +297,12 @@ export async function deleteTeamMember(id: number): Promise<void> {
 
 // ============= Projects Functions =============
 
-export async function getAllProjects(): Promise<Project[]> {
+export async function getAllProjects(documentId: number = 1): Promise<Project[]> {
   const db = await getDb();
   if (!db) return [];
   
   try {
-    return await db.select().from(projects).orderBy(asc(projects.sortOrder));
+    return await db.select().from(projects).where(eq(projects.documentId, documentId)).orderBy(asc(projects.sortOrder));
   } catch (error) {
     console.error("[Database] Failed to get projects:", error);
     return [];
@@ -373,24 +375,26 @@ export async function addComment(data: Omit<InsertComment, 'id' | 'createdAt'>):
   }
 }
 
-export async function getCommentsByTab(tabNumber: number): Promise<Comment[]> {
+export async function getCommentsByTab(tabNumber: number, documentId: number = 1): Promise<Comment[]> {
   const db = await getDb();
   if (!db) return [];
   
   try {
-    return await db.select().from(comments).where(eq(comments.tabNumber, tabNumber)).orderBy(desc(comments.createdAt));
+    return await db.select().from(comments)
+      .where(and(eq(comments.tabNumber, tabNumber), eq(comments.documentId, documentId)))
+      .orderBy(desc(comments.createdAt));
   } catch (error) {
     console.error("[Database] Failed to get comments by tab:", error);
     return [];
   }
 }
 
-export async function getAllComments(): Promise<Comment[]> {
+export async function getAllComments(documentId: number = 1): Promise<Comment[]> {
   const db = await getDb();
   if (!db) return [];
   
   try {
-    return await db.select().from(comments).orderBy(desc(comments.createdAt));
+    return await db.select().from(comments).where(eq(comments.documentId, documentId)).orderBy(desc(comments.createdAt));
   } catch (error) {
     console.error("[Database] Failed to get all comments:", error);
     return [];

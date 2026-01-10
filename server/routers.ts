@@ -52,7 +52,9 @@ export const appRouter = router({
 
   // Settings router
   settings: router({
-    getAll: publicProcedure.query(async () => await getAllSettings()),
+    getAll: publicProcedure
+      .input(z.object({ documentId: z.number() }).optional())
+      .query(async ({ input }) => await getAllSettings(input?.documentId ?? 1)),
     getGoogleMapsApiKey: publicProcedure.query(() => {
       return { apiKey: ENV.googleMapsApiKey };
     }),
@@ -69,7 +71,9 @@ export const appRouter = router({
 
   // Hero section router
   hero: router({
-    get: publicProcedure.query(async () => await getHeroSection()),
+    get: publicProcedure
+      .input(z.object({ documentId: z.number() }).optional())
+      .query(async ({ input }) => await getHeroSection(input?.documentId ?? 1)),
     upsert: publicProcedure
       .input(z.object({
         mainTitle: z.string(),
@@ -84,10 +88,12 @@ export const appRouter = router({
 
   // Tabs content router
   tabs: router({
-    getAll: publicProcedure.query(async () => await getAllTabs()),
+    getAll: publicProcedure
+      .input(z.object({ documentId: z.number() }).optional())
+      .query(async ({ input }) => await getAllTabs(input?.documentId ?? 1)),
     getByNumber: publicProcedure
-      .input(z.object({ tabNumber: z.number() }))
-      .query(async ({ input }) => await getTabByNumber(input.tabNumber)),
+      .input(z.object({ tabNumber: z.number(), documentId: z.number().optional() }))
+      .query(async ({ input }) => await getTabByNumber(input.tabNumber, input.documentId ?? 1)),
     upsert: publicProcedure
       .input(z.object({
         tabNumber: z.number(),
@@ -103,7 +109,9 @@ export const appRouter = router({
 
   // Team members router
   team: router({
-    getAll: publicProcedure.query(async () => await getAllTeamMembers()),
+    getAll: publicProcedure
+      .input(z.object({ documentId: z.number() }).optional())
+      .query(async ({ input }) => await getAllTeamMembers(input?.documentId ?? 1)),
     get: publicProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ input }) => await getTeamMember(input.id)),
@@ -149,7 +157,9 @@ export const appRouter = router({
 
   // Projects router
   projects: router({
-    getAll: publicProcedure.query(async () => await getAllProjects()),
+    getAll: publicProcedure
+      .input(z.object({ documentId: z.number() }).optional())
+      .query(async ({ input }) => await getAllProjects(input?.documentId ?? 1)),
     get: publicProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ input }) => await getProject(input.id)),
@@ -254,9 +264,11 @@ export const appRouter = router({
         return { success: true, comment };
       }),
     getByTab: publicProcedure
-      .input(z.object({ tabNumber: z.number() }))
-      .query(async ({ input }) => await getCommentsByTab(input.tabNumber)),
-    getAll: publicProcedure.query(async () => await getAllComments()),
+      .input(z.object({ tabNumber: z.number(), documentId: z.number().optional() }))
+      .query(async ({ input }) => await getCommentsByTab(input.tabNumber, input.documentId ?? 1)),
+    getAll: publicProcedure
+      .input(z.object({ documentId: z.number() }).optional())
+      .query(async ({ input }) => await getAllComments(input?.documentId ?? 1)),
     markAsRead: publicProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {

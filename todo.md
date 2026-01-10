@@ -246,3 +246,22 @@
 - [x] Test /doc/default route works
 - [x] Create test document with slug "test-001" and verify access
 - [x] Save checkpoint
+
+## Phase 4: Database Layer Update for Multi-Document Support
+- [x] Update getAllSettings to accept and filter by documentId
+- [x] Update getHeroSection to accept and filter by documentId
+- [x] Update getAllTabs to accept and filter by documentId
+- [x] Update getTabByNumber to accept and filter by documentId
+- [x] Update getAllTeamMembers to accept and filter by documentId
+- [x] Update getAllProjects to accept and filter by documentId
+- [x] Update getCommentsByTab to accept and filter by documentId
+- [x] Update getAllComments to accept and filter by documentId
+- [x] Update all upsert/create functions to include documentId in inserts
+- [x] Update server/routers.ts to accept documentId in input schemas
+- [x] Update server/routers.ts to pass documentId to database functions
+- [x] Update client/src/pages/Proposal.tsx to pass documentId to all queries
+- [x] Test with document "default" (documentId=1)
+- [x] Create test content for document "test-001" (documentId=2)
+- [x] Verify each document shows different content
+- [ ] Run vitest tests
+- [ ] Save checkpoint

@@ -76,12 +76,12 @@ function ProposalContent({ documentId }: { documentId: number }) {
   const mapRef = useRef<HTMLDivElement>(null);
   
   // Data queries
-  const { data: settings } = trpc.settings.getAll.useQuery();
-  const { data: hero } = trpc.hero.get.useQuery();
-  const { data: tabs } = trpc.tabs.getAll.useQuery();
-  const { data: teamMembers } = trpc.team.getAll.useQuery();
-  const { data: projects } = trpc.projects.getAll.useQuery();
-  const { data: comments } = trpc.commentsRouter.getAll.useQuery();
+  const { data: settings } = trpc.settings.getAll.useQuery({ documentId });
+  const { data: hero } = trpc.hero.get.useQuery({ documentId });
+  const { data: tabs } = trpc.tabs.getAll.useQuery({ documentId });
+  const { data: teamMembers } = trpc.team.getAll.useQuery({ documentId });
+  const { data: projects } = trpc.projects.getAll.useQuery({ documentId });
+  const { data: comments } = trpc.commentsRouter.getAll.useQuery({ documentId });
   const { data: mapsConfig } = trpc.settings.getGoogleMapsApiKey.useQuery();
   
   const utils = trpc.useUtils();
