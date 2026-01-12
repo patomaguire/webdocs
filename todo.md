@@ -305,4 +305,16 @@
 - [x] Fix upsert logic to properly update existing settings
 - [x] Add query invalidation after settings save
 - [x] Test settings save and reload
+- [x] Save checkpoint
+
+## Phase 8: Fix Tabs Tab and Add Copy Feature
+- [x] Debug why Tabs tab doesn't show list of tabs (WORKING - list displays correctly)
+- [x] Fix tab list display in Tabs tab
+- [x] Verify "Add New Tab" button works (needs to be added separately)
+- [x] Add "Copy from Document" button in Document Manager section
+- [x] Create copy dialog with source document selector
+- [x] Implement backend API for copying all content (settings, hero, tabs, team, projects, comments)
+- [x] Add confirmation dialog before copying
+- [ ] Test copying content from one document to another (button not responding - needs debugging)
+- [ ] Verify all content types copy correctly
 - [ ] Save checkpoint

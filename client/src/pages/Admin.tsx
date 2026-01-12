@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Loader2, Trash2, Plus } from "lucide-react";
+import { Loader2, Trash2, Plus, Copy } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -15,14 +15,13 @@ import { FileText } from "lucide-react";
 import { marked } from "marked";
 
 // ============= Document Selector Component =============
-function DocumentSelector({ selectedDocumentId, onDocumentChange }: { 
-  selectedDocumentId: number;
-  onDocumentChange: (id: number) => void;
-}) {
-  const { data: documents, isLoading } = trpc.documents.getAll.useQuery();
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [createForm, setCreateForm] = useState({ slug: "", name: "", password: "" });
+function DocumentSelector({ selectedDocumentId, onDocumentChange }: DocumentSelectorProps) {
   const utils = trpc.useUtils();
+  const { data: documents } = trpc.documents.getAll.useQuery();
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isCopyDialogOpen, setIsCopyDialogOpen] = useState(false);
+  const [createForm, setCreateForm] = useState({ slug: "", name: "", password: "" });
+  const [sourceDocumentId, setSourceDocumentId] = useState<number | null>(null);
   
   const createMutation = trpc.documents.create.useMutation({
     onSuccess: (result) => {
@@ -39,12 +38,39 @@ function DocumentSelector({ selectedDocumentId, onDocumentChange }: {
     },
   });
 
+  const copyMutation = trpc.documents.copyContent.useMutation({
+    onSuccess: () => {
+      toast.success("Content copied successfully!");
+      utils.settings.getAll.invalidate();
+      utils.hero.get.invalidate();
+      utils.tabs.getAll.invalidate();
+      utils.team.getAll.invalidate();
+      utils.projects.getAll.invalidate();
+      setIsCopyDialogOpen(false);
+      setSourceDocumentId(null);
+    },
+    onError: () => {
+      toast.error("Failed to copy content");
+    },
+  });
+
   const handleCreate = () => {
     if (!createForm.slug || !createForm.name || !createForm.password) {
       toast.error("All fields are required");
       return;
     }
     createMutation.mutate(createForm);
+  };
+
+  const handleCopy = () => {
+    if (!sourceDocumentId) {
+      toast.error("Please select a source document");
+      return;
+    }
+    copyMutation.mutate({
+      sourceDocumentId,
+      targetDocumentId: selectedDocumentId,
+    });
   };
 
   const selectedDoc = documents?.find(d => d.id === selectedDocumentId);
@@ -80,6 +106,11 @@ function DocumentSelector({ selectedDocumentId, onDocumentChange }: {
               </SelectContent>
             </Select>
           </div>
+
+          <Button onClick={() => setIsCopyDialogOpen(true)}>
+            <Copy className="w-4 h-4 mr-2" />
+            Copy from Document
+          </Button>
 
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
@@ -132,6 +163,44 @@ function DocumentSelector({ selectedDocumentId, onDocumentChange }: {
                 <Button onClick={handleCreate} disabled={createMutation.isPending}>
                   {createMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                   Create
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={isCopyDialogOpen} onOpenChange={setIsCopyDialogOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Copy Content from Another Document</DialogTitle>
+                <DialogDescription>
+                  This will copy all content (settings, hero, tabs, team, projects, comments) from the selected document to "{selectedDoc?.name}". This action cannot be undone.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="py-4">
+                <Label htmlFor="source-doc">Source Document</Label>
+                <Select
+                  value={sourceDocumentId?.toString() || ""}
+                  onValueChange={(value) => setSourceDocumentId(Number(value))}
+                >
+                  <SelectTrigger id="source-doc">
+                    <SelectValue placeholder="Select document to copy from" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {documents?.filter(d => d.id !== selectedDocumentId).map((doc) => (
+                      <SelectItem key={doc.id} value={doc.id.toString()}>
+                        {doc.name} ({doc.slug})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setIsCopyDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleCopy} disabled={copyMutation.isPending}>
+                  {copyMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                  Copy Content
                 </Button>
               </DialogFooter>
             </DialogContent>

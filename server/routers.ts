@@ -34,6 +34,7 @@ import {
   getAllComments,
   markCommentAsRead,
   deleteComment,
+  copyDocumentContent,
 } from "./db";
 
 export const appRouter = router({
@@ -245,6 +246,15 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {
         await deleteDocument(input.id);
+        return { success: true };
+      }),
+    copyContent: publicProcedure
+      .input(z.object({
+        sourceDocumentId: z.number(),
+        targetDocumentId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        await copyDocumentContent(input.sourceDocumentId, input.targetDocumentId);
         return { success: true };
       }),
   }),

@@ -474,3 +474,100 @@ export async function deleteDocument(id: number): Promise<boolean> {
   await db.delete(documents).where(eq(documents.id, id));
   return true;
 }
+
+/**
+ * Copy all content from source document to target document
+ */
+export async function copyDocumentContent(sourceDocumentId: number, targetDocumentId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // Copy settings
+  const sourceSettings = await getAllSettings(sourceDocumentId);
+  for (const setting of sourceSettings) {
+    await upsertSetting(setting.settingKey, setting.settingValue || "", targetDocumentId);
+  }
+
+  // Copy hero section
+  const sourceHero = await getHeroSection(sourceDocumentId);
+  if (sourceHero) {
+    await upsertHeroSection({
+      documentId: targetDocumentId,
+      mainTitle: sourceHero.mainTitle || "",
+      subtitle: sourceHero.subtitle || "",
+      stampText: sourceHero.stampText || "",
+    });
+  }
+
+  // Copy tabs
+  const sourceTabs = await getAllTabs(sourceDocumentId);
+  for (const tab of sourceTabs) {
+    await upsertTab({
+      documentId: targetDocumentId,
+      tabNumber: tab.tabNumber,
+      tabTitle: tab.tabTitle || "",
+      htmlContent: tab.htmlContent || "",
+      isVisible: tab.isVisible,
+    });
+  }
+
+  // Copy team members
+  const sourceTeam = await getAllTeamMembers(sourceDocumentId);
+  for (const member of sourceTeam) {
+    await db.insert(teamMembers).values({
+      documentId: targetDocumentId,
+      name: member.name,
+      role: member.role,
+      photoUrl: member.photoUrl,
+      linkedin: member.linkedin,
+      email: member.email,
+      phone: member.phone,
+      bio: member.bio,
+      expertise: member.expertise,
+      yearsExperience: member.yearsExperience,
+      education: member.education,
+      certifications: member.certifications,
+      sortOrder: member.sortOrder,
+    });
+  }
+
+  // Copy projects
+  const sourceProjects = await getAllProjects(sourceDocumentId);
+  for (const project of sourceProjects) {
+    await db.insert(projects).values({
+      documentId: targetDocumentId,
+      projectName: project.projectName,
+      clientName: project.clientName,
+      year: project.year,
+      duration: project.duration,
+      budget: project.budget,
+      description: project.description,
+      role: project.role,
+      technologies: project.technologies,
+      outcomes: project.outcomes,
+      challenges: project.challenges,
+      testimonial: project.testimonial,
+      testimonialAuthor: project.testimonialAuthor,
+      imageUrl: project.imageUrl,
+      caseStudyUrl: project.caseStudyUrl,
+      tags: project.tags,
+      sortOrder: project.sortOrder,
+    });
+  }
+
+  // Copy comments
+  const sourceComments = await getAllComments(sourceDocumentId);
+  for (const comment of sourceComments) {
+    await db.insert(comments).values({
+      documentId: targetDocumentId,
+      tabNumber: comment.tabNumber,
+      tabName: comment.tabName,
+      authorName: comment.authorName,
+      authorEmail: comment.authorEmail,
+      commentText: comment.commentText,
+      isRead: false, // Reset read status for new document
+    });
+  }
+
+  return { success: true };
+}
