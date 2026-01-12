@@ -258,7 +258,7 @@ export default function Admin() {
   }, []);
   
   const handlePasswordSubmit = () => {
-    if (adminPassword === "MproWebAdmin076") {
+    if (adminPassword === "M2proWebAdmin076") {
       setIsAdminAuthenticated(true);
       setShowPasswordDialog(false);
       localStorage.setItem("adminPasswordVerified", "true");
