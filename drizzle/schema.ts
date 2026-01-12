@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean, unique } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean, unique, uniqueIndex } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -81,7 +81,9 @@ export const tabsContent = mysqlTable("tabs_content", {
   backgroundValue: text("backgroundValue"), // Hex color or image URL
   isVisible: boolean("isVisible").default(true).notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  uniqueDocumentTab: uniqueIndex("unique_document_tab").on(table.documentId, table.tabNumber),
+}));
 
 export type TabContent = typeof tabsContent.$inferSelect;
 export type InsertTabContent = typeof tabsContent.$inferInsert;

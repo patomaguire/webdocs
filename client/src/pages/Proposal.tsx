@@ -481,7 +481,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                 </svg>
-                {language === "en" ? "Who we are" : "Quiénes somos"}
+                Tab A: {language === "en" ? "Who we are" : "Quiénes somos"}
               </button>
               <button
                 onClick={() => setActiveTab(11)}
@@ -492,7 +492,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                   <circle cx="12" cy="10" r="3"/>
                 </svg>
-                {language === "en" ? "Experience map" : "Mapa de experiencia"}
+                Tab B: {language === "en" ? "Experience map" : "Mapa de experiencia"}
               </button>
             </div>
           </div>
@@ -527,7 +527,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   backgroundColor: activeTab === tab.tabNumber ? primaryColor : undefined,
                 }}
               >
-                {tab.tabNumber}. {tab.tabTitle}
+                {tab.tabTitle}
               </button>
             ))}
           </div>
@@ -559,7 +559,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     backgroundColor: activeTab === tab.tabNumber ? primaryColor : undefined,
                   }}
                 >
-                  {tab.tabNumber}. {tab.tabTitle}
+                  {tab.tabTitle}
                 </button>
               ))}
             </div>
@@ -589,7 +589,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     backgroundColor: activeTab === tab.tabNumber ? primaryColor : undefined,
                   }}
                 >
-                  {tab.tabNumber}. {tab.tabTitle}
+                  {tab.tabTitle}
                 </button>
               ))}
             </div>

@@ -1,0 +1,9 @@
+{
+  "query": "DELETE t1 FROM tabs_content t1 INNER JOIN tabs_content t2 WHERE t1.documentId = t2.documentId AND t1.tabNumber = t2.tabNumber AND t1.id > t2.id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute DELETE t1 FROM tabs_content t1 INNER JOIN tabs_content t2 WHERE t1.documentId = t2.documentId AND t1.tabNumber = t2.tabNumber AND t1.id > t2.id;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 57
+}

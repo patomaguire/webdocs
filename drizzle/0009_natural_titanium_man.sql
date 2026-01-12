@@ -1,0 +1,1 @@
+ALTER TABLE `tabs_content` ADD CONSTRAINT `unique_document_tab` UNIQUE(`documentId`,`tabNumber`);

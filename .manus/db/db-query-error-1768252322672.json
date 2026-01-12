@@ -1,0 +1,8 @@
+{
+  "query": "CREATE UNIQUE INDEX unique_document_tab ON tabs_content(documentId, tabNumber);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute CREATE UNIQUE INDEX unique_document_tab ON tabs_content(documentId, tabNumber);",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1062 (23000) at line 1: Duplicate entry '?' for key 'tabs_content.unique_document_tab'"
+  ]
+}

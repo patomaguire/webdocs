@@ -166,6 +166,47 @@ export const appRouter = router({
         await deleteTeamMember(input.id);
         return { success: true };
       }),
+    importFromNotion: publicProcedure
+      .input(z.object({
+        databaseId: z.string(),
+        documentId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        const { fetchNotionDatabase, validateTeamMemberFields, parseNotionTeamMembers } = await import('./notion');
+        
+        // Fetch Notion database
+        const notionData = await fetchNotionDatabase(input.databaseId);
+        
+        // Validate fields
+        const validation = validateTeamMemberFields(notionData);
+        if (!validation.valid) {
+          return {
+            success: false,
+            error: `Missing required fields: ${validation.missingFields.join(', ')}`,
+            availableFields: validation.availableFields,
+          };
+        }
+        
+        // Parse and import
+        const members = parseNotionTeamMembers(notionData);
+        
+        if (members.length === 0) {
+          return {
+            success: false,
+            error: 'No team members found in Notion database',
+          };
+        }
+        
+        // Bulk insert
+        for (const member of members) {
+          await createTeamMember({ ...member, documentId: input.documentId });
+        }
+        
+        return {
+          success: true,
+          imported: members.length,
+        };
+      }),
   }),
 
   // Projects router
@@ -223,6 +264,47 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         await deleteProject(input.id);
         return { success: true };
+      }),
+    importFromNotion: publicProcedure
+      .input(z.object({
+        databaseId: z.string(),
+        documentId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        const { fetchNotionDatabase, validateProjectFields, parseNotionProjects } = await import('./notion');
+        
+        // Fetch Notion database
+        const notionData = await fetchNotionDatabase(input.databaseId);
+        
+        // Validate fields
+        const validation = validateProjectFields(notionData);
+        if (!validation.valid) {
+          return {
+            success: false,
+            error: `Missing required fields: ${validation.missingFields.join(', ')}`,
+            availableFields: validation.availableFields,
+          };
+        }
+        
+        // Parse and import
+        const projects = parseNotionProjects(notionData);
+        
+        if (projects.length === 0) {
+          return {
+            success: false,
+            error: 'No projects found in Notion database',
+          };
+        }
+        
+        // Bulk insert
+        for (const project of projects) {
+          await createProject({ ...project, documentId: input.documentId });
+        }
+        
+        return {
+          success: true,
+          imported: projects.length,
+        };
       }),
   }),
 

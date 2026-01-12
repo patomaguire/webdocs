@@ -1,0 +1,24 @@
+{
+  "query": "SELECT id, documentId, tabNumber, tabTitle, isVisible FROM tabs_content WHERE documentId = 1 AND tabNumber = 1 ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, documentId, tabNumber, tabTitle, isVisible FROM tabs_content WHERE documentId = 1 AND tabNumber = 1 ORDER BY id;",
+  "rows": [
+    {
+      "id": "2",
+      "documentId": "1",
+      "tabNumber": "1",
+      "tabTitle": "Executive Summary",
+      "isVisible": "1"
+    },
+    {
+      "id": "210001",
+      "documentId": "1",
+      "tabNumber": "1",
+      "tabTitle": "Executive Summary",
+      "isVisible": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tdocumentId\ttabNumber\ttabTitle\tisVisible\n2\t1\t1\tExecutive Summary\t1\n210001\t1\t1\tExecutive Summary\t0\n",
+  "stderr": "",
+  "execution_time_ms": 67
+}

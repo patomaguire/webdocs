@@ -1,0 +1,274 @@
+{
+  "query": "SELECT id, documentId, tabNumber, tabTitle FROM tabs_content WHERE (documentId, tabNumber) IN (SELECT documentId, tabNumber FROM tabs_content GROUP BY documentId, tabNumber HAVING COUNT(*) > 1) ORDER BY documentId, tabNumber, id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, documentId, tabNumber, tabTitle FROM tabs_content WHERE (documentId, tabNumber) IN (SELECT documentId, tabNumber FROM tabs_content GROUP BY documentId, tabNumber HAVING COUNT(*) > 1) ORDER BY documentId, tabNumber, id;",
+  "rows": [
+    {
+      "id": "180013",
+      "documentId": "30002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "180014",
+      "documentId": "30002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "180015",
+      "documentId": "30002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "180016",
+      "documentId": "30002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "180017",
+      "documentId": "30002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150018",
+      "documentId": "60002",
+      "tabNumber": "0",
+      "tabTitle": "Who We Are"
+    },
+    {
+      "id": "150035",
+      "documentId": "60002",
+      "tabNumber": "0",
+      "tabTitle": "Who We Are"
+    },
+    {
+      "id": "150019",
+      "documentId": "60002",
+      "tabNumber": "1",
+      "tabTitle": "Executive Summary"
+    },
+    {
+      "id": "150036",
+      "documentId": "60002",
+      "tabNumber": "1",
+      "tabTitle": "Executive Summary"
+    },
+    {
+      "id": "150020",
+      "documentId": "60002",
+      "tabNumber": "2",
+      "tabTitle": "Background"
+    },
+    {
+      "id": "150037",
+      "documentId": "60002",
+      "tabNumber": "2",
+      "tabTitle": "Background"
+    },
+    {
+      "id": "150021",
+      "documentId": "60002",
+      "tabNumber": "3",
+      "tabTitle": "Scope"
+    },
+    {
+      "id": "150038",
+      "documentId": "60002",
+      "tabNumber": "3",
+      "tabTitle": "Scope"
+    },
+    {
+      "id": "150022",
+      "documentId": "60002",
+      "tabNumber": "4",
+      "tabTitle": "Approach"
+    },
+    {
+      "id": "150039",
+      "documentId": "60002",
+      "tabNumber": "4",
+      "tabTitle": "Approach"
+    },
+    {
+      "id": "150023",
+      "documentId": "60002",
+      "tabNumber": "5",
+      "tabTitle": "Schedule"
+    },
+    {
+      "id": "150040",
+      "documentId": "60002",
+      "tabNumber": "5",
+      "tabTitle": "Schedule"
+    },
+    {
+      "id": "150024",
+      "documentId": "60002",
+      "tabNumber": "6",
+      "tabTitle": "Deliverables"
+    },
+    {
+      "id": "150041",
+      "documentId": "60002",
+      "tabNumber": "6",
+      "tabTitle": "Deliverables"
+    },
+    {
+      "id": "150025",
+      "documentId": "60002",
+      "tabNumber": "7",
+      "tabTitle": "Requirements"
+    },
+    {
+      "id": "150042",
+      "documentId": "60002",
+      "tabNumber": "7",
+      "tabTitle": "Requirements"
+    },
+    {
+      "id": "150026",
+      "documentId": "60002",
+      "tabNumber": "8",
+      "tabTitle": "Team"
+    },
+    {
+      "id": "150043",
+      "documentId": "60002",
+      "tabNumber": "8",
+      "tabTitle": "Team"
+    },
+    {
+      "id": "150027",
+      "documentId": "60002",
+      "tabNumber": "9",
+      "tabTitle": "Assumptions"
+    },
+    {
+      "id": "150044",
+      "documentId": "60002",
+      "tabNumber": "9",
+      "tabTitle": "Assumptions"
+    },
+    {
+      "id": "150028",
+      "documentId": "60002",
+      "tabNumber": "10",
+      "tabTitle": "Commercial"
+    },
+    {
+      "id": "150045",
+      "documentId": "60002",
+      "tabNumber": "10",
+      "tabTitle": "Commercial"
+    },
+    {
+      "id": "150029",
+      "documentId": "60002",
+      "tabNumber": "11",
+      "tabTitle": "Experience Map"
+    },
+    {
+      "id": "150046",
+      "documentId": "60002",
+      "tabNumber": "11",
+      "tabTitle": "Experience Map"
+    },
+    {
+      "id": "150030",
+      "documentId": "60002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150031",
+      "documentId": "60002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150032",
+      "documentId": "60002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150033",
+      "documentId": "60002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150034",
+      "documentId": "60002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150047",
+      "documentId": "60002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150048",
+      "documentId": "60002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150049",
+      "documentId": "60002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150050",
+      "documentId": "60002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150051",
+      "documentId": "60002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150013",
+      "documentId": "90002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150014",
+      "documentId": "90002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150015",
+      "documentId": "90002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150016",
+      "documentId": "90002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    },
+    {
+      "id": "150017",
+      "documentId": "90002",
+      "tabNumber": "99",
+      "tabTitle": "Test Tab"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tdocumentId\ttabNumber\ttabTitle\n180013\t30002\t99\tTest Tab\n180014\t30002\t99\tTest Tab\n180015\t30002\t99\tTest Tab\n180016\t30002\t99\tTest Tab\n180017\t30002\t99\tTest Tab\n150018\t60002\t0\tWho We Are\n150035\t60002\t0\tWho We Are\n150019\t60002\t1\tExecutive Summary\n150036\t60002\t1\tExecutive Summary\n150020\t60002\t2\tBackground\n150037\t60002\t2\tBackground\n150021\t60002\t3\tScope\n150038\t60002\t3\tScope\n150022\t60002\t4\tApproach\n150039\t60002\t4\tApproach\n150023\t60002\t5\tSchedule\n150040\t60002\t5\tSchedule\n150024\t60002\t6\tDeliverables\n150041\t60002\t6\tDeliverables\n150025\t60002\t7\tRequirements\n150042\t60002\t7\tRequirements\n150026\t60002\t8\tTeam\n150043\t60002\t8\tTeam\n150027\t60002\t9\tAssumptions\n150044\t60002\t9\tAssumptions\n150028\t60002\t10\tCommercial\n150045\t60002\t10\tCommercial\n150029\t60002\t11\tExperience Map\n150046\t60002\t11\tExperience Map\n150030\t60002\t99\tTest Tab\n150031\t60002\t99\tTest Tab\n150032\t60002\t99\tTest Tab\n150033\t60002\t99\tTest Tab\n150034\t60002\t99\tTest Tab\n150047\t60002\t99\tTest Tab\n150048\t60002\t99\tTest Tab\n150049\t60002\t99\tTest Tab\n150050\t60002\t99\tTest Tab\n150051\t60002\t99\tTest Tab\n150013\t90002\t99\tTest Tab\n150014\t90002\t99\tTest Tab\n150015\t90002\t99\tTest Tab\n150016\t90002\t99\tTest Tab\n150017\t90002\t99\tTest Tab\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

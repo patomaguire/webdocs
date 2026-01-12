@@ -380,3 +380,18 @@
 - [x] Test password persists after page reload
 - [x] Test updated password works on proposal page
 - [x] Save checkpoint
+
+## Phase 13: Tab Visibility & Numbering Fixes
+- [ ] Fix tab visibility toggle persistence (currently doesn't save state)
+- [ ] Update "Who we are" section to show "Tab A" instead of "0"
+- [ ] Update "Experience map" section to show "Tab B" instead of "11"
+- [ ] Remove numbers from custom tabs (1-10), show only editable titles
+- [ ] Test visibility toggle saves correctly to database
+- [ ] Verify tab labels display correctly in Admin and Proposal page
+
+- [ ] Add "Import from Notion" button to Team tab in Admin
+- [ ] Add "Import from Notion" button to Projects tab in Admin
+- [ ] Create Notion import dialog with database URL input
+- [ ] Implement Notion MCP integration for team members import
+- [ ] Implement Notion MCP integration for projects import
+- [ ] Test Notion import functionality

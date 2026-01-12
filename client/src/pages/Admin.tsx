@@ -601,6 +601,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
   const handleSave = () => {
     if (selectedTab !== null) {
       upsertMutation.mutate({
+        documentId,
         tabNumber: selectedTab,
         ...formData,
       });
@@ -634,7 +635,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 className="w-full justify-start"
                 onClick={() => handleSelectTab(tab.tabNumber)}
               >
-                Tab {tab.tabNumber}: {tab.tabTitle}
+                {tab.tabNumber === 0 ? 'Tab A' : tab.tabNumber === 11 ? 'Tab B' : tab.tabTitle}
               </Button>
             ))}
           </div>
@@ -744,6 +745,7 @@ function TeamTab({ documentId }: { documentId: number }) {
 
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [showNotionDialog, setShowNotionDialog] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     title: "",
@@ -753,6 +755,36 @@ function TeamTab({ documentId }: { documentId: number }) {
     keySkills: "",
     sortOrder: 0,
   });
+  
+  const [notionDbId, setNotionDbId] = useState('');
+  const [importingFromNotion, setImportingFromNotion] = useState(false);
+  
+  const importFromNotionMutation = trpc.team.importFromNotion.useMutation({
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success(`Successfully imported ${data.imported} team members!`);
+        refetch();
+        setShowNotionDialog(false);
+        setNotionDbId('');
+      } else {
+        toast.error(data.error || 'Import failed');
+        if (data.availableFields) {
+          toast.info(`Available fields in Notion: ${data.availableFields.join(', ')}`);
+        }
+      }
+      setImportingFromNotion(false);
+    },
+    onError: (error) => {
+      toast.error(`Import failed: ${error.message}`);
+      setImportingFromNotion(false);
+    },
+  });
+  
+  const handleNotionImport = () => {
+    if (!notionDbId) return;
+    setImportingFromNotion(true);
+    importFromNotionMutation.mutate({ databaseId: notionDbId, documentId });
+  };
 
   const handleEdit = (member: any) => {
     setEditingId(member.id);
@@ -834,6 +866,12 @@ function TeamTab({ documentId }: { documentId: number }) {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Team Members</h2>
         <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setShowNotionDialog(true)}>
+            <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.887-.748-.84l-15.177.887c-.56.047-.747.327-.747.887zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/>
+            </svg>
+            Import from Notion
+          </Button>
           <label htmlFor="team-csv-upload">
             <Button variant="outline" asChild>
               <span className="cursor-pointer">
@@ -965,6 +1003,76 @@ function TeamTab({ documentId }: { documentId: number }) {
           </Card>
         ))}
       </div>
+
+      {/* Notion Import Dialog */}
+      <Dialog open={showNotionDialog} onOpenChange={setShowNotionDialog}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Import Team Members from Notion</DialogTitle>
+            <DialogDescription>
+              Your Notion database must have the following structure:
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="border rounded-lg p-4 space-y-3">
+              <h4 className="font-semibold text-sm">Required Fields</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="font-medium">name</span>
+                  <span className="text-muted-foreground">Text - Team member's full name</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">title</span>
+                  <span className="text-muted-foreground">Text - Job title or role</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="border rounded-lg p-4 space-y-3">
+              <h4 className="font-semibold text-sm">Optional Fields</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="font-medium">bio</span>
+                  <span className="text-muted-foreground">Text - Biography or description</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">photoUrl</span>
+                  <span className="text-muted-foreground">URL - Profile photo URL</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">yearsExperience</span>
+                  <span className="text-muted-foreground">Number - Years of experience</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">keySkills</span>
+                  <span className="text-muted-foreground">Text - Comma-separated skills</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">sortOrder</span>
+                  <span className="text-muted-foreground">Number - Display order</span>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="notion-db-id">Notion Database ID or URL</Label>
+              <Input
+                id="notion-db-id"
+                placeholder="https://notion.so/... or database ID"
+                value={notionDbId}
+                onChange={(e) => setNotionDbId(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowNotionDialog(false)}>Cancel</Button>
+            <Button onClick={handleNotionImport} disabled={!notionDbId || importingFromNotion}>
+              {importingFromNotion ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              Import
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -995,6 +1103,7 @@ function ProjectsTab({ documentId }: { documentId: number }) {
 
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [showNotionDialog, setShowNotionDialog] = useState(false);
   const [formData, setFormData] = useState({
     projectName: "",
     entity: "",
@@ -1009,6 +1118,36 @@ function ProjectsTab({ documentId }: { documentId: number }) {
     description: "",
     sortOrder: 0,
   });
+  
+  const [notionDbId, setNotionDbId] = useState('');
+  const [importingFromNotion, setImportingFromNotion] = useState(false);
+  
+  const importFromNotionMutation = trpc.projects.importFromNotion.useMutation({
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success(`Successfully imported ${data.imported} projects!`);
+        refetch();
+        setShowNotionDialog(false);
+        setNotionDbId('');
+      } else {
+        toast.error(data.error || 'Import failed');
+        if (data.availableFields) {
+          toast.info(`Available fields in Notion: ${data.availableFields.join(', ')}`);
+        }
+      }
+      setImportingFromNotion(false);
+    },
+    onError: (error) => {
+      toast.error(`Import failed: ${error.message}`);
+      setImportingFromNotion(false);
+    },
+  });
+  
+  const handleNotionImport = () => {
+    if (!notionDbId) return;
+    setImportingFromNotion(true);
+    importFromNotionMutation.mutate({ databaseId: notionDbId, documentId });
+  };
 
   const handleEdit = (project: any) => {
     setEditingId(project.id);
@@ -1105,6 +1244,12 @@ function ProjectsTab({ documentId }: { documentId: number }) {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Projects</h2>
         <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setShowNotionDialog(true)}>
+            <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.887-.748-.84l-15.177.887c-.56.047-.747.327-.747.887zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/>
+            </svg>
+            Import from Notion
+          </Button>
           <label htmlFor="projects-csv-upload">
             <Button variant="outline" asChild>
               <span className="cursor-pointer">
@@ -1279,6 +1424,96 @@ function ProjectsTab({ documentId }: { documentId: number }) {
           </Card>
         ))}
       </div>
+
+      {/* Notion Import Dialog */}
+      <Dialog open={showNotionDialog} onOpenChange={setShowNotionDialog}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Import Projects from Notion</DialogTitle>
+            <DialogDescription>
+              Your Notion database must have the following structure:
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="border rounded-lg p-4 space-y-3">
+              <h4 className="font-semibold text-sm">Required Fields</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="font-medium">projectName</span>
+                  <span className="text-muted-foreground">Text - Project name or title</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="border rounded-lg p-4 space-y-3">
+              <h4 className="font-semibold text-sm">Optional Fields</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="font-medium">entity</span>
+                  <span className="text-muted-foreground">Text - Entity or organization</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">client</span>
+                  <span className="text-muted-foreground">Text - Client name</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">location</span>
+                  <span className="text-muted-foreground">Text - Project location</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">country</span>
+                  <span className="text-muted-foreground">Text - Country name</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">latitude</span>
+                  <span className="text-muted-foreground">Text - Latitude coordinate</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">longitude</span>
+                  <span className="text-muted-foreground">Text - Longitude coordinate</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">projectValue</span>
+                  <span className="text-muted-foreground">Text - Project value/budget</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">projectYear</span>
+                  <span className="text-muted-foreground">Text - Project year</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">services</span>
+                  <span className="text-muted-foreground">Text - Services provided</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">description</span>
+                  <span className="text-muted-foreground">Text - Project description</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">sortOrder</span>
+                  <span className="text-muted-foreground">Number - Display order</span>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="notion-db-id-projects">Notion Database ID or URL</Label>
+              <Input
+                id="notion-db-id-projects"
+                placeholder="https://notion.so/... or database ID"
+                value={notionDbId}
+                onChange={(e) => setNotionDbId(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowNotionDialog(false)}>Cancel</Button>
+            <Button onClick={handleNotionImport} disabled={!notionDbId || importingFromNotion}>
+              {importingFromNotion ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              Import
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
