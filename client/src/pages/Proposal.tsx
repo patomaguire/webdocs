@@ -610,6 +610,8 @@ function ProposalContent({ documentId }: { documentId: number }) {
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundAttachment: 'fixed',
+            } : currentTab?.backgroundType === "gradient" && currentTab?.backgroundValue ? {
+              background: currentTab.backgroundValue,
             } : {
               backgroundColor: currentTab?.backgroundValue || '#FFFFFF',
             })

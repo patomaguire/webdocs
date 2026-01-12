@@ -1,0 +1,1 @@
+ALTER TABLE `tabs_content` MODIFY COLUMN `backgroundType` enum('color','gradient','image') DEFAULT 'color';

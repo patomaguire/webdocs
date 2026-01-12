@@ -12,7 +12,8 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { FileText } from "lucide-react";
-import { marked } from "marked";
+import { marked } from 'marked';
+import { MarkdownCheatsheet } from '@/components/MarkdownCheatsheet';
 
 // ============= Document Selector Component =============
 interface DocumentSelectorProps {
@@ -604,6 +605,8 @@ function TabsContentTab({ documentId }: { documentId: number }) {
     tabTitle: "",
     htmlContent: "",
     isVisible: true,
+    backgroundType: "color" as "color" | "gradient" | "image",
+    backgroundValue: "#FFFFFF",
   });
 
   const handleSelectTab = (tabNumber: number) => {
@@ -614,6 +617,8 @@ function TabsContentTab({ documentId }: { documentId: number }) {
         tabTitle: tab.tabTitle || "",
         htmlContent: tab.htmlContent || "",
         isVisible: tab.isVisible ?? true,
+        backgroundType: (tab.backgroundType as "color" | "gradient" | "image") || "color",
+        backgroundValue: tab.backgroundValue || "#FFFFFF",
       });
     }
   };
@@ -690,7 +695,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 />
               </div>
 
-              <div className="flex items-center space-x-2">
+              <div className="flex gap-2 items-center">
                 <Switch
                   id="isVisible"
                   checked={formData.isVisible}
@@ -698,6 +703,62 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 />
                 <Label htmlFor="isVisible">Visible</Label>
               </div>
+
+              <div className="space-y-2">
+                <Label>Tab Background</Label>
+                <Select
+                  value={formData.backgroundType}
+                  onValueChange={(value: "color" | "gradient" | "image") => 
+                    setFormData({ ...formData, backgroundType: value })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="color">Solid Color</SelectItem>
+                    <SelectItem value="gradient">Gradient</SelectItem>
+                    <SelectItem value="image">Image URL</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {formData.backgroundType === "color" && (
+                  <div className="flex gap-2">
+                    <Input
+                      type="color"
+                      value={formData.backgroundValue}
+                      onChange={(e) => setFormData({ ...formData, backgroundValue: e.target.value })}
+                      className="w-20"
+                    />
+                    <Input
+                      type="text"
+                      value={formData.backgroundValue}
+                      onChange={(e) => setFormData({ ...formData, backgroundValue: e.target.value })}
+                      placeholder="#FFFFFF"
+                    />
+                  </div>
+                )}
+
+                {formData.backgroundType === "gradient" && (
+                  <Input
+                    type="text"
+                    value={formData.backgroundValue}
+                    onChange={(e) => setFormData({ ...formData, backgroundValue: e.target.value })}
+                    placeholder="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                  />
+                )}
+
+                {formData.backgroundType === "image" && (
+                  <Input
+                    type="text"
+                    value={formData.backgroundValue}
+                    onChange={(e) => setFormData({ ...formData, backgroundValue: e.target.value })}
+                    placeholder="https://example.com/background.jpg"
+                  />
+                )}
+              </div>
+
+              <MarkdownCheatsheet />
 
               <div className="grid grid-cols-2 gap-4">
                 <div>

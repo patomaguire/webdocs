@@ -77,7 +77,7 @@ export const tabsContent = mysqlTable("tabs_content", {
   tabTitle: varchar("tabTitle", { length: 255 }).notNull(),
   htmlContent: text("htmlContent"),
   htmlContentEs: text("htmlContentEs"), // Spanish translation
-  backgroundType: mysqlEnum("backgroundType", ["color", "image"]).default("color"),
+  backgroundType: mysqlEnum("backgroundType", ["color", "gradient", "image"]).default("color"),
   backgroundValue: text("backgroundValue"), // Hex color or image URL
   isVisible: boolean("isVisible").default(true).notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

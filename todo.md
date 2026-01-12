@@ -403,3 +403,17 @@
 - [ ] Test tab list displays in correct order
 - [ ] Verify delete protection works for A and B
 - [ ] Test background color changes apply to proposal page
+
+## Phase 15: Markdown Cheatsheet and Per-Tab Backgrounds
+- [x] Create collapsible markdown cheatsheet component
+- [x] Add formatting examples (bold, italic, headings, lists, indents)
+- [x] Add table syntax examples
+- [x] Add image embedding examples
+- [x] Add chart/visual embedding examples
+- [x] Integrate cheatsheet into Tabs editor UI
+- [x] Add background type selector to tab editor (color/gradient/image)
+- [x] Update tabs_content schema to store backgroundType and backgroundValue
+- [x] Update backend routers to save/load per-tab backgrounds
+- [x] Update Proposal.tsx to render per-tab backgrounds
+- [ ] Test markdown cheatsheet usability
+- [ ] Test per-tab background customization

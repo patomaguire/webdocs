@@ -71,6 +71,13 @@
       "when": 1768252239080,
       "tag": "0009_natural_titanium_man",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1768254457583,
+      "tag": "0010_fancy_champions",
+      "breakpoints": true
     }
   ]
 }
