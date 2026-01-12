@@ -749,6 +749,37 @@ function TeamTab({ documentId }: { documentId: number }) {
     }
   };
 
+  const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const text = await file.text();
+    const lines = text.split('\n').filter(line => line.trim());
+    const headers = lines[0].split(',').map(h => h.trim());
+    
+    for (let i = 1; i < lines.length; i++) {
+      const values = lines[i].split(',').map(v => v.trim());
+      const member: any = { documentId };
+      
+      headers.forEach((header, index) => {
+        const value = values[index];
+        if (header === 'name') member.name = value;
+        else if (header === 'title') member.title = value;
+        else if (header === 'bio') member.bio = value;
+        else if (header === 'photoUrl') member.photoUrl = value;
+        else if (header === 'yearsExperience') member.yearsExperience = parseInt(value) || 0;
+        else if (header === 'keySkills') member.keySkills = value;
+        else if (header === 'sortOrder') member.sortOrder = parseInt(value) || 0;
+      });
+      
+      await createMutation.mutateAsync(member);
+    }
+    
+    toast.success(`Imported ${lines.length - 1} team members`);
+    refetch();
+    e.target.value = '';
+  };
+
   const resetForm = () => {
     setEditingId(null);
     setFormData({
@@ -769,10 +800,27 @@ function TeamTab({ documentId }: { documentId: number }) {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Team Members</h2>
-        <Button onClick={() => setShowForm(!showForm)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Member
-        </Button>
+        <div className="flex gap-2">
+          <label htmlFor="team-csv-upload">
+            <Button variant="outline" asChild>
+              <span className="cursor-pointer">
+                <FileText className="mr-2 h-4 w-4" />
+                Upload CSV
+              </span>
+            </Button>
+          </label>
+          <input
+            id="team-csv-upload"
+            type="file"
+            accept=".csv"
+            className="hidden"
+            onChange={handleCSVUpload}
+          />
+          <Button onClick={() => setShowForm(!showForm)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Add Member
+          </Button>
+        </div>
       </div>
 
       {showForm && (
@@ -962,6 +1010,42 @@ function ProjectsTab({ documentId }: { documentId: number }) {
     }
   };
 
+  const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const text = await file.text();
+    const lines = text.split('\n').filter(line => line.trim());
+    const headers = lines[0].split(',').map(h => h.trim());
+    
+    for (let i = 1; i < lines.length; i++) {
+      const values = lines[i].split(',').map(v => v.trim());
+      const project: any = { documentId };
+      
+      headers.forEach((header, index) => {
+        const value = values[index];
+        if (header === 'projectName') project.projectName = value;
+        else if (header === 'entity') project.entity = value;
+        else if (header === 'client') project.client = value;
+        else if (header === 'location') project.location = value;
+        else if (header === 'country') project.country = value;
+        else if (header === 'latitude') project.latitude = value;
+        else if (header === 'longitude') project.longitude = value;
+        else if (header === 'projectValue') project.projectValue = value;
+        else if (header === 'projectYear') project.projectYear = value;
+        else if (header === 'services') project.services = value;
+        else if (header === 'description') project.description = value;
+        else if (header === 'sortOrder') project.sortOrder = parseInt(value) || 0;
+      });
+      
+      await createMutation.mutateAsync(project);
+    }
+    
+    toast.success(`Imported ${lines.length - 1} projects`);
+    refetch();
+    e.target.value = '';
+  };
+
   const resetForm = () => {
     setEditingId(null);
     setFormData({
@@ -987,10 +1071,27 @@ function ProjectsTab({ documentId }: { documentId: number }) {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Projects</h2>
-        <Button onClick={() => setShowForm(!showForm)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Project
-        </Button>
+        <div className="flex gap-2">
+          <label htmlFor="projects-csv-upload">
+            <Button variant="outline" asChild>
+              <span className="cursor-pointer">
+                <FileText className="mr-2 h-4 w-4" />
+                Upload CSV
+              </span>
+            </Button>
+          </label>
+          <input
+            id="projects-csv-upload"
+            type="file"
+            accept=".csv"
+            className="hidden"
+            onChange={handleCSVUpload}
+          />
+          <Button onClick={() => setShowForm(!showForm)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Add Project
+          </Button>
+        </div>
       </div>
 
       {showForm && (

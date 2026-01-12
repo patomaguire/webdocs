@@ -332,7 +332,7 @@
 - [x] Import db, tabs schema, eq, and from drizzle
 - [x] Test Add New Tab functionality (WORKING - Tab 100 created)
 - [x] Test delete tab functionality (implemented, requires confirm dialog)
-- [ ] Save checkpoint
+- [x] Save checkpoint
 - [ ] Test copy function copies hero section correctly
 - [ ] Test copy function copies all tabs correctly
 - [ ] Test copy function copies team members correctly
@@ -343,4 +343,24 @@
 - [ ] Implement delete tab confirmation dialog
 - [ ] Test creating new tabs
 - [ ] Test deleting tabs
+- [ ] Save checkpoint
+
+## Phase 10: CSV Upload and Notion Import
+- [ ] Add CSV upload button to Team tab in Admin
+- [ ] Create CSV parser for team members (name, title, bio, photoUrl, sortOrder)
+- [ ] Implement bulk insert for team members from CSV
+- [ ] Add CSV upload button to Projects tab in Admin
+- [ ] Create CSV parser for projects (entity, location, lat, lng, services, client)
+- [ ] Implement bulk insert for projects from CSV
+- [ ] Check Notion MCP server configuration
+- [ ] Create Notion database fetch helper in server
+- [ ] Add Notion database ID input in Team tab
+- [ ] Add Notion import button for Team tab
+- [ ] Add Notion database ID input in Projects tab
+- [ ] Add Notion import button for Projects tab
+- [ ] Map Notion properties to team/project fields
+- [ ] Test CSV upload for team members
+- [ ] Test CSV upload for projects
+- [ ] Test Notion import for team members
+- [ ] Test Notion import for projects
 - [ ] Save checkpoint
