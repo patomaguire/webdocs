@@ -369,4 +369,14 @@
 - [x] Update Document Manager to show full clickable URLs instead of just paths
 - [x] Make URLs clickable hyperlinks that open in new tab
 - [x] Test URL display and links
-- [ ] Save checkpoint
+- [x] Save checkpoint
+
+## Phase 12: Make Document Password Editable in Settings Tab
+- [x] Add document password field to Settings tab in Admin
+- [x] Show current document password in Settings (read from documents table)
+- [x] Create update document mutation for password changes
+- [x] Wire up password save button to update document password
+- [x] Test password editing in Settings tab
+- [x] Test password persists after page reload
+- [x] Test updated password works on proposal page
+- [x] Save checkpoint

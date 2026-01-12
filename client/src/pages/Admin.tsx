@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -297,9 +297,18 @@ export default function Admin() {
 function SettingsTab({ documentId }: { documentId: number }) {
   const utils = trpc.useUtils();
   const { data: settings, isLoading } = trpc.settings.getAll.useQuery({ documentId });
+  const { data: documents } = trpc.documents.getAll.useQuery();
+  const currentDocument = documents?.find(d => d.id === documentId);
   const upsertMutation = trpc.settings.upsert.useMutation({
     onSuccess: () => {
       utils.settings.getAll.invalidate({ documentId });
+    },
+  });
+  
+  const updateDocumentMutation = trpc.documents.update.useMutation({
+    onSuccess: () => {
+      toast.success("Document password updated!");
+      utils.documents.getAll.invalidate();
     },
   });
   
@@ -315,8 +324,8 @@ function SettingsTab({ documentId }: { documentId: number }) {
     logo4_url: "",
   });
 
-  // Load settings into form when available
-  useState(() => {
+  // Load settings and document password into form when available
+  useEffect(() => {
     if (settings) {
       const newData: any = {};
       settings.forEach(s => {
@@ -326,12 +335,28 @@ function SettingsTab({ documentId }: { documentId: number }) {
       });
       setFormData(prev => ({ ...prev, ...newData }));
     }
-  });
+    if (currentDocument) {
+      setFormData(prev => ({ ...prev, password: currentDocument.password }));
+    }
+  }, [settings, currentDocument]);
 
   const handleSave = async () => {
     try {
+      // Update document password in documents table
+      if (currentDocument && formData.password !== currentDocument.password) {
+        await updateDocumentMutation.mutateAsync({
+          id: documentId,
+          slug: currentDocument.slug,
+          name: currentDocument.name,
+          password: formData.password,
+        });
+      }
+      
+      // Update other settings in proposal_settings table
       for (const [key, value] of Object.entries(formData)) {
-        await upsertMutation.mutateAsync({ key, value, documentId });
+        if (key !== 'password') {
+          await upsertMutation.mutateAsync({ key, value, documentId });
+        }
       }
       toast.success("Settings saved successfully!");
     } catch (error) {
