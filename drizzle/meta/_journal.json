@@ -57,6 +57,13 @@
       "when": 1768041843670,
       "tag": "0007_exotic_ser_duncan",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1768230107577,
+      "tag": "0008_fancy_the_captain",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,8 @@
+{
+  "query": "ALTER TABLE `proposal_settings` ADD CONSTRAINT `proposal_settings_documentId_settingKey_unique` UNIQUE(`documentId`,`settingKey`);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute ALTER TABLE `proposal_settings` ADD CONSTRAINT `proposal_settings_documentId_settingKey_unique` UNIQUE(`documentId`,`settingKey`);",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1062 (23000) at line 1: Duplicate entry '?' for key 'proposal_settings.proposal_settings_documentId_settingKey_unique'"
+  ]
+}

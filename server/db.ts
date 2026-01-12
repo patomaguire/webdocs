@@ -140,13 +140,13 @@ export async function getAllSettings(documentId: number = 1): Promise<ProposalSe
   }
 }
 
-export async function upsertSetting(key: string, value: string): Promise<void> {
+export async function upsertSetting(key: string, value: string, documentId: number = 1): Promise<void> {
   const db = await getDb();
   if (!db) return;
   
   try {
     await db.insert(proposalSettings)
-      .values({ settingKey: key, settingValue: value })
+      .values({ settingKey: key, settingValue: value, documentId })
       .onDuplicateKeyUpdate({ set: { settingValue: value } });
   } catch (error) {
     console.error("[Database] Failed to upsert setting:", error);

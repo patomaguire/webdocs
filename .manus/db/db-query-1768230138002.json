@@ -1,0 +1,50 @@
+{
+  "query": "SELECT documentId, settingKey, COUNT(*) as count FROM proposal_settings GROUP BY documentId, settingKey HAVING count > 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT documentId, settingKey, COUNT(*) as count FROM proposal_settings GROUP BY documentId, settingKey HAVING count > 1;",
+  "rows": [
+    {
+      "documentId": "1",
+      "settingKey": "logo2_url",
+      "count": "2"
+    },
+    {
+      "documentId": "1",
+      "settingKey": "logo3_url",
+      "count": "2"
+    },
+    {
+      "documentId": "1",
+      "settingKey": "logo4_url",
+      "count": "2"
+    },
+    {
+      "documentId": "1",
+      "settingKey": "primary_color",
+      "count": "2"
+    },
+    {
+      "documentId": "1",
+      "settingKey": "test_setting",
+      "count": "5"
+    },
+    {
+      "documentId": "1",
+      "settingKey": "logo1_url",
+      "count": "2"
+    },
+    {
+      "documentId": "1",
+      "settingKey": "password",
+      "count": "3"
+    },
+    {
+      "documentId": "1",
+      "settingKey": "notification_email",
+      "count": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "documentId\tsettingKey\tcount\n1\tlogo2_url\t2\n1\tlogo3_url\t2\n1\tlogo4_url\t2\n1\tprimary_color\t2\n1\ttest_setting\t5\n1\tlogo1_url\t2\n1\tpassword\t3\n1\tnotification_email\t2\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

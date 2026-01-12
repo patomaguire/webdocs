@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean, unique } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -45,7 +45,9 @@ export const proposalSettings = mysqlTable("proposal_settings", {
   showTeam: boolean("showTeam").default(true).notNull(),
   showComments: boolean("showComments").default(true).notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  uniqueDocumentSetting: unique().on(table.documentId, table.settingKey),
+}));
 
 export type ProposalSetting = typeof proposalSettings.$inferSelect;
 export type InsertProposalSetting = typeof proposalSettings.$inferInsert;

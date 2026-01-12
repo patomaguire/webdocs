@@ -1,0 +1,9 @@
+{
+  "query": "DELETE FROM proposal_settings WHERE id NOT IN (SELECT * FROM (SELECT MIN(id) FROM proposal_settings GROUP BY documentId, settingKey) temp);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute DELETE FROM proposal_settings WHERE id NOT IN (SELECT * FROM (SELECT MIN(id) FROM proposal_settings GROUP BY documentId, settingKey) temp);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 57
+}

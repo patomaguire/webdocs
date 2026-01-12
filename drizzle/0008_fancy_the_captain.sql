@@ -1,0 +1,1 @@
+ALTER TABLE `proposal_settings` ADD CONSTRAINT `proposal_settings_documentId_settingKey_unique` UNIQUE(`documentId`,`settingKey`);

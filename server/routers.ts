@@ -62,9 +62,9 @@ export const appRouter = router({
       .input(z.object({ key: z.string() }))
       .query(async ({ input }) => await getSetting(input.key)),
     upsert: publicProcedure
-      .input(z.object({ key: z.string(), value: z.string() }))
+      .input(z.object({ key: z.string(), value: z.string(), documentId: z.number().optional() }))
       .mutation(async ({ input }) => {
-        await upsertSetting(input.key, input.value);
+        await upsertSetting(input.key, input.value, input.documentId ?? 1);
         return { success: true };
       }),
   }),

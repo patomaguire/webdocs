@@ -280,4 +280,29 @@
 - [x] Test switching between documents in Admin
 - [ ] Test editing slug and password
 - [ ] Test deleting document
+- [x] Save checkpoint
+
+## Phase 6: Admin Interface Fixes and Enhancements
+- [x] Add secondary color field to Settings tab
+- [x] Add contrast color field to Settings tab
+- [x] Update database schema to include secondaryColor and contrastColor fields
+- [x] Convert tab content editors from HTML textarea to Markdown editor with preview
+- [x] Fix desktop view - tab list not displaying
+- [x] Debug settings save functionality - changes not persisting
+- [ ] Add CSV import button for Team members tab
+- [ ] Add CSV import button for Projects tab
+- [ ] Add CSV import button for Comments tab
+- [ ] Implement CSV parser and bulk insert logic
+- [ ] Add "Copy from Document" button in Document Manager
+- [ ] Implement copy dialog to select source document
+- [ ] Implement bulk copy logic for all content (settings, hero, tabs, team, projects)
+- [ ] Test all fixes on desktop and mobile
+- [ ] Save checkpoint
+
+## Phase 7: Fix Settings Persistence Bug
+- [x] Debug why settings show "saved" but don't persist when switching tabs
+- [x] Check database schema for proposal_settings unique constraints
+- [x] Fix upsert logic to properly update existing settings
+- [x] Add query invalidation after settings save
+- [x] Test settings save and reload
 - [ ] Save checkpoint

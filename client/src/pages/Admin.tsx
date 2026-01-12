@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { FileText } from "lucide-react";
+import { marked } from "marked";
 
 // ============= Document Selector Component =============
 function DocumentSelector({ selectedDocumentId, onDocumentChange }: { 
@@ -212,13 +213,20 @@ export default function Admin() {
 
 // ============= Settings Tab =============
 function SettingsTab({ documentId }: { documentId: number }) {
+  const utils = trpc.useUtils();
   const { data: settings, isLoading } = trpc.settings.getAll.useQuery({ documentId });
-  const upsertMutation = trpc.settings.upsert.useMutation();
+  const upsertMutation = trpc.settings.upsert.useMutation({
+    onSuccess: () => {
+      utils.settings.getAll.invalidate({ documentId });
+    },
+  });
   
   const [formData, setFormData] = useState({
     password: "",
     notification_email: "",
     primary_color: "#E65100",
+    secondary_color: "#1976D2",
+    contrast_color: "#FFFFFF",
     logo1_url: "",
     logo2_url: "",
     logo3_url: "",
@@ -241,7 +249,7 @@ function SettingsTab({ documentId }: { documentId: number }) {
   const handleSave = async () => {
     try {
       for (const [key, value] of Object.entries(formData)) {
-        await upsertMutation.mutateAsync({ key, value });
+        await upsertMutation.mutateAsync({ key, value, documentId });
       }
       toast.success("Settings saved successfully!");
     } catch (error) {
@@ -295,6 +303,44 @@ function SettingsTab({ documentId }: { documentId: number }) {
               value={formData.primary_color}
               onChange={(e) => setFormData({ ...formData, primary_color: e.target.value })}
               placeholder="#E65100"
+            />
+          </div>
+        </div>
+
+        <div>
+          <Label htmlFor="secondary_color">Secondary Color</Label>
+          <div className="flex gap-2">
+            <Input
+              id="secondary_color"
+              type="color"
+              value={formData.secondary_color}
+              onChange={(e) => setFormData({ ...formData, secondary_color: e.target.value })}
+              className="w-20"
+            />
+            <Input
+              type="text"
+              value={formData.secondary_color}
+              onChange={(e) => setFormData({ ...formData, secondary_color: e.target.value })}
+              placeholder="#1976D2"
+            />
+          </div>
+        </div>
+
+        <div>
+          <Label htmlFor="contrast_color">Contrast Color</Label>
+          <div className="flex gap-2">
+            <Input
+              id="contrast_color"
+              type="color"
+              value={formData.contrast_color}
+              onChange={(e) => setFormData({ ...formData, contrast_color: e.target.value })}
+              className="w-20"
+            />
+            <Input
+              type="text"
+              value={formData.contrast_color}
+              onChange={(e) => setFormData({ ...formData, contrast_color: e.target.value })}
+              placeholder="#FFFFFF"
             />
           </div>
         </div>
@@ -450,8 +496,8 @@ function TabsContentTab({ documentId }: { documentId: number }) {
   if (isLoading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin" /></div>;
 
   return (
-    <div className="grid grid-cols-3 gap-4">
-      <Card className="col-span-1">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <Card className="lg:col-span-1">
         <CardHeader>
           <CardTitle>Tab List</CardTitle>
         </CardHeader>
@@ -471,7 +517,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
         </CardContent>
       </Card>
 
-      <Card className="col-span-2">
+      <Card className="lg:col-span-2">
         <CardHeader>
           <CardTitle>Edit Tab Content</CardTitle>
           <CardDescription>
@@ -499,15 +545,25 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 <Label htmlFor="isVisible">Visible</Label>
               </div>
 
-              <div>
-                <Label htmlFor="htmlContent">HTML Content</Label>
-                <Textarea
-                  id="htmlContent"
-                  value={formData.htmlContent}
-                  onChange={(e) => setFormData({ ...formData, htmlContent: e.target.value })}
-                  rows={15}
-                  className="font-mono text-sm"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="htmlContent">Markdown Content</Label>
+                  <Textarea
+                    id="htmlContent"
+                    value={formData.htmlContent}
+                    onChange={(e) => setFormData({ ...formData, htmlContent: e.target.value })}
+                    rows={15}
+                    className="font-mono text-sm"
+                    placeholder="Enter markdown content here...\n\n# Heading\n\n**Bold text**\n\n- List item"
+                  />
+                </div>
+                <div>
+                  <Label>Preview</Label>
+                  <div 
+                    className="border rounded-md p-4 h-[360px] overflow-y-auto prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: formData.htmlContent ? marked(formData.htmlContent) : '<p class="text-muted-foreground">Preview will appear here...</p>' }}
+                  />
+                </div>
               </div>
 
               <Button onClick={handleSave} disabled={upsertMutation.isPending}>
