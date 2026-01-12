@@ -417,3 +417,12 @@
 - [x] Update Proposal.tsx to render per-tab backgrounds
 - [ ] Test markdown cheatsheet usability
 - [ ] Test per-tab background customization
+
+## Phase 16: Fix Tab Labels and Visibility Toggle
+- [x] Remove "Tab A:" and "Tab B:" labels from proposal page navigation buttons
+- [x] Show only descriptive names "Who we are" and "Experience map" on proposal page
+- [x] Debug visibility toggle - currently saves but doesn't filter tabs on proposal page
+- [x] Verify visibleTabs filter is working correctly
+- [x] Wrap tabs 0 and 11 buttons in visibility checks
+- [ ] Test hiding tabs 0 and 11 to ensure they don't appear
+- [ ] Test hiding tabs 1-10 to ensure they don't appear

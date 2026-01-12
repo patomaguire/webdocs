@@ -470,30 +470,34 @@ function ProposalContent({ documentId }: { documentId: number }) {
             
             {/* Navigation Buttons below stamp */}
             <div className="flex gap-4 justify-center mt-2 no-print">
-              <button
-                onClick={() => setActiveTab(0)}
-                className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
-                style={{ backgroundColor: primaryColor }}
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-                Tab A: {language === "en" ? "Who we are" : "Quiénes somos"}
-              </button>
-              <button
-                onClick={() => setActiveTab(11)}
-                className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
-                style={{ backgroundColor: primaryColor }}
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                  <circle cx="12" cy="10" r="3"/>
-                </svg>
-                Tab B: {language === "en" ? "Experience map" : "Mapa de experiencia"}
-              </button>
+              {visibleTabs.some(t => t.tabNumber === 0) && (
+                <button
+                  onClick={() => setActiveTab(0)}
+                  className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
+                  style={{ backgroundColor: primaryColor }}
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                  {language === "en" ? "Who we are" : "Quiénes somos"}
+                </button>
+              )}
+              {visibleTabs.some(t => t.tabNumber === 11) && (
+                <button
+                  onClick={() => setActiveTab(11)}
+                  className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
+                  style={{ backgroundColor: primaryColor }}
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  {language === "en" ? "Experience map" : "Mapa de experiencia"}
+                </button>
+              )}
             </div>
           </div>
         </div>
