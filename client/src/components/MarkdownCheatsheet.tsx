@@ -67,11 +67,34 @@ export function MarkdownCheatsheet() {
           {/* Tables */}
           <div>
             <h3 className="font-semibold text-md mb-2 text-blue-700">Tables</h3>
-            <div className="bg-gray-50 p-3 rounded font-mono text-sm">
-              <pre className="whitespace-pre-wrap">{`| Header 1 | Header 2 | Header 3 |
+            <div className="bg-gray-50 p-3 rounded space-y-3 font-mono text-sm">
+              <div>
+                <div className="text-gray-600 mb-1">Basic table:</div>
+                <pre className="whitespace-pre-wrap">{`| Header 1 | Header 2 | Header 3 |
 |----------|----------|----------|
 | Row 1    | Data     | Data     |
 | Row 2    | Data     | Data     |`}</pre>
+              </div>
+              <div>
+                <div className="text-gray-600 mb-1">Column alignment:</div>
+                <pre className="whitespace-pre-wrap">{`| Left | Center | Right |
+|:-----|:------:|------:|
+| Text | Text   | Text  |`}</pre>
+                <div className="text-xs text-gray-500 mt-1">:--- (left), :---: (center), ---: (right)</div>
+              </div>
+              <div>
+                <div className="text-gray-600 mb-1">Styled table with HTML:</div>
+                <pre className="whitespace-pre-wrap">{`<table style="width:100%; border-collapse:collapse;">
+  <tr style="background:#f0f0f0;">
+    <th style="border:1px solid #ddd; padding:8px;">Name</th>
+    <th style="border:1px solid #ddd; padding:8px;">Value</th>
+  </tr>
+  <tr>
+    <td style="border:1px solid #ddd; padding:8px;">Item 1</td>
+    <td style="border:1px solid #ddd; padding:8px;">$100</td>
+  </tr>
+</table>`}</pre>
+              </div>
             </div>
           </div>
 
@@ -120,6 +143,53 @@ Multiple lines
             </div>
           </div>
 
+          {/* Multi-Column Layouts */}
+          <div>
+            <h3 className="font-semibold text-md mb-2 text-blue-700">Multi-Column Layouts</h3>
+            <div className="bg-gray-50 p-3 rounded space-y-3 font-mono text-sm">
+              <div>
+                <div className="text-gray-600 mb-1">Two columns:</div>
+                <pre className="whitespace-pre-wrap">{`<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+  <div>
+    <h3>Column 1</h3>
+    <p>Content for first column...</p>
+  </div>
+  <div>
+    <h3>Column 2</h3>
+    <p>Content for second column...</p>
+  </div>
+</div>`}</pre>
+              </div>
+              <div>
+                <div className="text-gray-600 mb-1">Three columns:</div>
+                <pre className="whitespace-pre-wrap">{`<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:15px;">
+  <div>Column 1 content</div>
+  <div>Column 2 content</div>
+  <div>Column 3 content</div>
+</div>`}</pre>
+              </div>
+            </div>
+          </div>
+
+          {/* Visual Enhancements */}
+          <div>
+            <h3 className="font-semibold text-md mb-2 text-blue-700">Visual Enhancements</h3>
+            <div className="bg-gray-50 p-3 rounded space-y-3 font-mono text-sm">
+              <div>
+                <div className="text-gray-600 mb-1">Colored boxes:</div>
+                <pre className="whitespace-pre-wrap">{`<div style="background:#e3f2fd; border-left:4px solid #2196f3; padding:12px; margin:10px 0;">
+  Important information here
+</div>`}</pre>
+              </div>
+              <div>
+                <div className="text-gray-600 mb-1">Spacing and borders:</div>
+                <pre className="whitespace-pre-wrap">{`<div style="border:2px solid #ddd; border-radius:8px; padding:16px; margin:20px 0;">
+  Boxed content
+</div>`}</pre>
+              </div>
+            </div>
+          </div>
+
           {/* Tips */}
           <div className="bg-blue-50 border-l-4 border-blue-600 p-4">
             <h3 className="font-semibold text-md mb-2 text-blue-700">💡 Tips</h3>
@@ -127,7 +197,9 @@ Multiple lines
               <li>• Use the Preview tab to see how your markdown renders</li>
               <li>• Leave blank lines between paragraphs for better spacing</li>
               <li>• Combine formatting: <code>**_bold italic_**</code></li>
-              <li>• For complex layouts, use HTML tags directly</li>
+              <li>• For complex layouts, use HTML tags directly with inline styles</li>
+              <li>• Tables support HTML for advanced styling (colors, borders, padding)</li>
+              <li>• Multi-column layouts work best on desktop; consider mobile responsiveness</li>
             </ul>
           </div>
         </CardContent>

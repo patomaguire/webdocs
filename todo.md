@@ -426,3 +426,12 @@
 - [x] Wrap tabs 0 and 11 buttons in visibility checks
 - [ ] Test hiding tabs 0 and 11 to ensure they don't appear
 - [ ] Test hiding tabs 1-10 to ensure they don't appear
+
+## Phase 17: Enhanced Markdown Cheatsheet and Notion Instructions
+- [x] Add advanced table formatting examples (alignment, styling)
+- [x] Add multi-column layout examples (2-3 columns)
+- [x] Add HTML/CSS examples for visual enhancements
+- [x] Add table borders and spacing examples
+- [x] Add Notion database ID instructions to import dialogs
+- [x] Explain sortOrder field usage for positioning
+- [ ] Test expanded cheatsheet usability

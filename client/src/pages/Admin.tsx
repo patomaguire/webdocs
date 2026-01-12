@@ -1102,10 +1102,20 @@ function TeamTab({ documentId }: { documentId: number }) {
           <DialogHeader>
             <DialogTitle>Import Team Members from Notion</DialogTitle>
             <DialogDescription>
-              Your Notion database must have the following structure:
+              Connect your Notion database to bulk import. The system will validate field names before importing.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
+            <div className="bg-blue-50 border-l-4 border-blue-600 p-4 text-sm">
+              <p className="font-semibold mb-2">📍 How to find your Database ID:</p>
+              <ol className="space-y-1 ml-4 list-decimal">
+                <li>Open your Notion database as a full page</li>
+                <li>Copy the URL from your browser</li>
+                <li>Extract the ID: <code className="bg-white px-1 rounded">notion.so/workspace/<strong className="text-blue-600">abc123def456</strong>?v=...</code></li>
+                <li>Paste the full URL or just the ID below</li>
+              </ol>
+              <p className="mt-3"><strong>sortOrder field:</strong> Use numbers (1, 2, 3...) to control display order. Lower numbers appear first.</p>
+            </div>
             <div className="border rounded-lg p-4 space-y-3">
               <h4 className="font-semibold text-sm">Required Fields</h4>
               <div className="space-y-2 text-sm">
@@ -1523,10 +1533,20 @@ function ProjectsTab({ documentId }: { documentId: number }) {
           <DialogHeader>
             <DialogTitle>Import Projects from Notion</DialogTitle>
             <DialogDescription>
-              Your Notion database must have the following structure:
+              Connect your Notion database to bulk import. The system will validate field names before importing.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
+            <div className="bg-blue-50 border-l-4 border-blue-600 p-4 text-sm">
+              <p className="font-semibold mb-2">📍 How to find your Database ID:</p>
+              <ol className="space-y-1 ml-4 list-decimal">
+                <li>Open your Notion database as a full page</li>
+                <li>Copy the URL from your browser</li>
+                <li>Extract the ID: <code className="bg-white px-1 rounded">notion.so/workspace/<strong className="text-blue-600">abc123def456</strong>?v=...</code></li>
+                <li>Paste the full URL or just the ID below</li>
+              </ol>
+              <p className="mt-3"><strong>sortOrder field:</strong> Use numbers (1, 2, 3...) to control display order. Lower numbers appear first.</p>
+            </div>
             <div className="border rounded-lg p-4 space-y-3">
               <h4 className="font-semibold text-sm">Required Fields</h4>
               <div className="space-y-2 text-sm">
