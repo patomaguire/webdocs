@@ -244,11 +244,78 @@ function DocumentSelector({ selectedDocumentId, onDocumentChange }: DocumentSele
 export default function Admin() {
   const [activeTab, setActiveTab] = useState("settings");
   const [selectedDocumentId, setSelectedDocumentId] = useState<number>(1);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [adminPassword, setAdminPassword] = useState("");
+  const [showPasswordDialog, setShowPasswordDialog] = useState(true);
+  
+  // Check if admin password is already verified in localStorage
+  useEffect(() => {
+    const storedAuth = localStorage.getItem("adminPasswordVerified");
+    if (storedAuth === "true") {
+      setIsAdminAuthenticated(true);
+      setShowPasswordDialog(false);
+    }
+  }, []);
+  
+  const handlePasswordSubmit = () => {
+    if (adminPassword === "MproWebAdmin076") {
+      setIsAdminAuthenticated(true);
+      setShowPasswordDialog(false);
+      localStorage.setItem("adminPasswordVerified", "true");
+      toast.success("Admin access granted");
+    } else {
+      toast.error("Incorrect password");
+      setAdminPassword("");
+    }
+  };
+  
+  const handleLogout = () => {
+    localStorage.removeItem("adminPasswordVerified");
+    setIsAdminAuthenticated(false);
+    setShowPasswordDialog(true);
+    setAdminPassword("");
+    toast.success("Logged out from admin");
+  };
+  
+  // Show password dialog if not authenticated
+  if (!isAdminAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Admin Access Required</CardTitle>
+            <CardDescription>Enter the admin password to continue</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="admin-password">Password</Label>
+              <Input
+                id="admin-password"
+                type="password"
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handlePasswordSubmit()}
+                placeholder="Enter admin password"
+              />
+            </div>
+            <Button onClick={handlePasswordSubmit} className="w-full">
+              Access Admin
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
   
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto py-8">
-        <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <Button variant="outline" onClick={handleLogout}>
+            Logout from Admin
+          </Button>
+        </div>
         
         <DocumentSelector 
           selectedDocumentId={selectedDocumentId}
