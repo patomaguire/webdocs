@@ -395,3 +395,11 @@
 - [ ] Implement Notion MCP integration for team members import
 - [ ] Implement Notion MCP integration for projects import
 - [ ] Test Notion import functionality
+
+## Phase 14: Tab List Ordering and Delete Protection
+- [x] Reorder tabs list to show Tab A, Tab B, then tabs 1-10 in sequence
+- [x] Remove delete button for Tab A (Who we are) and Tab B (Experience map)
+- [x] Enable background color customization in Admin Settings
+- [ ] Test tab list displays in correct order
+- [ ] Verify delete protection works for A and B
+- [ ] Test background color changes apply to proposal page

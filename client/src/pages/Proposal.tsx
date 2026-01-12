@@ -338,7 +338,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
           }
         `}</style>
       )}
-      <div className="min-h-screen" style={{ backgroundColor: '#f5f5f5' }}>
+      <div className="min-h-screen" style={{ backgroundColor: settingsMap.background_color || '#f5f5f5' }}>
       {/* Minimal Header with Logos, Print, and Language */}
       <header 
         className="sticky top-0 z-50 shadow-md"

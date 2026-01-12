@@ -318,6 +318,7 @@ function SettingsTab({ documentId }: { documentId: number }) {
     primary_color: "#E65100",
     secondary_color: "#1976D2",
     contrast_color: "#FFFFFF",
+    background_color: "#F5F5F5",
     logo1_url: "",
     logo2_url: "",
     logo3_url: "",
@@ -448,6 +449,25 @@ function SettingsTab({ documentId }: { documentId: number }) {
               value={formData.contrast_color}
               onChange={(e) => setFormData({ ...formData, contrast_color: e.target.value })}
               placeholder="#FFFFFF"
+            />
+          </div>
+        </div>
+
+        <div>
+          <Label htmlFor="background_color">Background Color</Label>
+          <div className="flex gap-2">
+            <Input
+              id="background_color"
+              type="color"
+              value={formData.background_color}
+              onChange={(e) => setFormData({ ...formData, background_color: e.target.value })}
+              className="w-20"
+            />
+            <Input
+              type="text"
+              value={formData.background_color}
+              onChange={(e) => setFormData({ ...formData, background_color: e.target.value })}
+              placeholder="#F5F5F5"
             />
           </div>
         </div>
@@ -628,16 +648,25 @@ function TabsContentTab({ documentId }: { documentId: number }) {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {tabs?.map(tab => (
-              <Button
-                key={tab.tabNumber}
-                variant={selectedTab === tab.tabNumber ? "default" : "outline"}
-                className="w-full justify-start"
-                onClick={() => handleSelectTab(tab.tabNumber)}
-              >
-                {tab.tabNumber === 0 ? 'Tab A' : tab.tabNumber === 11 ? 'Tab B' : tab.tabTitle}
-              </Button>
-            ))}
+            {tabs
+              ?.sort((a, b) => {
+                // Sort order: Tab A (0), Tab B (11), then 1-10
+                if (a.tabNumber === 0) return -1;
+                if (b.tabNumber === 0) return 1;
+                if (a.tabNumber === 11) return b.tabNumber === 0 ? 1 : -1;
+                if (b.tabNumber === 11) return 1;
+                return a.tabNumber - b.tabNumber;
+              })
+              .map(tab => (
+                <Button
+                  key={tab.tabNumber}
+                  variant={selectedTab === tab.tabNumber ? "default" : "outline"}
+                  className="w-full justify-start"
+                  onClick={() => handleSelectTab(tab.tabNumber)}
+                >
+                  {tab.tabNumber === 0 ? 'Tab A' : tab.tabNumber === 11 ? 'Tab B' : tab.tabTitle}
+                </Button>
+              ))}
           </div>
         </CardContent>
       </Card>
@@ -696,18 +725,20 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                   {upsertMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Save Tab
                 </Button>
-                <Button 
-                  variant="destructive" 
-                  onClick={() => {
-                    if (selectedTab !== null && confirm(`Delete Tab ${selectedTab}?`)) {
-                      deleteMutation.mutate({ documentId, tabNumber: selectedTab });
-                    }
-                  }}
-                  disabled={deleteMutation.isPending}
-                >
-                  {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+                {selectedTab !== 0 && selectedTab !== 11 && (
+                  <Button 
+                    variant="destructive" 
+                    onClick={() => {
+                      if (selectedTab !== null && confirm(`Delete Tab ${selectedTab}?`)) {
+                        deleteMutation.mutate({ documentId, tabNumber: selectedTab });
+                      }
+                    }}
+                    disabled={deleteMutation.isPending}
+                  >
+                    {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                )}
               </div>
             </>
           ) : (
