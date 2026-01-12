@@ -364,3 +364,9 @@
 - [ ] Test Notion import for team members
 - [ ] Test Notion import for projects
 - [ ] Save checkpoint
+
+## Phase 11: Display Full URLs in Admin Document Manager
+- [x] Update Document Manager to show full clickable URLs instead of just paths
+- [x] Make URLs clickable hyperlinks that open in new tab
+- [x] Test URL display and links
+- [ ] Save checkpoint

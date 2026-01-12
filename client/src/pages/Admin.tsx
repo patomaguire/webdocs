@@ -222,7 +222,15 @@ function DocumentSelector({ selectedDocumentId, onDocumentChange }: DocumentSele
                 <span className="font-semibold">Slug:</span> {selectedDoc.slug}
               </div>
               <div>
-                <span className="font-semibold">URL:</span> /doc/{selectedDoc.slug}
+                <span className="font-semibold">URL:</span>{" "}
+                <a 
+                  href={`${window.location.origin}/doc/${selectedDoc.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 underline break-all"
+                >
+                  {window.location.origin}/doc/{selectedDoc.slug}
+                </a>
               </div>
             </div>
           </div>
