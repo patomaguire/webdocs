@@ -447,3 +447,15 @@
 ## Phase 19: Correct Admin Password
 - [x] Update admin password from MproWebAdmin076 to M2proWebAdmin076
 - [x] Test new password works correctly
+
+## Phase 20: Admin Console Enhancements
+- [x] Change site name to "WebDoc Admin Console"
+- [x] Add delete document button to Document Manager
+- [x] Add confirmation dialog for document deletion
+- [x] Add backend procedure for document deletion
+- [x] Add filter by name/title to Team section
+- [x] Add sort by name/sortOrder to Team section
+- [x] Add filter by project name/client to Projects section
+- [x] Add sort by name/year/value to Projects section
+- [x] Add Manus Dashboard hyperlink to Settings tab for publishing
+- [ ] Test all filter and sort functionality

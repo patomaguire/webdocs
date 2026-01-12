@@ -337,9 +337,9 @@ export const appRouter = router({
         return { success: true, document: doc };
       }),
     delete: publicProcedure
-      .input(z.object({ id: z.number() }))
+      .input(z.object({ documentId: z.number() }))
       .mutation(async ({ input }) => {
-        await deleteDocument(input.id);
+        await deleteDocument(input.documentId);
         return { success: true };
       }),
     copyContent: publicProcedure

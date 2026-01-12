@@ -26,6 +26,7 @@ function DocumentSelector({ selectedDocumentId, onDocumentChange }: DocumentSele
   const { data: documents } = trpc.documents.getAll.useQuery();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isCopyDialogOpen, setIsCopyDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [createForm, setCreateForm] = useState({ slug: "", name: "", password: "" });
   const [sourceDocumentId, setSourceDocumentId] = useState<number | null>(null);
   
@@ -41,6 +42,22 @@ function DocumentSelector({ selectedDocumentId, onDocumentChange }: DocumentSele
     },
     onError: () => {
       toast.error("Failed to create document");
+    },
+  });
+
+  const deleteMutation = trpc.documents.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Document deleted successfully!");
+      utils.documents.getAll.invalidate();
+      setIsDeleteDialogOpen(false);
+      // Switch to first available document
+      if (documents && documents.length > 1) {
+        const remainingDoc = documents.find(d => d.id !== selectedDocumentId);
+        if (remainingDoc) onDocumentChange(remainingDoc.id);
+      }
+    },
+    onError: () => {
+      toast.error("Failed to delete document");
     },
   });
 
@@ -116,6 +133,15 @@ function DocumentSelector({ selectedDocumentId, onDocumentChange }: DocumentSele
           <Button onClick={() => setIsCopyDialogOpen(true)}>
             <Copy className="w-4 h-4 mr-2" />
             Copy from Document
+          </Button>
+
+          <Button 
+            variant="destructive" 
+            onClick={() => setIsDeleteDialogOpen(true)}
+            disabled={documents?.length === 1}
+          >
+            <Trash2 className="w-4 h-4 mr-2" />
+            Delete Document
           </Button>
 
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
@@ -207,6 +233,30 @@ function DocumentSelector({ selectedDocumentId, onDocumentChange }: DocumentSele
                 <Button onClick={handleCopy} disabled={copyMutation.isPending}>
                   {copyMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                   Copy Content
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Delete Document</DialogTitle>
+                <DialogDescription>
+                  Are you sure you want to delete "{selectedDoc?.name}"? This will permanently delete all content including settings, hero, tabs, team, projects, and comments. This action cannot be undone.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button 
+                  variant="destructive" 
+                  onClick={() => deleteMutation.mutate({ documentId: selectedDocumentId })}
+                  disabled={deleteMutation.isPending}
+                >
+                  {deleteMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                  Delete Permanently
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -311,7 +361,7 @@ export default function Admin() {
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto py-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold">WebDoc Admin Console</h1>
           <Button variant="outline" onClick={handleLogout}>
             Logout from Admin
           </Button>
@@ -562,6 +612,21 @@ function SettingsTab({ documentId }: { documentId: number }) {
             value={formData.logo4_url}
             onChange={(e) => setFormData({ ...formData, logo4_url: e.target.value })}
           />
+        </div>
+
+        <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <h3 className="font-semibold text-blue-900 mb-2">Publish Your Site</h3>
+          <p className="text-sm text-blue-700 mb-3">
+            To make your proposal site publicly accessible, click the Publish button in the Manus Dashboard. After publishing, you can customize domains and view analytics.
+          </p>
+          <a 
+            href="https://app.manus.im/projects" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 underline font-medium"
+          >
+            Open Manus Dashboard →
+          </a>
         </div>
 
         <Button onClick={handleSave} disabled={upsertMutation.isPending}>
@@ -917,6 +982,21 @@ function TeamTab({ documentId }: { documentId: number }) {
   
   const [notionDbId, setNotionDbId] = useState('');
   const [importingFromNotion, setImportingFromNotion] = useState(false);
+  const [filterText, setFilterText] = useState("");
+  const [sortBy, setSortBy] = useState<"name" | "sortOrder">("sortOrder");
+  
+  // Filter and sort members
+  const filteredAndSortedMembers = members
+    ?.filter(m => 
+      m.name?.toLowerCase().includes(filterText.toLowerCase()) ||
+      m.title?.toLowerCase().includes(filterText.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortBy === "name") {
+        return (a.name || "").localeCompare(b.name || "");
+      }
+      return (a.sortOrder || 0) - (b.sortOrder || 0);
+    });
   
   const importFromNotionMutation = trpc.team.importFromNotion.useMutation({
     onSuccess: (data) => {
@@ -1053,6 +1133,25 @@ function TeamTab({ documentId }: { documentId: number }) {
         </div>
       </div>
 
+      <div className="flex gap-4 items-center">
+        <div className="flex-1">
+          <Input
+            placeholder="Filter by name or title..."
+            value={filterText}
+            onChange={(e) => setFilterText(e.target.value)}
+          />
+        </div>
+        <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="sortOrder">Sort by Order</SelectItem>
+            <SelectItem value="name">Sort by Name</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       {showForm && (
         <Card>
           <CardHeader>
@@ -1139,7 +1238,7 @@ function TeamTab({ documentId }: { documentId: number }) {
       )}
 
       <div className="grid gap-4">
-        {members?.map(member => (
+        {filteredAndSortedMembers?.map(member => (
           <Card key={member.id}>
             <CardContent className="flex items-center justify-between p-4">
               <div className="flex items-center gap-4">
@@ -1290,6 +1389,28 @@ function ProjectsTab({ documentId }: { documentId: number }) {
   
   const [notionDbId, setNotionDbId] = useState('');
   const [importingFromNotion, setImportingFromNotion] = useState(false);
+  const [filterText, setFilterText] = useState("");
+  const [sortBy, setSortBy] = useState<"name" | "year" | "value">("name");
+  
+  // Filter and sort projects
+  const filteredAndSortedProjects = projects
+    ?.filter(p => 
+      p.projectName?.toLowerCase().includes(filterText.toLowerCase()) ||
+      p.client?.toLowerCase().includes(filterText.toLowerCase()) ||
+      p.location?.toLowerCase().includes(filterText.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortBy === "name") {
+        return (a.projectName || "").localeCompare(b.projectName || "");
+      } else if (sortBy === "year") {
+        return (b.projectYear || "").localeCompare(a.projectYear || "");
+      } else if (sortBy === "value") {
+        const aVal = parseFloat(a.projectValue || "0");
+        const bVal = parseFloat(b.projectValue || "0");
+        return bVal - aVal;
+      }
+      return 0;
+    });
   
   const importFromNotionMutation = trpc.projects.importFromNotion.useMutation({
     onSuccess: (data) => {
@@ -1441,6 +1562,26 @@ function ProjectsTab({ documentId }: { documentId: number }) {
         </div>
       </div>
 
+      <div className="flex gap-4 items-center">
+        <div className="flex-1">
+          <Input
+            placeholder="Filter by project name, client, or location..."
+            value={filterText}
+            onChange={(e) => setFilterText(e.target.value)}
+          />
+        </div>
+        <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="name">Sort by Name</SelectItem>
+            <SelectItem value="year">Sort by Year</SelectItem>
+            <SelectItem value="value">Sort by Value</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       {showForm && (
         <Card>
           <CardHeader>
@@ -1572,7 +1713,7 @@ function ProjectsTab({ documentId }: { documentId: number }) {
       )}
 
       <div className="grid gap-4">
-        {projects?.map(project => (
+        {filteredAndSortedProjects?.map(project => (
           <Card key={project.id}>
             <CardContent className="p-4">
               <div className="flex justify-between items-start">
