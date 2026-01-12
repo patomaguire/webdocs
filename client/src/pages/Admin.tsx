@@ -15,6 +15,11 @@ import { FileText } from "lucide-react";
 import { marked } from "marked";
 
 // ============= Document Selector Component =============
+interface DocumentSelectorProps {
+  selectedDocumentId: number;
+  onDocumentChange: (id: number) => void;
+}
+
 function DocumentSelector({ selectedDocumentId, onDocumentChange }: DocumentSelectorProps) {
   const utils = trpc.useUtils();
   const { data: documents } = trpc.documents.getAll.useQuery();
@@ -533,6 +538,13 @@ function TabsContentTab({ documentId }: { documentId: number }) {
       refetch();
     },
   });
+  const deleteMutation = trpc.tabs.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Tab deleted!");
+      refetch();
+      setSelectedTab(null);
+    },
+  });
 
   const [selectedTab, setSelectedTab] = useState<number | null>(null);
   const [formData, setFormData] = useState({
@@ -567,8 +579,18 @@ function TabsContentTab({ documentId }: { documentId: number }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
       <Card className="lg:col-span-1">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Tab List</CardTitle>
+          <Button size="sm" onClick={() => {
+            const nextTabNumber = tabs && tabs.length > 0 ? Math.max(...tabs.map(t => t.tabNumber)) + 1 : 0;
+            upsertMutation.mutate({
+              documentId,
+              tabNumber: nextTabNumber,
+              tabTitle: `New Tab ${nextTabNumber}`,
+              htmlContent: "",
+              isVisible: true,
+            });
+          }}>Add New Tab</Button>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
@@ -635,10 +657,24 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 </div>
               </div>
 
-              <Button onClick={handleSave} disabled={upsertMutation.isPending}>
-                {upsertMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Save Tab
-              </Button>
+              <div className="flex gap-2">
+                <Button onClick={handleSave} disabled={upsertMutation.isPending}>
+                  {upsertMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Save Tab
+                </Button>
+                <Button 
+                  variant="destructive" 
+                  onClick={() => {
+                    if (selectedTab !== null && confirm(`Delete Tab ${selectedTab}?`)) {
+                      deleteMutation.mutate({ documentId, tabNumber: selectedTab });
+                    }
+                  }}
+                  disabled={deleteMutation.isPending}
+                >
+                  {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
             </>
           ) : (
             <p className="text-muted-foreground">Select a tab from the list to edit its content</p>

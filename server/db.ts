@@ -517,17 +517,14 @@ export async function copyDocumentContent(sourceDocumentId: number, targetDocume
     await db.insert(teamMembers).values({
       documentId: targetDocumentId,
       name: member.name,
-      role: member.role,
+      title: member.title,
       photoUrl: member.photoUrl,
-      linkedin: member.linkedin,
-      email: member.email,
-      phone: member.phone,
       bio: member.bio,
-      expertise: member.expertise,
+      bioEs: member.bioEs,
       yearsExperience: member.yearsExperience,
-      education: member.education,
-      certifications: member.certifications,
+      keySkills: member.keySkills,
       sortOrder: member.sortOrder,
+      isVisible: member.isVisible,
     });
   }
 
@@ -537,21 +534,18 @@ export async function copyDocumentContent(sourceDocumentId: number, targetDocume
     await db.insert(projects).values({
       documentId: targetDocumentId,
       projectName: project.projectName,
-      clientName: project.clientName,
-      year: project.year,
-      duration: project.duration,
-      budget: project.budget,
+      entity: project.entity,
+      client: project.client,
+      location: project.location,
+      country: project.country,
+      latitude: project.latitude,
+      longitude: project.longitude,
+      projectValue: project.projectValue,
+      projectYear: project.projectYear,
+      services: project.services,
       description: project.description,
-      role: project.role,
-      technologies: project.technologies,
-      outcomes: project.outcomes,
-      challenges: project.challenges,
-      testimonial: project.testimonial,
-      testimonialAuthor: project.testimonialAuthor,
-      imageUrl: project.imageUrl,
-      caseStudyUrl: project.caseStudyUrl,
-      tags: project.tags,
       sortOrder: project.sortOrder,
+      isVisible: project.isVisible,
     });
   }
 

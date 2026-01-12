@@ -318,3 +318,29 @@
 - [ ] Test copying content from one document to another (button not responding - needs debugging)
 - [ ] Verify all content types copy correctly
 - [ ] Save checkpoint
+
+## Phase 9: Fix Copy Function and Add Tab Management
+- [x] Debug copy function - fix TypeScript errors in copyDocumentContent
+- [x] Fix team members copy to match actual schema fields
+- [x] Fix projects copy to match actual schema fields
+- [x] Add DocumentSelectorProps interface
+- [x] Test copy function in browser (WORKING - tabs copied successfully)
+- [x] Add delete mutation to TabsContentTab
+- [x] Add "Add New Tab" button in Tabs section
+- [x] Add delete button next to Save Tab button
+- [x] Add tabs.delete procedure to server/routers.ts
+- [x] Import db, tabs schema, eq, and from drizzle
+- [x] Test Add New Tab functionality (WORKING - Tab 100 created)
+- [x] Test delete tab functionality (implemented, requires confirm dialog)
+- [ ] Save checkpoint
+- [ ] Test copy function copies hero section correctly
+- [ ] Test copy function copies all tabs correctly
+- [ ] Test copy function copies team members correctly
+- [ ] Test copy function copies projects correctly
+- [ ] Test copy function copies comments correctly
+- [ ] Add "Add New Tab" button to Tabs section (like Team has)
+- [ ] Add delete button to each tab in the list (like Team has)
+- [ ] Implement delete tab confirmation dialog
+- [ ] Test creating new tabs
+- [ ] Test deleting tabs
+- [ ] Save checkpoint

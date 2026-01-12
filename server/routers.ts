@@ -4,6 +4,9 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { ENV } from "./_core/env";
+import { getDb } from "./db";
+import { tabsContent as tabs } from "../drizzle/schema";
+import { eq, and } from "drizzle-orm";
 import {
   createDocument,
   getDocumentBySlug,
@@ -97,6 +100,7 @@ export const appRouter = router({
       .query(async ({ input }) => await getTabByNumber(input.tabNumber, input.documentId ?? 1)),
     upsert: publicProcedure
       .input(z.object({
+        documentId: z.number(),
         tabNumber: z.number(),
         tabTitle: z.string(),
         htmlContent: z.string().optional(),
@@ -104,6 +108,14 @@ export const appRouter = router({
       }))
       .mutation(async ({ input }) => {
         await upsertTab(input);
+        return { success: true };
+      }),
+    delete: publicProcedure
+      .input(z.object({ documentId: z.number(), tabNumber: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database not available");
+        await db.delete(tabs).where(and(eq(tabs.documentId, input.documentId), eq(tabs.tabNumber, input.tabNumber)));
         return { success: true };
       }),
   }),
