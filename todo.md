@@ -532,3 +532,10 @@
 - [x] Ensure labels show position (left/right)
 - [x] Test visibility in Admin Settings - Labels now visible
 - [x] Save checkpoint
+
+## Phase 30: Fix File Upload Button Visibility
+- [x] Investigate why file input elements are not rendering
+- [x] Replace invisible file inputs with visible Button + hidden input pattern
+- [x] Add Upload icon and proper button styling
+- [x] Test upload functionality - Buttons now visible with upload icon
+- [x] Save checkpoint

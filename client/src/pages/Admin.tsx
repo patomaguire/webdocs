@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Loader2, Trash2, Plus, Copy } from "lucide-react";
+import { Loader2, Trash2, Plus, Copy, Upload } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -609,8 +609,9 @@ function SettingsTab({ documentId }: { documentId: number }) {
               )}
             </div>
             <div className="flex gap-2">
-              <Input
+              <input
                 type="file"
+                id="logo1-upload"
                 accept="image/*"
                 onChange={async (e) => {
                   const file = e.target.files?.[0];
@@ -631,8 +632,17 @@ function SettingsTab({ documentId }: { documentId: number }) {
                   };
                   reader.readAsDataURL(file);
                 }}
-                className="flex-1"
+                className="hidden"
               />
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => document.getElementById('logo1-upload')?.click()}
+                className="flex-1"
+              >
+                <Upload className="mr-2 h-4 w-4" />
+                Upload Image
+              </Button>
               <Input
                 placeholder="Or paste URL"
                 value={formData.logo1_url}
@@ -651,36 +661,9 @@ function SettingsTab({ documentId }: { documentId: number }) {
               )}
             </div>
             <div className="flex gap-2">
-              <Input
-                type="file"
-                accept="image/*"
-                onChange={async (e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
-                  const reader = new FileReader();
-                  reader.onload = async () => {
-                    const base64 = reader.result as string;
-                    const result = await trpc.imageUpload.uploadImage.mutate({
-                      fileData: base64,
-                      fileName: file.name,
-                      contentType: file.type,
-                      folder: 'logos',
-                    });
-                    if (result.success) {
-                      setFormData({ ...formData, logo2_url: result.url });
-                      toast.success('Logo 2 uploaded!');
-                    }
-                  };
-                  reader.readAsDataURL(file);
-                }}
-                className="flex-1"
-              />
-              <Input
-                placeholder="Or paste URL"
-                value={formData.logo2_url}
-                onChange={(e) => setFormData({ ...formData, logo2_url: e.target.value })}
-                className="flex-1"
-              />
+              <input type="file" id="logo2-upload" accept="image/*" onChange={async (e) => { const file = e.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = async () => { const base64 = reader.result as string; const result = await trpc.imageUpload.uploadImage.mutate({ fileData: base64, fileName: file.name, contentType: file.type, folder: 'logos', }); if (result.success) { setFormData({ ...formData, logo2_url: result.url }); toast.success('Logo 2 uploaded!'); } }; reader.readAsDataURL(file); }} className="hidden" />
+              <Button type="button" variant="outline" onClick={() => document.getElementById('logo2-upload')?.click()} className="flex-1"><Upload className="mr-2 h-4 w-4" />Upload Image</Button>
+              <Input placeholder="Or paste URL" value={formData.logo2_url} onChange={(e) => setFormData({ ...formData, logo2_url: e.target.value })} className="flex-1" />
             </div>
           </div>
 
@@ -693,36 +676,9 @@ function SettingsTab({ documentId }: { documentId: number }) {
               )}
             </div>
             <div className="flex gap-2">
-              <Input
-                type="file"
-                accept="image/*"
-                onChange={async (e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
-                  const reader = new FileReader();
-                  reader.onload = async () => {
-                    const base64 = reader.result as string;
-                    const result = await trpc.imageUpload.uploadImage.mutate({
-                      fileData: base64,
-                      fileName: file.name,
-                      contentType: file.type,
-                      folder: 'logos',
-                    });
-                    if (result.success) {
-                      setFormData({ ...formData, logo3_url: result.url });
-                      toast.success('Logo 3 uploaded!');
-                    }
-                  };
-                  reader.readAsDataURL(file);
-                }}
-                className="flex-1"
-              />
-              <Input
-                placeholder="Or paste URL"
-                value={formData.logo3_url}
-                onChange={(e) => setFormData({ ...formData, logo3_url: e.target.value })}
-                className="flex-1"
-              />
+              <input type="file" id="logo3-upload" accept="image/*" onChange={async (e) => { const file = e.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = async () => { const base64 = reader.result as string; const result = await trpc.imageUpload.uploadImage.mutate({ fileData: base64, fileName: file.name, contentType: file.type, folder: 'logos', }); if (result.success) { setFormData({ ...formData, logo3_url: result.url }); toast.success('Logo 3 uploaded!'); } }; reader.readAsDataURL(file); }} className="hidden" />
+              <Button type="button" variant="outline" onClick={() => document.getElementById('logo3-upload')?.click()} className="flex-1"><Upload className="mr-2 h-4 w-4" />Upload Image</Button>
+              <Input placeholder="Or paste URL" value={formData.logo3_url} onChange={(e) => setFormData({ ...formData, logo3_url: e.target.value })} className="flex-1" />
             </div>
           </div>
 
@@ -735,36 +691,9 @@ function SettingsTab({ documentId }: { documentId: number }) {
               )}
             </div>
             <div className="flex gap-2">
-              <Input
-                type="file"
-                accept="image/*"
-                onChange={async (e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
-                  const reader = new FileReader();
-                  reader.onload = async () => {
-                    const base64 = reader.result as string;
-                    const result = await trpc.imageUpload.uploadImage.mutate({
-                      fileData: base64,
-                      fileName: file.name,
-                      contentType: file.type,
-                      folder: 'logos',
-                    });
-                    if (result.success) {
-                      setFormData({ ...formData, logo4_url: result.url });
-                      toast.success('Logo 4 uploaded!');
-                    }
-                  };
-                  reader.readAsDataURL(file);
-                }}
-                className="flex-1"
-              />
-              <Input
-                placeholder="Or paste URL"
-                value={formData.logo4_url}
-                onChange={(e) => setFormData({ ...formData, logo4_url: e.target.value })}
-                className="flex-1"
-              />
+              <input type="file" id="logo4-upload" accept="image/*" onChange={async (e) => { const file = e.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = async () => { const base64 = reader.result as string; const result = await trpc.imageUpload.uploadImage.mutate({ fileData: base64, fileName: file.name, contentType: file.type, folder: 'logos', }); if (result.success) { setFormData({ ...formData, logo4_url: result.url }); toast.success('Logo 4 uploaded!'); } }; reader.readAsDataURL(file); }} className="hidden" />
+              <Button type="button" variant="outline" onClick={() => document.getElementById('logo4-upload')?.click()} className="flex-1"><Upload className="mr-2 h-4 w-4" />Upload Image</Button>
+              <Input placeholder="Or paste URL" value={formData.logo4_url} onChange={(e) => setFormData({ ...formData, logo4_url: e.target.value })} className="flex-1" />
             </div>
           </div>
         </div>
