@@ -5,7 +5,7 @@ export default function Home() {
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    setLocation("/proposal");
+    setLocation("/external");
   }, [setLocation]);
 
   return (

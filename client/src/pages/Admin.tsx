@@ -500,13 +500,13 @@ function SettingsTab({ documentId }: { documentId: number }) {
       </CardHeader>
       <CardContent className="space-y-4">
         <div>
-          <Label htmlFor="password">Proposal Password</Label>
+          <Label htmlFor="password">Public Access Password</Label>
           <Input
             id="password"
             type="text"
             value={formData.password}
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            placeholder="Enter password for proposal access"
+            placeholder="Enter password for public access"
           />
         </div>
 

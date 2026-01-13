@@ -35,7 +35,7 @@ export default function Proposal() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle className="text-center">Proposal Access</CardTitle>
+            <CardTitle className="text-center">Public Access</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handlePasswordSubmit} className="space-y-4">
@@ -51,7 +51,7 @@ export default function Proposal() {
                 />
               </div>
               <Button type="submit" className="w-full">
-                Access Proposal
+                Access Document
               </Button>
             </form>
           </CardContent>

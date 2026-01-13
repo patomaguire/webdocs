@@ -539,3 +539,14 @@
 - [x] Add Upload icon and proper button styling
 - [x] Test upload functionality - Buttons now visible with upload icon
 - [x] Save checkpoint
+
+## Phase 31: Change Proposal to Public Access and Update Route
+- [x] Update route from /proposal to /external in App.tsx
+- [x] Change "Proposal Access" to "Public Access" in password page
+- [x] Update all internal links and references to use /external
+- [x] Update Home.tsx redirect from /proposal to /external
+- [x] Update Admin.tsx placeholder and label text
+- [x] Update button text from "Access Proposal" to "Access Document"
+- [x] Test new route - /external works correctly
+- [x] Verify "Public Access" title displays
+- [x] Save checkpoint
