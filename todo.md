@@ -468,3 +468,11 @@
 - [x] Update Projects sort options: entity, client, location, value, year, services (remove name)
 - [x] Update Teams sort options: name, experience, title, skills
 - [ ] Test all filter combinations and sort orders
+
+## Phase 23: Fix OAuth Redirect to Admin
+- [x] Investigate why /admin redirects to /proposal after OAuth login
+- [x] Update getLoginUrl to encode returnPath in state parameter
+- [x] Update OAuth callback to parse and use returnPath from state
+- [x] Update SDK decodeState to handle JSON state format
+- [x] Update all login redirects to pass current pathname
+- [x] Test /admin access after OAuth login completes successfully
