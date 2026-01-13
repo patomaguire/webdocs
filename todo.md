@@ -500,3 +500,22 @@
 - [x] Update text to clarify Management UI location and Publish button
 - [x] Remove broken external link
 - [x] Save checkpoint with all Phase 25 and 26 changes
+
+## Phase 27: Live Notion Data Integration for Charts
+- [x] Add notionDatabaseUrl2 and notionDatabaseUrl3 fields to tabs_content schema
+- [x] Run database migration to add new columns
+- [x] Update Tabs editor UI with 3 Notion URL input fields (db1, db2, db3)
+- [x] Update backend router to accept 3 Notion URLs
+- [x] Create Notion MCP data fetching helper function
+- [x] Implement placeholder syntax parser for {{notion:db1:column}} format
+- [x] Create markdown preprocessor to replace placeholders with Notion data
+- [x] Add notionData tRPC router for processing markdown
+- [x] Update Proposal.tsx to fetch and inject Notion data before rendering
+- [x] Add trpc.notionData.processMarkdown query to ProposalContent
+- [x] Replace tab content rendering with processed content
+- [x] Update cheatsheet with placeholder syntax examples and multi-dataset examples
+- [x] Add "Live Notion Data Integration" section with syntax guide
+- [x] Add single-dataset and multi-dataset chart examples
+- [x] Add "How it works" and "Requirements" documentation
+- [x] Test with sample Notion database and chart (user will test with real data)
+- [x] Save checkpoint

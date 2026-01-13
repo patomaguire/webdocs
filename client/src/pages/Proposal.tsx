@@ -114,6 +114,30 @@ function ProposalContent({ documentId }: { documentId: number }) {
 
   const primaryColor = settingsMap.primary_color || "#E65100";
   const visibleTabs = tabs?.filter(t => t.isVisible) || [];
+  
+  // Get current tab
+  const currentTab = visibleTabs.find(t => t.tabNumber === activeTab);
+  
+  // Process Notion placeholders for current tab
+  const { data: processedContent } = trpc.notionData.processMarkdown.useQuery(
+    {
+      markdown: language === "es" && currentTab?.htmlContentEs 
+        ? currentTab.htmlContentEs 
+        : currentTab?.htmlContent || "",
+      notionUrls: {
+        db1: currentTab?.notionDatabaseUrl || undefined,
+        db2: currentTab?.notionDatabaseUrl2 || undefined,
+        db3: currentTab?.notionDatabaseUrl3 || undefined,
+      },
+    },
+    {
+      enabled: !!currentTab, // Only run when currentTab exists
+    }
+  );
+  
+  // Use processed content if available, otherwise fallback to original
+  const tabContent = processedContent?.processedMarkdown || 
+    (language === "es" && currentTab?.htmlContentEs ? currentTab.htmlContentEs : currentTab?.htmlContent || "");
 
   // Set first visible tab as active on load
   useEffect(() => {
@@ -121,8 +145,6 @@ function ProposalContent({ documentId }: { documentId: number }) {
       setActiveTab(visibleTabs[0].tabNumber);
     }
   }, [visibleTabs, activeTab]);
-
-  const currentTab = tabs?.find(t => t.tabNumber === activeTab);
 
   // Print Functions
   const printSection = () => {
@@ -632,11 +654,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                 <div className="mb-8">
                   <div 
                     dangerouslySetInnerHTML={{ 
-                      __html: renderContent(
-                        language === "es" && currentTab.htmlContentEs 
-                          ? currentTab.htmlContentEs 
-                          : currentTab.htmlContent
-                      )
+                      __html: renderContent(tabContent)
                     }} 
                     className="prose max-w-none mb-8"
                   />
@@ -691,11 +709,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
               {activeTab !== 8 && activeTab !== 11 && (
                 <div 
                   dangerouslySetInnerHTML={{ 
-                    __html: renderContent(
-                      language === "es" && currentTab.htmlContentEs 
-                        ? currentTab.htmlContentEs 
-                        : currentTab.htmlContent
-                    )
+                    __html: renderContent(tabContent)
                   }} 
                   className="prose max-w-none"
                 />

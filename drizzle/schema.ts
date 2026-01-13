@@ -80,6 +80,8 @@ export const tabsContent = mysqlTable("tabs_content", {
   backgroundType: mysqlEnum("backgroundType", ["color", "gradient", "image"]).default("color"),
   backgroundValue: text("backgroundValue"), // Hex color or image URL
   notionDatabaseUrl: text("notionDatabaseUrl"), // Notion database URL for chart generation
+  notionDatabaseUrl2: text("notionDatabaseUrl2"), // Second Notion database URL
+  notionDatabaseUrl3: text("notionDatabaseUrl3"), // Third Notion database URL
   isVisible: boolean("isVisible").default(true).notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({

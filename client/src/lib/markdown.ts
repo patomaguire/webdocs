@@ -55,6 +55,8 @@ export function isMarkdown(content: string | null | undefined): boolean {
 
 /**
  * Render content - auto-detect markdown or HTML
+ * Note: Notion placeholder processing happens in ProposalContent component
+ * This function only handles markdown-to-HTML conversion
  */
 export function renderContent(content: string | null | undefined): string {
   if (!content) return '';

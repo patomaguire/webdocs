@@ -742,6 +742,8 @@ function TabsContentTab({ documentId }: { documentId: number }) {
     backgroundType: "color" as "color" | "gradient" | "image",
     backgroundValue: "#FFFFFF",
     notionDatabaseUrl: "",
+    notionDatabaseUrl2: "",
+    notionDatabaseUrl3: "",
   });
 
   const handleSelectTab = (tabNumber: number) => {
@@ -755,6 +757,8 @@ function TabsContentTab({ documentId }: { documentId: number }) {
         backgroundType: (tab.backgroundType as "color" | "gradient" | "image") || "color",
         backgroundValue: tab.backgroundValue || "#FFFFFF",
         notionDatabaseUrl: tab.notionDatabaseUrl || "",
+        notionDatabaseUrl2: tab.notionDatabaseUrl2 || "",
+        notionDatabaseUrl3: tab.notionDatabaseUrl3 || "",
       });
     }
   };
@@ -894,19 +898,41 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 )}
               </div>
 
-              {/* Notion Database URL - Only for tabs 1-10 */}
+              {/* Notion Database URLs - Only for tabs 1-10 */}
               {selectedTab !== null && selectedTab >= 1 && selectedTab <= 10 && (
-                <div>
-                  <Label htmlFor="notionDatabaseUrl">Notion Database URL (for charts)</Label>
-                  <Input
-                    id="notionDatabaseUrl"
-                    type="text"
-                    value={formData.notionDatabaseUrl}
-                    onChange={(e) => setFormData({ ...formData, notionDatabaseUrl: e.target.value })}
-                    placeholder="https://notion.so/your-database-id"
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Optional: Link a Notion database for chart generation. See cheatsheet below for usage.
+                <div className="space-y-3">
+                  <div>
+                    <Label htmlFor="notionDatabaseUrl">Notion Database 1 (db1)</Label>
+                    <Input
+                      id="notionDatabaseUrl"
+                      type="text"
+                      value={formData.notionDatabaseUrl}
+                      onChange={(e) => setFormData({ ...formData, notionDatabaseUrl: e.target.value })}
+                      placeholder="https://notion.so/your-database-id"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="notionDatabaseUrl2">Notion Database 2 (db2)</Label>
+                    <Input
+                      id="notionDatabaseUrl2"
+                      type="text"
+                      value={formData.notionDatabaseUrl2}
+                      onChange={(e) => setFormData({ ...formData, notionDatabaseUrl2: e.target.value })}
+                      placeholder="https://notion.so/your-second-database-id"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="notionDatabaseUrl3">Notion Database 3 (db3)</Label>
+                    <Input
+                      id="notionDatabaseUrl3"
+                      type="text"
+                      value={formData.notionDatabaseUrl3}
+                      onChange={(e) => setFormData({ ...formData, notionDatabaseUrl3: e.target.value })}
+                      placeholder="https://notion.so/your-third-database-id"
+                    />
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    💡 Use placeholders in markdown: {'{'}{'{'} notion:db1:column_name {'}'}{'}'},  {'{'}{'{'} notion:db2:column_name {'}'}{'}'},  etc.
                   </p>
                 </div>
               )}

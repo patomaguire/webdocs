@@ -342,6 +342,105 @@ new Chart(ctx, {
             </div>
           </div>
 
+          {/* Notion Data Integration */}
+          <div>
+            <h3 className="font-semibold text-md mb-2 text-blue-700">🔗 Live Notion Data Integration</h3>
+            <div className="bg-gray-50 p-3 rounded space-y-4 text-sm">
+              <div className="text-gray-600">
+                Pull live data from Notion databases into your Chart.js visualizations using placeholder syntax.
+                Configure up to 3 Notion database URLs in the fields above (db1, db2, db3).
+              </div>
+              
+              {/* Placeholder Syntax */}
+              <div>
+                <div className="text-gray-600 mb-1 font-semibold">Placeholder Syntax:</div>
+                <pre className="whitespace-pre-wrap font-mono text-xs bg-white p-2 rounded">{`{{notion:db1:column_name}}  // Fetches data from Database 1
+{{notion:db2:column_name}}  // Fetches data from Database 2
+{{notion:db3:column_name}}  // Fetches data from Database 3`}</pre>
+              </div>
+
+              {/* Single Dataset Example */}
+              <div>
+                <div className="text-gray-600 mb-1 font-semibold">Example: Bar Chart with Notion Data</div>
+                <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto">{`<canvas id="notionBarChart" width="600" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('notionBarChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: {{notion:db1:project_names}},
+    datasets: [{
+      label: 'Project Values',
+      data: {{notion:db1:project_values}},
+      backgroundColor: '#36A2EB'
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: { y: { beginAtZero: true } },
+    plugins: { title: { display: true, text: 'Projects from Notion' } }
+  }
+});
+</script>`}</pre>
+              </div>
+
+              {/* Multi-Dataset Example */}
+              <div>
+                <div className="text-gray-600 mb-1 font-semibold">Example: Multi-Dataset Comparison</div>
+                <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto">{`<canvas id="comparisonChart" width="600" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('comparisonChart').getContext('2d');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: {{notion:db1:months}},
+    datasets: [
+      {
+        label: '2023 Revenue',
+        data: {{notion:db1:revenue_2023}},
+        borderColor: '#FF6384',
+        backgroundColor: 'rgba(255, 99, 132, 0.1)'
+      },
+      {
+        label: '2024 Revenue',
+        data: {{notion:db2:revenue_2024}},
+        borderColor: '#36A2EB',
+        backgroundColor: 'rgba(54, 162, 235, 0.1)'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { title: { display: true, text: 'Revenue Comparison' } }
+  }
+});
+</script>`}</pre>
+              </div>
+
+              <div className="bg-yellow-50 p-2 rounded text-xs">
+                <strong>How it works:</strong>
+                <ol className="list-decimal list-inside space-y-1 mt-1">
+                  <li>Add Notion database URLs in the fields above (Database 1, 2, 3)</li>
+                  <li>Use placeholder syntax in your Chart.js code</li>
+                  <li>System fetches data from Notion and replaces placeholders with JSON arrays</li>
+                  <li>Charts render with live Notion data automatically</li>
+                </ol>
+              </div>
+
+              <div className="bg-blue-50 p-2 rounded text-xs">
+                <strong>Requirements:</strong>
+                <ul className="list-disc list-inside space-y-1 mt-1">
+                  <li>Notion database must be shared/published</li>
+                  <li>Column names must match exactly (case-sensitive)</li>
+                  <li>Numeric columns for chart data values</li>
+                  <li>Text columns for labels</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
           {/* Tips */}
           <div className="bg-blue-50 border-l-4 border-blue-600 p-4">
             <h3 className="font-semibold text-md mb-2 text-blue-700">💡 Tips</h3>
