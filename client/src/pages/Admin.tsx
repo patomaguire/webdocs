@@ -603,7 +603,7 @@ function SettingsTab({ documentId }: { documentId: number }) {
           {/* Logo 1 */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label className="text-sm">Logo 1 (left)</Label>
+              <Label className="text-sm font-semibold text-foreground">Logo 1 (left)</Label>
               {formData.logo1_url && (
                 <img src={formData.logo1_url} alt="Logo 1" className="h-8 max-w-[100px] object-contain" />
               )}
@@ -645,7 +645,7 @@ function SettingsTab({ documentId }: { documentId: number }) {
           {/* Logo 2 */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label className="text-sm">Logo 2 (right)</Label>
+              <Label className="text-sm font-semibold text-foreground">Logo 2 (right)</Label>
               {formData.logo2_url && (
                 <img src={formData.logo2_url} alt="Logo 2" className="h-8 max-w-[100px] object-contain" />
               )}
@@ -687,7 +687,7 @@ function SettingsTab({ documentId }: { documentId: number }) {
           {/* Logo 3 */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label className="text-sm">Logo 3 (left)</Label>
+              <Label className="text-sm font-semibold text-foreground">Logo 3 (left)</Label>
               {formData.logo3_url && (
                 <img src={formData.logo3_url} alt="Logo 3" className="h-8 max-w-[100px] object-contain" />
               )}
@@ -729,7 +729,7 @@ function SettingsTab({ documentId }: { documentId: number }) {
           {/* Logo 4 */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label className="text-sm">Logo 4 (right)</Label>
+              <Label className="text-sm font-semibold text-foreground">Logo 4 (right)</Label>
               {formData.logo4_url && (
                 <img src={formData.logo4_url} alt="Logo 4" className="h-8 max-w-[100px] object-contain" />
               )}
