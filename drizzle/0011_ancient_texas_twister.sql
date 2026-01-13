@@ -1,0 +1,1 @@
+ALTER TABLE `tabs_content` ADD `notionDatabaseUrl` text;

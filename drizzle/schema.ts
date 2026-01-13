@@ -79,6 +79,7 @@ export const tabsContent = mysqlTable("tabs_content", {
   htmlContentEs: text("htmlContentEs"), // Spanish translation
   backgroundType: mysqlEnum("backgroundType", ["color", "gradient", "image"]).default("color"),
   backgroundValue: text("backgroundValue"), // Hex color or image URL
+  notionDatabaseUrl: text("notionDatabaseUrl"), // Notion database URL for chart generation
   isVisible: boolean("isVisible").default(true).notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({

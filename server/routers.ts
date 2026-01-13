@@ -105,6 +105,9 @@ export const appRouter = router({
         tabTitle: z.string(),
         htmlContent: z.string().optional(),
         isVisible: z.boolean().optional(),
+        backgroundType: z.enum(["color", "gradient", "image"]).optional(),
+        backgroundValue: z.string().optional(),
+        notionDatabaseUrl: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
         await upsertTab(input);

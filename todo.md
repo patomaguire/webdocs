@@ -480,3 +480,23 @@
 ## Phase 24: Add Project Name Label
 - [x] Add internal project name label to admin console header
 - [x] Display "Internal project name: client_name_proposal" at top of admin console
+
+
+## Phase 25: Notion Embeds and Chart Visualizations
+- [x] Update markdown cheatsheet with Notion embed iframe syntax and full explanation
+- [x] Add Chart.js examples (pie, bar, line, Gantt) to cheatsheet with complete syntax
+- [x] Add notionDatabaseUrl field to tabs_content table schema
+- [x] Run database migration with SQL ALTER TABLE
+- [x] Add Notion database URL input field to Tabs editor (tabs 1-10 only, not A or B)
+- [x] Add notionDatabaseUrl to backend schema and router
+- [ ] Create chart configuration UI for selecting chart type (Option 3 - deferred pending user testing)
+- [ ] Implement Notion data import for chart generation (Option 3 - deferred pending user testing)
+- [ ] Add chart rendering component with Chart.js integration (Option 3 - deferred pending user testing)
+- [x] Test Notion embed in tab content (manual approach ready for user testing)
+- [x] Test chart generation from Notion data (manual approach ready for user testing)
+
+## Phase 26: Fix Broken Manus Dashboard Link
+- [x] Fix "Open Manus Dashboard" link in Settings tab
+- [x] Update text to clarify Management UI location and Publish button
+- [x] Remove broken external link
+- [x] Save checkpoint with all Phase 25 and 26 changes

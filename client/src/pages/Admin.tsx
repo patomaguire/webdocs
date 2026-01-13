@@ -624,16 +624,11 @@ function SettingsTab({ documentId }: { documentId: number }) {
         <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
           <h3 className="font-semibold text-blue-900 mb-2">Publish Your Site</h3>
           <p className="text-sm text-blue-700 mb-3">
-            To make your proposal site publicly accessible, click the Publish button in the Manus Dashboard. After publishing, you can customize domains and view analytics.
+            To make your proposal site publicly accessible, click the <strong>Publish</strong> button in the Management UI panel (top-right corner of this page). After publishing, you can customize domains and view analytics in the Dashboard panel.
           </p>
-          <a 
-            href="https://app.manus.im/projects" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 underline font-medium"
-          >
-            Open Manus Dashboard →
-          </a>
+          <p className="text-xs text-blue-600 italic">
+            💡 Tip: Click the panel icon in the top-right corner to open Management UI → Dashboard
+          </p>
         </div>
 
         <Button onClick={handleSave} disabled={upsertMutation.isPending}>
@@ -746,6 +741,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
     isVisible: true,
     backgroundType: "color" as "color" | "gradient" | "image",
     backgroundValue: "#FFFFFF",
+    notionDatabaseUrl: "",
   });
 
   const handleSelectTab = (tabNumber: number) => {
@@ -758,6 +754,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
         isVisible: tab.isVisible ?? true,
         backgroundType: (tab.backgroundType as "color" | "gradient" | "image") || "color",
         backgroundValue: tab.backgroundValue || "#FFFFFF",
+        notionDatabaseUrl: tab.notionDatabaseUrl || "",
       });
     }
   };
@@ -896,6 +893,23 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                   />
                 )}
               </div>
+
+              {/* Notion Database URL - Only for tabs 1-10 */}
+              {selectedTab !== null && selectedTab >= 1 && selectedTab <= 10 && (
+                <div>
+                  <Label htmlFor="notionDatabaseUrl">Notion Database URL (for charts)</Label>
+                  <Input
+                    id="notionDatabaseUrl"
+                    type="text"
+                    value={formData.notionDatabaseUrl}
+                    onChange={(e) => setFormData({ ...formData, notionDatabaseUrl: e.target.value })}
+                    placeholder="https://notion.so/your-database-id"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Optional: Link a Notion database for chart generation. See cheatsheet below for usage.
+                  </p>
+                </div>
+              )}
 
               <MarkdownCheatsheet />
 

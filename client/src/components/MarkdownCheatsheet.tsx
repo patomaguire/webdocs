@@ -190,6 +190,158 @@ Multiple lines
             </div>
           </div>
 
+          {/* Notion Embeds */}
+          <div>
+            <h3 className="font-semibold text-md mb-2 text-purple-700">📊 Notion Database Embeds</h3>
+            <div className="bg-gray-50 p-3 rounded space-y-3 text-sm">
+              <div>
+                <div className="text-gray-600 mb-2">Embed Notion databases as interactive tables, timelines, galleries, and more.</div>
+                <div className="text-gray-600 mb-2 font-semibold">Step 1: Get Notion Embed Link</div>
+                <ol className="text-gray-600 ml-4 space-y-1 text-xs">
+                  <li>1. Open your Notion database</li>
+                  <li>2. Click "Share" → "Publish to web"</li>
+                  <li>3. Copy the public link (e.g., https://notion.so/...)</li>
+                  <li>4. Or click "Copy embed link" for iframe code</li>
+                </ol>
+              </div>
+              <div>
+                <div className="text-gray-600 mb-1 font-semibold">Step 2: Embed in Tab Content</div>
+                <pre className="whitespace-pre-wrap font-mono text-xs">{`<iframe 
+  src="https://notion.so/your-database-id?v=..." 
+  width="100%" 
+  height="600px" 
+  frameborder="0"
+  style="border-radius: 8px;">
+</iframe>`}</pre>
+              </div>
+              <div className="bg-purple-50 p-2 rounded text-xs">
+                <strong>Notion Views:</strong> Table, Board (Kanban), Timeline (Gantt), Calendar, Gallery, List. 
+                Create different views in Notion and embed each with its unique URL.
+              </div>
+            </div>
+          </div>
+
+          {/* Chart.js Visualizations */}
+          <div>
+            <h3 className="font-semibold text-md mb-2 text-blue-700">📈 Chart.js Visualizations</h3>
+            <div className="bg-gray-50 p-3 rounded space-y-4 text-sm">
+              <div className="text-gray-600">Create custom charts using Chart.js. Add canvas element and script to render interactive charts.</div>
+              
+              {/* Pie Chart */}
+              <div>
+                <div className="text-gray-600 mb-1 font-semibold">Pie Chart:</div>
+                <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto">{`<canvas id="myPieChart" width="400" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('myPieChart').getContext('2d');
+new Chart(ctx, {
+  type: 'pie',
+  data: {
+    labels: ['Design', 'Construction', 'Planning', 'Management'],
+    datasets: [{
+      data: [30, 40, 20, 10],
+      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom' },
+      title: { display: true, text: 'Project Distribution' }
+    }
+  }
+});
+</script>`}</pre>
+              </div>
+
+              {/* Bar Chart */}
+              <div>
+                <div className="text-gray-600 mb-1 font-semibold">Bar Chart:</div>
+                <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto">{`<canvas id="myBarChart" width="600" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('myBarChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['2020', '2021', '2022', '2023', '2024'],
+    datasets: [{
+      label: 'Projects Completed',
+      data: [12, 19, 15, 25, 22],
+      backgroundColor: '#36A2EB'
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: { y: { beginAtZero: true } },
+    plugins: { title: { display: true, text: 'Annual Projects' } }
+  }
+});
+</script>`}</pre>
+              </div>
+
+              {/* Line Chart */}
+              <div>
+                <div className="text-gray-600 mb-1 font-semibold">Line Chart:</div>
+                <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto">{`<canvas id="myLineChart" width="600" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('myLineChart').getContext('2d');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [{
+      label: 'Revenue (M)',
+      data: [2.5, 3.2, 2.8, 4.1, 3.9, 4.5],
+      borderColor: '#FF6384',
+      backgroundColor: 'rgba(255, 99, 132, 0.1)',
+      tension: 0.4,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { title: { display: true, text: 'Revenue Trend' } }
+  }
+});
+</script>`}</pre>
+              </div>
+
+              {/* Gantt-style */}
+              <div>
+                <div className="text-gray-600 mb-1 font-semibold">Gantt-Style Chart (Horizontal Bar):</div>
+                <pre className="whitespace-pre-wrap font-mono text-xs overflow-x-auto">{`<canvas id="ganttChart" width="800" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('ganttChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Planning', 'Design', 'Construction', 'Testing'],
+    datasets: [{
+      label: 'Duration (weeks)',
+      data: [4, 8, 16, 3],
+      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { title: { display: true, text: 'Project Timeline' } },
+    scales: { x: { beginAtZero: true } }
+  }
+});
+</script>`}</pre>
+              </div>
+
+              <div className="bg-blue-50 p-2 rounded text-xs">
+                <strong>Important:</strong> Each chart needs a unique ID. Change <code className="bg-white px-1 rounded">id="myPieChart"</code> 
+                to different names if using multiple charts in the same tab.
+              </div>
+            </div>
+          </div>
+
           {/* Tips */}
           <div className="bg-blue-50 border-l-4 border-blue-600 p-4">
             <h3 className="font-semibold text-md mb-2 text-blue-700">💡 Tips</h3>

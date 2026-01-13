@@ -78,6 +78,13 @@
       "when": 1768254457583,
       "tag": "0010_fancy_champions",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1768315858036,
+      "tag": "0011_ancient_texas_twister",
+      "breakpoints": true
     }
   ]
 }
