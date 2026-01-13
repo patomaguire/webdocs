@@ -333,7 +333,7 @@ export default function Admin() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Admin Access Required</CardTitle>
+            <CardTitle>WebDoc Admin Console</CardTitle>
             <CardDescription>Enter the admin password to continue</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
