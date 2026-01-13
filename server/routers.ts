@@ -3,6 +3,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { notionDataRouter } from "./notionDataRouter";
+import { imageUploadRouter } from "./imageUploadRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { ENV } from "./_core/env";
 import { getDb } from "./db";
@@ -44,6 +45,7 @@ import {
 export const appRouter = router({
   system: systemRouter,
   notionData: notionDataRouter,
+  imageUpload: imageUploadRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),

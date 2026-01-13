@@ -597,28 +597,176 @@ function SettingsTab({ documentId }: { documentId: number }) {
           </div>
         </div>
 
-        <div className="space-y-2">
-          <Label>Logo URLs (2 left, 2 right)</Label>
-          <Input
-            placeholder="Logo 1 URL (left)"
-            value={formData.logo1_url}
-            onChange={(e) => setFormData({ ...formData, logo1_url: e.target.value })}
-          />
-          <Input
-            placeholder="Logo 2 URL (right)"
-            value={formData.logo2_url}
-            onChange={(e) => setFormData({ ...formData, logo2_url: e.target.value })}
-          />
-          <Input
-            placeholder="Logo 3 URL (left)"
-            value={formData.logo3_url}
-            onChange={(e) => setFormData({ ...formData, logo3_url: e.target.value })}
-          />
-          <Input
-            placeholder="Logo 4 URL (right)"
-            value={formData.logo4_url}
-            onChange={(e) => setFormData({ ...formData, logo4_url: e.target.value })}
-          />
+        <div className="space-y-4">
+          <Label>Logo Images (2 left, 2 right)</Label>
+          
+          {/* Logo 1 */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <Label className="text-sm">Logo 1 (left)</Label>
+              {formData.logo1_url && (
+                <img src={formData.logo1_url} alt="Logo 1" className="h-8 max-w-[100px] object-contain" />
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const reader = new FileReader();
+                  reader.onload = async () => {
+                    const base64 = reader.result as string;
+                    const result = await trpc.imageUpload.uploadImage.mutate({
+                      fileData: base64,
+                      fileName: file.name,
+                      contentType: file.type,
+                      folder: 'logos',
+                    });
+                    if (result.success) {
+                      setFormData({ ...formData, logo1_url: result.url });
+                      toast.success('Logo 1 uploaded!');
+                    }
+                  };
+                  reader.readAsDataURL(file);
+                }}
+                className="flex-1"
+              />
+              <Input
+                placeholder="Or paste URL"
+                value={formData.logo1_url}
+                onChange={(e) => setFormData({ ...formData, logo1_url: e.target.value })}
+                className="flex-1"
+              />
+            </div>
+          </div>
+
+          {/* Logo 2 */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <Label className="text-sm">Logo 2 (right)</Label>
+              {formData.logo2_url && (
+                <img src={formData.logo2_url} alt="Logo 2" className="h-8 max-w-[100px] object-contain" />
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const reader = new FileReader();
+                  reader.onload = async () => {
+                    const base64 = reader.result as string;
+                    const result = await trpc.imageUpload.uploadImage.mutate({
+                      fileData: base64,
+                      fileName: file.name,
+                      contentType: file.type,
+                      folder: 'logos',
+                    });
+                    if (result.success) {
+                      setFormData({ ...formData, logo2_url: result.url });
+                      toast.success('Logo 2 uploaded!');
+                    }
+                  };
+                  reader.readAsDataURL(file);
+                }}
+                className="flex-1"
+              />
+              <Input
+                placeholder="Or paste URL"
+                value={formData.logo2_url}
+                onChange={(e) => setFormData({ ...formData, logo2_url: e.target.value })}
+                className="flex-1"
+              />
+            </div>
+          </div>
+
+          {/* Logo 3 */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <Label className="text-sm">Logo 3 (left)</Label>
+              {formData.logo3_url && (
+                <img src={formData.logo3_url} alt="Logo 3" className="h-8 max-w-[100px] object-contain" />
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const reader = new FileReader();
+                  reader.onload = async () => {
+                    const base64 = reader.result as string;
+                    const result = await trpc.imageUpload.uploadImage.mutate({
+                      fileData: base64,
+                      fileName: file.name,
+                      contentType: file.type,
+                      folder: 'logos',
+                    });
+                    if (result.success) {
+                      setFormData({ ...formData, logo3_url: result.url });
+                      toast.success('Logo 3 uploaded!');
+                    }
+                  };
+                  reader.readAsDataURL(file);
+                }}
+                className="flex-1"
+              />
+              <Input
+                placeholder="Or paste URL"
+                value={formData.logo3_url}
+                onChange={(e) => setFormData({ ...formData, logo3_url: e.target.value })}
+                className="flex-1"
+              />
+            </div>
+          </div>
+
+          {/* Logo 4 */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <Label className="text-sm">Logo 4 (right)</Label>
+              {formData.logo4_url && (
+                <img src={formData.logo4_url} alt="Logo 4" className="h-8 max-w-[100px] object-contain" />
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const reader = new FileReader();
+                  reader.onload = async () => {
+                    const base64 = reader.result as string;
+                    const result = await trpc.imageUpload.uploadImage.mutate({
+                      fileData: base64,
+                      fileName: file.name,
+                      contentType: file.type,
+                      folder: 'logos',
+                    });
+                    if (result.success) {
+                      setFormData({ ...formData, logo4_url: result.url });
+                      toast.success('Logo 4 uploaded!');
+                    }
+                  };
+                  reader.readAsDataURL(file);
+                }}
+                className="flex-1"
+              />
+              <Input
+                placeholder="Or paste URL"
+                value={formData.logo4_url}
+                onChange={(e) => setFormData({ ...formData, logo4_url: e.target.value })}
+                className="flex-1"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
@@ -889,12 +1037,50 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 )}
 
                 {formData.backgroundType === "image" && (
-                  <Input
-                    type="text"
-                    value={formData.backgroundValue}
-                    onChange={(e) => setFormData({ ...formData, backgroundValue: e.target.value })}
-                    placeholder="https://example.com/background.jpg"
-                  />
+                  <div className="space-y-2">
+                    <div className="flex gap-2">
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          const reader = new FileReader();
+                          reader.onload = async () => {
+                            const base64 = reader.result as string;
+                            const result = await trpc.imageUpload.uploadImage.mutate({
+                              fileData: base64,
+                              fileName: file.name,
+                              contentType: file.type,
+                              folder: 'backgrounds',
+                            });
+                            if (result.success) {
+                              setFormData({ ...formData, backgroundValue: result.url });
+                              toast.success('Background image uploaded!');
+                            }
+                          };
+                          reader.readAsDataURL(file);
+                        }}
+                        className="flex-1"
+                      />
+                      <Input
+                        type="text"
+                        value={formData.backgroundValue}
+                        onChange={(e) => setFormData({ ...formData, backgroundValue: e.target.value })}
+                        placeholder="Or paste image URL"
+                        className="flex-1"
+                      />
+                    </div>
+                    {formData.backgroundValue && (
+                      <div className="relative w-full h-24 rounded border">
+                        <img
+                          src={formData.backgroundValue}
+                          alt="Background preview"
+                          className="w-full h-full object-cover rounded"
+                        />
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
 

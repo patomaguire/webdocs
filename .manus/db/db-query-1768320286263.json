@@ -1,0 +1,37 @@
+{
+  "query": "SHOW TABLES;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SHOW TABLES;",
+  "rows": [
+    {
+      "Tables_in_jkvEoGLbv7QkcKGpVwBVtE": "__drizzle_migrations"
+    },
+    {
+      "Tables_in_jkvEoGLbv7QkcKGpVwBVtE": "comments"
+    },
+    {
+      "Tables_in_jkvEoGLbv7QkcKGpVwBVtE": "documents"
+    },
+    {
+      "Tables_in_jkvEoGLbv7QkcKGpVwBVtE": "hero_section"
+    },
+    {
+      "Tables_in_jkvEoGLbv7QkcKGpVwBVtE": "projects"
+    },
+    {
+      "Tables_in_jkvEoGLbv7QkcKGpVwBVtE": "proposal_settings"
+    },
+    {
+      "Tables_in_jkvEoGLbv7QkcKGpVwBVtE": "tabs_content"
+    },
+    {
+      "Tables_in_jkvEoGLbv7QkcKGpVwBVtE": "team_members"
+    },
+    {
+      "Tables_in_jkvEoGLbv7QkcKGpVwBVtE": "users"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_jkvEoGLbv7QkcKGpVwBVtE\n__drizzle_migrations\ncomments\ndocuments\nhero_section\nprojects\nproposal_settings\ntabs_content\nteam_members\nusers\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

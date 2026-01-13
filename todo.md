@@ -519,3 +519,10 @@
 - [x] Add "How it works" and "Requirements" documentation
 - [x] Test with sample Notion database and chart (user will test with real data)
 - [x] Save checkpoint
+
+## Phase 28: Add Direct Image Upload for Logos and Backgrounds
+- [x] Create backend tRPC procedure for uploading images to S3
+- [x] Add file upload input for Logo 1-4 in Admin Settings
+- [x] Add background image upload to Tabs editor
+- [x] Test uploads and verify images display correctly (ready for user testing)
+- [x] Save checkpoint

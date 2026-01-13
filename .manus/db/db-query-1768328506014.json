@@ -1,0 +1,50 @@
+{
+  "query": "SELECT * FROM proposal_settings WHERE settingKey = 'logo1_url';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT * FROM proposal_settings WHERE settingKey = 'logo1_url';",
+  "rows": [
+    {
+      "id": "4",
+      "documentId": "1",
+      "settingKey": "logo1_url",
+      "settingValue": "",
+      "updatedAt": "2026-01-08 14:29:33",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "210006",
+      "documentId": "90002",
+      "settingKey": "logo1_url",
+      "settingValue": "https://www.notion.so/IPP-EPCM-Consultants-2be0c93ee04c80f3aae2e082de7f1659?source=copy_link#2e70c93ee04c8087a1e4dc0e0e4213bb",
+      "updatedAt": "2026-01-13 18:06:17",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "240024",
+      "documentId": "60002",
+      "settingKey": "logo1_url",
+      "settingValue": "",
+      "updatedAt": "2026-01-12 15:45:25",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "270053",
+      "documentId": "30002",
+      "settingKey": "logo1_url",
+      "settingValue": "",
+      "updatedAt": "2026-01-12 19:31:54",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tdocumentId\tsettingKey\tsettingValue\tupdatedAt\tshowMap\tshowTeam\tshowComments\n4\t1\tlogo1_url\t\t2026-01-08 14:29:33\t1\t1\t1\n210006\t90002\tlogo1_url\thttps://www.notion.so/IPP-EPCM-Consultants-2be0c93ee04c80f3aae2e082de7f1659?source=copy_link#2e70c93ee04c8087a1e4dc0e0e4213bb\t2026-01-13 18:06:17\t1\t1\t1\n240024\t60002\tlogo1_url\t\t2026-01-12 15:45:25\t1\t1\t1\n270053\t30002\tlogo1_url\t\t2026-01-12 19:31:54\t1\t1\t1\n",
+  "stderr": "",
+  "execution_time_ms": 79
+}
