@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { FileText } from "lucide-react";
 import { marked } from 'marked';
 import { MarkdownCheatsheet } from '@/components/MarkdownCheatsheet';
+import { FilterCheatsheet } from '@/components/FilterCheatsheet';
+import { filterProjects, filterTeamMembers } from '@/lib/advancedFilter';
 
 // ============= Document Selector Component =============
 interface DocumentSelectorProps {
@@ -983,20 +985,24 @@ function TeamTab({ documentId }: { documentId: number }) {
   const [notionDbId, setNotionDbId] = useState('');
   const [importingFromNotion, setImportingFromNotion] = useState(false);
   const [filterText, setFilterText] = useState("");
-  const [sortBy, setSortBy] = useState<"name" | "sortOrder">("sortOrder");
+  const [sortBy, setSortBy] = useState<"name" | "experience" | "title" | "skills">("name");
   
   // Filter and sort members
-  const filteredAndSortedMembers = members
-    ?.filter(m => 
-      m.name?.toLowerCase().includes(filterText.toLowerCase()) ||
-      m.title?.toLowerCase().includes(filterText.toLowerCase())
-    )
-    .sort((a, b) => {
+  const filteredAndSortedMembers = useMemo(() => {
+    const filtered = filterTeamMembers(members || [], filterText);
+    return filtered.sort((a, b) => {
       if (sortBy === "name") {
         return (a.name || "").localeCompare(b.name || "");
+      } else if (sortBy === "experience") {
+        return (b.yearsExperience || 0) - (a.yearsExperience || 0);
+      } else if (sortBy === "title") {
+        return (a.title || "").localeCompare(b.title || "");
+      } else if (sortBy === "skills") {
+        return (a.keySkills || "").localeCompare(b.keySkills || "");
       }
-      return (a.sortOrder || 0) - (b.sortOrder || 0);
+      return 0;
     });
+  }, [members, filterText, sortBy]);
   
   const importFromNotionMutation = trpc.team.importFromNotion.useMutation({
     onSuccess: (data) => {
@@ -1133,23 +1139,28 @@ function TeamTab({ documentId }: { documentId: number }) {
         </div>
       </div>
 
-      <div className="flex gap-4 items-center">
-        <div className="flex-1">
-          <Input
-            placeholder="Filter by name or title..."
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
-          />
+      <div className="space-y-2">
+        <div className="flex gap-4 items-center">
+          <div className="flex-1">
+            <Input
+              placeholder="Filter by name, title, experience, skills, or bio..."
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+            />
+          </div>
+          <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="name">Sort by Name</SelectItem>
+              <SelectItem value="experience">Sort by Experience</SelectItem>
+              <SelectItem value="title">Sort by Title</SelectItem>
+              <SelectItem value="skills">Sort by Skills</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
-          <SelectTrigger className="w-[200px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="sortOrder">Sort by Order</SelectItem>
-            <SelectItem value="name">Sort by Name</SelectItem>
-          </SelectContent>
-        </Select>
+        <FilterCheatsheet type="teams" />
       </div>
 
       {showForm && (
@@ -1390,27 +1401,30 @@ function ProjectsTab({ documentId }: { documentId: number }) {
   const [notionDbId, setNotionDbId] = useState('');
   const [importingFromNotion, setImportingFromNotion] = useState(false);
   const [filterText, setFilterText] = useState("");
-  const [sortBy, setSortBy] = useState<"name" | "year" | "value">("name");
+  const [sortBy, setSortBy] = useState<"entity" | "client" | "location" | "value" | "year" | "services">("entity");
   
   // Filter and sort projects
-  const filteredAndSortedProjects = projects
-    ?.filter(p => 
-      p.projectName?.toLowerCase().includes(filterText.toLowerCase()) ||
-      p.client?.toLowerCase().includes(filterText.toLowerCase()) ||
-      p.location?.toLowerCase().includes(filterText.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (sortBy === "name") {
-        return (a.projectName || "").localeCompare(b.projectName || "");
+  const filteredAndSortedProjects = useMemo(() => {
+    const filtered = filterProjects(projects || [], filterText);
+    return filtered.sort((a, b) => {
+      if (sortBy === "entity") {
+        return (a.entity || "").localeCompare(b.entity || "");
+      } else if (sortBy === "client") {
+        return (a.client || "").localeCompare(b.client || "");
+      } else if (sortBy === "location") {
+        return (a.location || "").localeCompare(b.location || "");
       } else if (sortBy === "year") {
         return (b.projectYear || "").localeCompare(a.projectYear || "");
       } else if (sortBy === "value") {
         const aVal = parseFloat(a.projectValue || "0");
         const bVal = parseFloat(b.projectValue || "0");
         return bVal - aVal;
+      } else if (sortBy === "services") {
+        return (a.services || "").localeCompare(b.services || "");
       }
       return 0;
     });
+  }, [projects, filterText, sortBy]);
   
   const importFromNotionMutation = trpc.projects.importFromNotion.useMutation({
     onSuccess: (data) => {
@@ -1562,24 +1576,30 @@ function ProjectsTab({ documentId }: { documentId: number }) {
         </div>
       </div>
 
-      <div className="flex gap-4 items-center">
-        <div className="flex-1">
-          <Input
-            placeholder="Filter by project name, client, or location..."
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
-          />
+      <div className="space-y-2">
+        <div className="flex gap-4 items-center">
+          <div className="flex-1">
+            <Input
+              placeholder="Filter projects using advanced syntax (see guide below)..."
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+            />
+          </div>
+          <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="entity">Sort by Entity</SelectItem>
+              <SelectItem value="client">Sort by Client</SelectItem>
+              <SelectItem value="location">Sort by Location</SelectItem>
+              <SelectItem value="value">Sort by Value</SelectItem>
+              <SelectItem value="year">Sort by Year</SelectItem>
+              <SelectItem value="services">Sort by Services</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
-          <SelectTrigger className="w-[200px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="name">Sort by Name</SelectItem>
-            <SelectItem value="year">Sort by Year</SelectItem>
-            <SelectItem value="value">Sort by Value</SelectItem>
-          </SelectContent>
-        </Select>
+        <FilterCheatsheet type="projects" />
       </div>
 
       {showForm && (

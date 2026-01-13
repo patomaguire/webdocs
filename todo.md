@@ -459,3 +459,12 @@
 - [x] Add sort by name/year/value to Projects section
 - [x] Add Manus Dashboard hyperlink to Settings tab for publishing
 - [ ] Test all filter and sort functionality
+
+## Phase 22: Advanced Filter and Sort Enhancements
+- [x] Create advanced filter system for Projects tab with logic operations (AND, OR, IS, IS NOT)
+- [x] Add filter cheatsheet to Projects tab explaining syntax and examples
+- [x] Expand Teams filter to support name, title, years of experience, skills, and bio keywords
+- [x] Add filter cheatsheet to Teams tab explaining syntax and examples
+- [x] Update Projects sort options: entity, client, location, value, year, services (remove name)
+- [x] Update Teams sort options: name, experience, title, skills
+- [ ] Test all filter combinations and sort orders
