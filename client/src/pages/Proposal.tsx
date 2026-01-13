@@ -504,7 +504,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                     <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                   </svg>
-                  {language === "en" ? "Who we are" : "Quiénes somos"}
+                  {visibleTabs.find(t => t.tabNumber === 0)?.tabTitle || (language === "en" ? "Who we are" : "Quiénes somos")}
                 </button>
               )}
               {visibleTabs.some(t => t.tabNumber === 11) && (
@@ -517,7 +517,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                     <circle cx="12" cy="10" r="3"/>
                   </svg>
-                  {language === "en" ? "Experience map" : "Mapa de experiencia"}
+                  {visibleTabs.find(t => t.tabNumber === 11)?.tabTitle || (language === "en" ? "Experience map" : "Mapa de experiencia")}
                 </button>
               )}
             </div>

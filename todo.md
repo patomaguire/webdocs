@@ -550,3 +550,11 @@
 - [x] Test new route - /external works correctly
 - [x] Verify "Public Access" title displays
 - [x] Save checkpoint
+
+## Phase 32: Make Tab A and B Titles Dynamic
+- [x] Find where Tab A and B titles are hardcoded in Proposal.tsx
+- [x] Update Tab A (tabNumber 0) to use tabTitle from database
+- [x] Update Tab B (tabNumber 11) to use tabTitle from database
+- [x] Add fallback to hardcoded text if tabTitle is empty
+- [x] Test tab title display with custom names - Working correctly
+- [x] Save checkpoint
