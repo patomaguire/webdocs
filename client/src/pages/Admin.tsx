@@ -363,7 +363,12 @@ export default function Admin() {
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto py-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">WebDoc Admin Console</h1>
+          <div>
+            <h1 className="text-3xl font-bold">WebDoc Admin Console</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Internal project name: <code className="bg-muted px-1.5 py-0.5 rounded">client_name_proposal</code>
+            </p>
+          </div>
           <Button variant="outline" onClick={handleLogout}>
             Logout from Admin
           </Button>

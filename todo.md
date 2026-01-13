@@ -476,3 +476,7 @@
 - [x] Update SDK decodeState to handle JSON state format
 - [x] Update all login redirects to pass current pathname
 - [x] Test /admin access after OAuth login completes successfully
+
+## Phase 24: Add Project Name Label
+- [x] Add internal project name label to admin console header
+- [x] Display "Internal project name: client_name_proposal" at top of admin console
