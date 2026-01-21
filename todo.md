@@ -608,3 +608,11 @@
 - [x] Update Notion import to use MCP server instead of direct API
 - [x] Test import with provided Notion URL (Business Plan 2026 block)
 - [x] Verify imported content displays correctly in tabs
+
+## Phase 26: Fix Notion Block Import and URL Persistence
+- [x] Investigate why block links fetch full page instead of specific block
+- [x] Fix block ID extraction to prioritize anchor block ID over page ID
+- [x] Investigate why Notion URLs are not saving to database
+- [x] Fix URL persistence in Admin interface
+- [x] Test with user's block link to verify only block content is imported
+- [x] Verify Notion URL saves correctly to database

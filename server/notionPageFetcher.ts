@@ -9,19 +9,32 @@ const execAsync = promisify(exec);
  */
 export async function fetchNotionPageContent(pageUrl: string): Promise<string> {
   try {
-    // Extract page ID from URL
+    // Extract page ID or block ID from URL
     // Notion URLs format: https://www.notion.so/Page-Title-{pageId}
-    // Also supports block anchors: https://www.notion.so/Page-Title-{pageId}#{blockId}
-    const pageIdMatch = pageUrl.match(/([a-f0-9]{32}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/i);
+    // Block anchors: https://www.notion.so/Page-Title-{pageId}#{blockId}
+    // When a block anchor is present, we want to fetch ONLY that block
     
-    if (!pageIdMatch) {
-      throw new Error('Invalid Notion page URL. Please provide a valid Notion page link.');
+    let targetId: string;
+    
+    // Check if URL has a block anchor (#blockId)
+    const anchorMatch = pageUrl.match(/#([a-f0-9]{32}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/i);
+    
+    if (anchorMatch) {
+      // Block anchor found - use the block ID
+      targetId = anchorMatch[1];
+    } else {
+      // No block anchor - extract page ID from main URL
+      const pageIdMatch = pageUrl.match(/([a-f0-9]{32}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/i);
+      
+      if (!pageIdMatch) {
+        throw new Error('Invalid Notion page URL. Please provide a valid Notion page link.');
+      }
+      
+      targetId = pageIdMatch[1];
     }
     
-    const pageId = pageIdMatch[1];
-    
-    // Use Notion MCP notion-fetch tool to read page content
-    const command = `manus-mcp-cli tool call notion-fetch --server notion --input '{"id": "${pageId}"}'`;
+    // Use Notion MCP notion-fetch tool to read page/block content
+    const command = `manus-mcp-cli tool call notion-fetch --server notion --input '{"id": "${targetId}"}'`;
     
     const { stdout, stderr } = await execAsync(command, {
       maxBuffer: 10 * 1024 * 1024, // 10MB buffer for large pages
