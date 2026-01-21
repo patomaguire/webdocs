@@ -586,3 +586,12 @@
 - [x] Fix logo display issue - Increased from h-10 to h-16, max-w from 120px to 180px
 - [x] Test logo display on external page - Logo now clearly visible!
 - [x] Save checkpoint
+
+## Phase 36: Add Notion Rich Text Import for Tab Content
+- [x] Create backend tRPC procedure to fetch Notion page content as markdown
+- [x] Add "Import from Notion" button and URL input to Tabs editor
+- [x] Implement non-destructive import logic (only update if successful)
+- [x] Add error handling for invalid URLs or empty content
+- [x] Add Download icon import
+- [x] Test import with sample Notion page - Ready for user testing
+- [x] Save checkpoint

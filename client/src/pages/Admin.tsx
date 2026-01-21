@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Loader2, Trash2, Plus, Copy, Upload } from "lucide-react";
+import { Loader2, Trash2, Plus, Copy, Upload, Download } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -822,8 +822,10 @@ function TabsContentTab({ documentId }: { documentId: number }) {
       setSelectedTab(null);
     },
   });
+  const notionPageImportMutation = trpc.notionPage.fetchPageContent.useMutation();
 
   const [selectedTab, setSelectedTab] = useState<number | null>(null);
+  const [notionPageUrl, setNotionPageUrl] = useState("");
   const [formData, setFormData] = useState({
     tabTitle: "",
     htmlContent: "",
@@ -849,6 +851,32 @@ function TabsContentTab({ documentId }: { documentId: number }) {
         notionDatabaseUrl2: tab.notionDatabaseUrl2 || "",
         notionDatabaseUrl3: tab.notionDatabaseUrl3 || "",
       });
+    }
+  };
+
+  // Handler for Notion page import
+  const handleNotionPageImport = async () => {
+    if (!notionPageUrl.trim()) {
+      toast.error("Please enter a Notion page URL");
+      return;
+    }
+
+    try {
+      const result = await notionPageImportMutation.mutateAsync({
+        pageUrl: notionPageUrl.trim(),
+      });
+
+      if (result.success && result.content) {
+        // Non-destructive: only update if content is successfully fetched
+        setFormData({ ...formData, htmlContent: result.content });
+        toast.success(result.message || "Content imported from Notion!");
+        setNotionPageUrl(""); // Clear URL after successful import
+      } else {
+        toast.error(result.message || "Failed to import from Notion");
+      }
+    } catch (error: any) {
+      console.error("Notion import error:", error);
+      toast.error(error.message || "Failed to import from Notion");
     }
   };
 
@@ -1065,6 +1093,31 @@ function TabsContentTab({ documentId }: { documentId: number }) {
               )}
 
               <MarkdownCheatsheet />
+
+              {/* Import from Notion Section */}
+              <div className="border rounded-md p-4 mb-4 bg-muted/50">
+                <Label className="text-sm font-semibold">Import Content from Notion Page</Label>
+                <div className="flex gap-2 mt-2">
+                  <Input
+                    placeholder="Paste Notion page URL here..."
+                    value={notionPageUrl}
+                    onChange={(e) => setNotionPageUrl(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Button
+                    onClick={handleNotionPageImport}
+                    disabled={!notionPageUrl || notionPageImportMutation.isPending}
+                    variant="outline"
+                  >
+                    {notionPageImportMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    <Download className="mr-2 h-4 w-4" />
+                    Import
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  💡 Import rich text content from a Notion page. Only updates if import succeeds.
+                </p>
+              </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>

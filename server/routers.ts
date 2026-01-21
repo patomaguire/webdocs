@@ -4,6 +4,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { notionDataRouter } from "./notionDataRouter";
 import { imageUploadRouter } from "./imageUploadRouter";
+import { notionPageRouter } from "./notionPageRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { ENV } from "./_core/env";
 import { getDb } from "./db";
@@ -46,6 +47,7 @@ export const appRouter = router({
   system: systemRouter,
   notionData: notionDataRouter,
   imageUpload: imageUploadRouter,
+  notionPage: notionPageRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
