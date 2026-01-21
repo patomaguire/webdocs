@@ -375,14 +375,14 @@ function ProposalContent({ documentId }: { documentId: number }) {
                 <img 
                   src={settingsMap.logo1_url} 
                   alt="Logo 1" 
-                  className="h-10 max-w-[120px] object-contain" 
+                  className="h-16 max-w-[180px] object-contain" 
                 />
               )}
               {settingsMap.logo3_url && (
                 <img 
                   src={settingsMap.logo3_url} 
                   alt="Logo 3" 
-                  className="h-10 max-w-[120px] object-contain" 
+                  className="h-16 max-w-[180px] object-contain" 
                 />
               )}
             </div>
@@ -459,14 +459,14 @@ function ProposalContent({ documentId }: { documentId: number }) {
                 <img 
                   src={settingsMap.logo4_url} 
                   alt="Logo 4" 
-                  className="h-10 max-w-[120px] object-contain" 
+                  className="h-16 max-w-[180px] object-contain" 
                 />
               )}
               {settingsMap.logo2_url && (
                 <img 
                   src={settingsMap.logo2_url} 
                   alt="Logo 2" 
-                  className="h-10 max-w-[120px] object-contain" 
+                  className="h-16 max-w-[180px] object-contain" 
                 />
               )}
             </div>

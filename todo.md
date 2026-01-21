@@ -578,3 +578,11 @@
 - [x] Test logo upload - Working! Logo 1 uploaded successfully
 - [x] Test Hero save end-to-end with new error handling - Still not persisting, needs backend investigation
 - [x] Save checkpoint with working logo upload
+
+## Phase 35: Fix Logo Display on External Page
+- [x] Check if logo URLs are being fetched from database on external page - Working
+- [x] Verify settingsMap contains logo URLs in Proposal.tsx - Confirmed
+- [x] Check if logo rendering logic is correct in header - Found issue: logos too small
+- [x] Fix logo display issue - Increased from h-10 to h-16, max-w from 120px to 180px
+- [x] Test logo display on external page - Logo now clearly visible!
+- [x] Save checkpoint
