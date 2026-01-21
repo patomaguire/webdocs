@@ -1,0 +1,106 @@
+{
+  "query": "SELECT id, documentId, settingKey, settingValue FROM proposal_settings WHERE settingKey LIKE 'logo%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, documentId, settingKey, settingValue FROM proposal_settings WHERE settingKey LIKE 'logo%';",
+  "rows": [
+    {
+      "id": "4",
+      "documentId": "1",
+      "settingKey": "logo1_url",
+      "settingValue": ""
+    },
+    {
+      "id": "5",
+      "documentId": "1",
+      "settingKey": "logo2_url",
+      "settingValue": ""
+    },
+    {
+      "id": "6",
+      "documentId": "1",
+      "settingKey": "logo3_url",
+      "settingValue": ""
+    },
+    {
+      "id": "7",
+      "documentId": "1",
+      "settingKey": "logo4_url",
+      "settingValue": ""
+    },
+    {
+      "id": "210006",
+      "documentId": "90002",
+      "settingKey": "logo1_url",
+      "settingValue": ""
+    },
+    {
+      "id": "210007",
+      "documentId": "90002",
+      "settingKey": "logo2_url",
+      "settingValue": ""
+    },
+    {
+      "id": "210008",
+      "documentId": "90002",
+      "settingKey": "logo3_url",
+      "settingValue": ""
+    },
+    {
+      "id": "210009",
+      "documentId": "90002",
+      "settingKey": "logo4_url",
+      "settingValue": ""
+    },
+    {
+      "id": "240024",
+      "documentId": "60002",
+      "settingKey": "logo1_url",
+      "settingValue": ""
+    },
+    {
+      "id": "240025",
+      "documentId": "60002",
+      "settingKey": "logo2_url",
+      "settingValue": ""
+    },
+    {
+      "id": "240026",
+      "documentId": "60002",
+      "settingKey": "logo3_url",
+      "settingValue": ""
+    },
+    {
+      "id": "240027",
+      "documentId": "60002",
+      "settingKey": "logo4_url",
+      "settingValue": ""
+    },
+    {
+      "id": "270053",
+      "documentId": "30002",
+      "settingKey": "logo1_url",
+      "settingValue": ""
+    },
+    {
+      "id": "270054",
+      "documentId": "30002",
+      "settingKey": "logo2_url",
+      "settingValue": ""
+    },
+    {
+      "id": "270055",
+      "documentId": "30002",
+      "settingKey": "logo3_url",
+      "settingValue": ""
+    },
+    {
+      "id": "270056",
+      "documentId": "30002",
+      "settingKey": "logo4_url",
+      "settingValue": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tdocumentId\tsettingKey\tsettingValue\n4\t1\tlogo1_url\t\n5\t1\tlogo2_url\t\n6\t1\tlogo3_url\t\n7\t1\tlogo4_url\t\n210006\t90002\tlogo1_url\t\n210007\t90002\tlogo2_url\t\n210008\t90002\tlogo3_url\t\n210009\t90002\tlogo4_url\t\n240024\t60002\tlogo1_url\t\n240025\t60002\tlogo2_url\t\n240026\t60002\tlogo3_url\t\n240027\t60002\tlogo4_url\t\n270053\t30002\tlogo1_url\t\n270054\t30002\tlogo2_url\t\n270055\t30002\tlogo3_url\t\n270056\t30002\tlogo4_url\t\n",
+  "stderr": "",
+  "execution_time_ms": 142
+}

@@ -732,7 +732,7 @@ function HeroTab({ documentId }: { documentId: number }) {
     stampText: "",
   });
 
-  useState(() => {
+  useEffect(() => {
     if (hero) {
       setFormData({
         mainTitle: hero.mainTitle || "",
@@ -740,7 +740,7 @@ function HeroTab({ documentId }: { documentId: number }) {
         stampText: hero.stampText || "",
       });
     }
-  });
+  }, [hero]);
 
   const handleSave = () => {
     upsertMutation.mutate(formData);

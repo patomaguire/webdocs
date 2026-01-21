@@ -1,0 +1,26 @@
+{
+  "query": "SELECT settingKey, settingValue FROM proposal_settings WHERE settingKey LIKE 'logo%' AND documentId = 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT settingKey, settingValue FROM proposal_settings WHERE settingKey LIKE 'logo%' AND documentId = 1;",
+  "rows": [
+    {
+      "settingKey": "logo1_url",
+      "settingValue": ""
+    },
+    {
+      "settingKey": "logo2_url",
+      "settingValue": ""
+    },
+    {
+      "settingKey": "logo3_url",
+      "settingValue": ""
+    },
+    {
+      "settingKey": "logo4_url",
+      "settingValue": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "settingKey\tsettingValue\nlogo1_url\t\nlogo2_url\t\nlogo3_url\t\nlogo4_url\t\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}
