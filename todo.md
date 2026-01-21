@@ -595,3 +595,16 @@
 - [x] Add Download icon import
 - [x] Test import with sample Notion page - Ready for user testing
 - [x] Save checkpoint
+
+## Phase 37: Fix Tab Background Color and Image Functionality
+- [ ] Test background color picker in Tabs editor
+- [ ] Test background image upload in Tabs editor
+- [ ] Verify background displays correctly on external page
+- [ ] Fix any rendering issues with background color/image
+- [ ] Save checkpoint
+
+## Phase 25: Fix Notion Import to Use MCP Server
+- [x] Investigate current Notion import implementation in notionPageRouter.ts
+- [x] Update Notion import to use MCP server instead of direct API
+- [x] Test import with provided Notion URL (Business Plan 2026 block)
+- [x] Verify imported content displays correctly in tabs

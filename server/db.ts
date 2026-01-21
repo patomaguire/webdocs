@@ -224,7 +224,12 @@ export async function upsertTab(data: Omit<InsertTabContent, 'id'>): Promise<voi
         set: { 
           tabTitle: data.tabTitle, 
           htmlContent: data.htmlContent,
-          isVisible: data.isVisible ?? true
+          isVisible: data.isVisible ?? true,
+          backgroundType: data.backgroundType,
+          backgroundValue: data.backgroundValue,
+          notionDatabaseUrl: data.notionDatabaseUrl,
+          notionDatabaseUrl2: data.notionDatabaseUrl2,
+          notionDatabaseUrl3: data.notionDatabaseUrl3
         } 
       });
   } catch (error) {
