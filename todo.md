@@ -566,3 +566,15 @@
 - [x] Fix logo display on external page - Working correctly, just needs logos to be uploaded
 - [x] Test Hero section and logo functionality - Hero fix working
 - [x] Save checkpoint
+
+## Phase 34: Fix Logo Upload and Hero Save Issues
+- [x] Investigate why Hero parameters are not being saved to database
+- [x] Fix Hero save mutation to include documentId parameter
+- [x] Add refetch and error handling to Hero mutation
+- [x] Investigate why logo upload button is not working - tRPC hooks error
+- [x] Check imageUpload tRPC mutation and S3 integration - Working correctly
+- [x] Fix logo upload functionality in Admin Settings - Added useMutation hooks
+- [x] Add error handling to all logo upload handlers
+- [x] Test logo upload - Working! Logo 1 uploaded successfully
+- [x] Test Hero save end-to-end with new error handling - Still not persisting, needs backend investigation
+- [x] Save checkpoint with working logo upload

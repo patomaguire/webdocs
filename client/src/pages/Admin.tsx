@@ -437,6 +437,8 @@ function SettingsTab({ documentId }: { documentId: number }) {
     },
   });
   
+  const imageUploadMutation = trpc.imageUpload.uploadImage.useMutation();
+  
   const [formData, setFormData] = useState({
     password: "",
     notification_email: "",
@@ -618,16 +620,21 @@ function SettingsTab({ documentId }: { documentId: number }) {
                   if (!file) return;
                   const reader = new FileReader();
                   reader.onload = async () => {
-                    const base64 = reader.result as string;
-                    const result = await trpc.imageUpload.uploadImage.mutate({
-                      fileData: base64,
-                      fileName: file.name,
-                      contentType: file.type,
-                      folder: 'logos',
-                    });
-                    if (result.success) {
-                      setFormData({ ...formData, logo1_url: result.url });
-                      toast.success('Logo 1 uploaded!');
+                    try {
+                      const base64 = reader.result as string;
+                      const result = await imageUploadMutation.mutateAsync({
+                        fileData: base64,
+                        fileName: file.name,
+                        contentType: file.type,
+                        folder: 'logos',
+                      });
+                      if (result.success) {
+                        setFormData({ ...formData, logo1_url: result.url });
+                        toast.success('Logo 1 uploaded!');
+                      }
+                    } catch (error) {
+                      console.error('Logo upload error:', error);
+                      toast.error('Failed to upload logo: ' + (error as Error).message);
                     }
                   };
                   reader.readAsDataURL(file);
@@ -719,10 +726,14 @@ function SettingsTab({ documentId }: { documentId: number }) {
 
 // ============= Hero Tab =============
 function HeroTab({ documentId }: { documentId: number }) {
-  const { data: hero, isLoading } = trpc.hero.get.useQuery({ documentId });
+  const { data: hero, isLoading, refetch } = trpc.hero.get.useQuery({ documentId });
   const upsertMutation = trpc.hero.upsert.useMutation({
     onSuccess: () => {
       toast.success("Hero section updated!");
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Failed to save: ${error.message}`);
     },
   });
 
@@ -743,7 +754,7 @@ function HeroTab({ documentId }: { documentId: number }) {
   }, [hero]);
 
   const handleSave = () => {
-    upsertMutation.mutate(formData);
+    upsertMutation.mutate({ documentId, ...formData });
   };
 
   if (isLoading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin" /></div>;
@@ -803,6 +814,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
       refetch();
     },
   });
+  const imageUploadMutation = trpc.imageUpload.uploadImage.useMutation();
   const deleteMutation = trpc.tabs.delete.useMutation({
     onSuccess: () => {
       toast.success("Tab deleted!");
@@ -977,7 +989,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                           const reader = new FileReader();
                           reader.onload = async () => {
                             const base64 = reader.result as string;
-                            const result = await trpc.imageUpload.uploadImage.mutate({
+                            const result = await imageUploadMutation.mutateAsync({
                               fileData: base64,
                               fileName: file.name,
                               contentType: file.type,
