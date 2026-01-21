@@ -616,3 +616,8 @@
 - [x] Fix URL persistence in Admin interface
 - [x] Test with user's block link to verify only block content is imported
 - [x] Verify Notion URL saves correctly to database
+
+## Phase 27: Add Direct Notion Markdown Paste Feature
+- [x] Add textarea for pasting Notion markdown directly in Admin
+- [x] Remove or simplify the URL-based import that keeps failing
+- [ ] Test with user's Notion content

@@ -36,9 +36,15 @@ export async function fetchNotionPageContent(pageUrl: string): Promise<string> {
     // Use Notion MCP notion-fetch tool to read page/block content
     const command = `manus-mcp-cli tool call notion-fetch --server notion --input '{"id": "${targetId}"}'`;
     
+    console.log('[Notion Import] Fetching with command:', command);
+    console.log('[Notion Import] Target ID:', targetId);
+    
     const { stdout, stderr } = await execAsync(command, {
       maxBuffer: 10 * 1024 * 1024, // 10MB buffer for large pages
     });
+    
+    console.log('[Notion Import] stdout length:', stdout?.length || 0);
+    console.log('[Notion Import] stderr:', stderr || 'none');
     
     if (stderr && !stderr.includes('OAuth') && !stderr.includes('Tool execution')) {
       console.error('Notion MCP stderr:', stderr);
@@ -77,7 +83,9 @@ export async function fetchNotionPageContent(pageUrl: string): Promise<string> {
     }
     
   } catch (error: any) {
-    console.error('Error fetching Notion page:', error);
+    console.error('[Notion Import] Error fetching Notion page:', error);
+    console.error('[Notion Import] Error message:', error.message);
+    console.error('[Notion Import] Error stack:', error.stack);
     
     if (error.message?.includes('OAuth')) {
       throw new Error('Notion authentication required. Please authenticate via Notion MCP.');

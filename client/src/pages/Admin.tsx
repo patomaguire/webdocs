@@ -826,6 +826,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
 
   const [selectedTab, setSelectedTab] = useState<number | null>(null);
   const [notionPageUrl, setNotionPageUrl] = useState("");
+  const [notionMarkdownInput, setNotionMarkdownInput] = useState("");
   const [formData, setFormData] = useState({
     tabTitle: "",
     htmlContent: "",
@@ -851,6 +852,59 @@ function TabsContentTab({ documentId }: { documentId: number }) {
         notionDatabaseUrl2: tab.notionDatabaseUrl2 || "",
         notionDatabaseUrl3: tab.notionDatabaseUrl3 || "",
       });
+    }
+  };
+
+  // Handler for converting Notion markdown
+  const handleConvertNotionMarkdown = () => {
+    if (!notionMarkdownInput.trim()) {
+      toast.error("Please paste some Notion markdown first");
+      return;
+    }
+
+    try {
+      // Convert Notion-specific markdown to standard markdown
+      let converted = notionMarkdownInput;
+
+      // Remove toggle blocks (▶)
+      converted = converted.replace(/▶\s*###\s*\*\*(.*?)\*\*/g, '### $1');
+      converted = converted.replace(/▶\s*##\s*\*\*(.*?)\*\*/g, '## $1');
+      converted = converted.replace(/▶\s*#\s*\*\*(.*?)\*\*/g, '# $1');
+      converted = converted.replace(/▶\s*\*\*(.*?)\*\*/g, '**$1**');
+      converted = converted.replace(/▶\s*/g, '');
+
+      // Remove Notion color syntax
+      converted = converted.replace(/\s*\{color="[^"]+"\}/g, '');
+
+      // Remove empty blocks
+      converted = converted.replace(/<empty-block\/>/g, '');
+
+      // Convert Notion columns to sections with dividers
+      converted = converted.replace(/<columns>[\s\S]*?<\/columns>/g, (match) => {
+        const columnMatches = match.match(/<column>([\s\S]*?)<\/column>/g);
+        if (!columnMatches) return '';
+        return columnMatches.map(col => {
+          const content = col.replace(/<\/?column>/g, '').trim();
+          return content;
+        }).join('\n\n---\n\n');
+      });
+
+      // Convert Notion images
+      converted = converted.replace(/<image source="([^"]+)"[^>]*>/g, '![]($1)');
+
+      // Convert Notion files
+      converted = converted.replace(/<file source="([^"]+)"[^>]*>/g, '[Download File]($1)');
+
+      // Clean up excessive whitespace
+      converted = converted.replace(/\n{3,}/g, '\n\n');
+
+      // Insert converted content into the markdown editor
+      setFormData({ ...formData, htmlContent: converted.trim() });
+      setNotionMarkdownInput('');
+      toast.success("Notion markdown converted and inserted!");
+    } catch (error: any) {
+      console.error("Conversion error:", error);
+      toast.error("Failed to convert markdown");
     }
   };
 
@@ -1096,26 +1150,34 @@ function TabsContentTab({ documentId }: { documentId: number }) {
 
               {/* Import from Notion Section */}
               <div className="border rounded-md p-4 mb-4 bg-muted/50">
-                <Label className="text-sm font-semibold">Import Content from Notion Page</Label>
+                <Label className="text-sm font-semibold">Paste Notion Markdown</Label>
+                <Textarea
+                  placeholder="Copy markdown from Notion (Cmd/Ctrl+Shift+C) and paste here..."
+                  value={notionMarkdownInput}
+                  onChange={(e) => setNotionMarkdownInput(e.target.value)}
+                  rows={6}
+                  className="font-mono text-sm mt-2"
+                />
                 <div className="flex gap-2 mt-2">
-                  <Input
-                    placeholder="Paste Notion page URL here..."
-                    value={notionPageUrl}
-                    onChange={(e) => setNotionPageUrl(e.target.value)}
-                    className="flex-1"
-                  />
                   <Button
-                    onClick={handleNotionPageImport}
-                    disabled={!notionPageUrl || notionPageImportMutation.isPending}
+                    onClick={handleConvertNotionMarkdown}
+                    disabled={!notionMarkdownInput.trim()}
                     variant="outline"
+                    size="sm"
                   >
-                    {notionPageImportMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     <Download className="mr-2 h-4 w-4" />
-                    Import
+                    Convert & Insert
+                  </Button>
+                  <Button
+                    onClick={() => setNotionMarkdownInput('')}
+                    variant="ghost"
+                    size="sm"
+                  >
+                    Clear
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  💡 Import rich text content from a Notion page. Only updates if import succeeds.
+                  💡 In Notion: Select content → Copy as Markdown (Cmd/Ctrl+Shift+C) → Paste here → Click Convert
                 </p>
               </div>
 
