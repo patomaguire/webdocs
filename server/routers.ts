@@ -5,6 +5,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { notionDataRouter } from "./notionDataRouter";
 import { imageUploadRouter } from "./imageUploadRouter";
 import { notionPageRouter } from "./notionPageRouter";
+import { tabDocumentsRouter } from "./tabDocumentsRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { ENV } from "./_core/env";
 import { getDb } from "./db";
@@ -48,6 +49,7 @@ export const appRouter = router({
   notionData: notionDataRouter,
   imageUpload: imageUploadRouter,
   notionPage: notionPageRouter,
+  tabDocuments: tabDocumentsRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),

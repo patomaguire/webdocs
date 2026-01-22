@@ -621,3 +621,21 @@
 - [x] Add textarea for pasting Notion markdown directly in Admin
 - [x] Remove or simplify the URL-based import that keeps failing
 - [ ] Test with user's Notion content
+
+## Phase 30: Comprehensive Update - Images, Documents, Layout Redesign
+- [x] Add tabDocuments table to database schema
+- [x] Update tabs schema to support image URLs in notionDatabaseUrl fields
+- [x] Create backend procedures for document upload/delete/list
+- [ ] Implement image shortcode processing in markdown renderer
+- [ ] Redesign Admin tab setup screen layout
+- [ ] Move Save button to top (after Tab title)
+- [ ] Rearrange Tab background: color picker | color code | image link (one line)
+- [ ] Create side-by-side Notion Markdown editor with resizable height
+- [ ] Create side-by-side Type Markdown editor with resizable height
+- [ ] Add document upload UI (max 10 files per tab)
+- [ ] Display uploaded documents with download links in Proposal view
+- [ ] Add soft gray backgrounds to section groups
+- [ ] Move Markdown guide to bottom
+- [ ] Test image uploads and shortcodes
+- [ ] Test document uploads and downloads
+- [ ] Test layout responsiveness
