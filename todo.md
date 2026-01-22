@@ -627,15 +627,15 @@
 - [x] Update tabs schema to support image URLs in notionDatabaseUrl fields
 - [x] Create backend procedures for document upload/delete/list
 - [ ] Implement image shortcode processing in markdown renderer
-- [ ] Redesign Admin tab setup screen layout
-- [ ] Move Save button to top (after Tab title)
-- [ ] Rearrange Tab background: color picker | color code | image link (one line)
-- [ ] Create side-by-side Notion Markdown editor with resizable height
-- [ ] Create side-by-side Type Markdown editor with resizable height
-- [ ] Add document upload UI (max 10 files per tab)
+- [x] Redesign Admin tab setup screen layout
+- [x] Move Save button to top (after Tab title)
+- [x] Rearrange Tab background: color picker | color code | image link (one line)
+- [x] Create side-by-side Notion Markdown editor with resizable height
+- [x] Create side-by-side Type Markdown editor with resizable height
+- [x] Add document upload UI (max 10 files per tab)
 - [ ] Display uploaded documents with download links in Proposal view
-- [ ] Add soft gray backgrounds to section groups
-- [ ] Move Markdown guide to bottom
+- [x] Add soft gray backgrounds to section groups
+- [x] Move Markdown guide to bottom
 - [ ] Test image uploads and shortcodes
 - [ ] Test document uploads and downloads
 - [ ] Test layout responsiveness
