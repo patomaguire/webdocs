@@ -728,4 +728,18 @@
 - [x] Test background images on production site (confirmed working)
 - [x] Test tab scroll positioning (improved significantly)
 - [x] Create user guide for image shortcodes and backgrounds
+- [x] Save checkpoint
+
+## Phase 38: Critical Admin UI Improvements
+- [x] Implement split-view editor: left textarea for input, right for live preview
+- [x] Add buttons between left and right panels (Save/Delete moved to top)
+- [x] Make left textarea resizable by dragging bottom-right corner (resize-y class)
+- [x] Sync right preview panel size with left textarea (flex-1 on both)
+- [x] Add image scaling syntax for Notion markdown (![image](url){width=50%})
+- [x] Update markdown renderer to parse and apply image scaling
+- [x] Move Save and Delete Tab buttons to top of tab editor
+- [x] Fix new tabs not appearing in navigation after creation (added all attributes)
+- [x] Ensure new tabs have all editing attributes available
+- [ ] Test all 4 features thoroughly
+- [x] Remove debug code
 - [ ] Save checkpoint

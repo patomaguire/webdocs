@@ -961,6 +961,11 @@ function TabsContentTab({ documentId }: { documentId: number }) {
               tabTitle: `New Tab ${nextTabNumber}`,
               htmlContent: "",
               isVisible: true,
+              backgroundType: "color",
+              backgroundValue: "#FFFFFF",
+              notionDatabaseUrl: "",
+              notionDatabaseUrl2: "",
+              notionDatabaseUrl3: "",
             });
           }}>Add New Tab</Button>
         </CardHeader>
@@ -1114,7 +1119,10 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 <div className="space-y-3 border rounded-md p-4 bg-muted/30">
                   <Label className="text-sm font-semibold">Content Images</Label>
                   <p className="text-xs text-muted-foreground">
-                    Upload up to 3 images and insert them in markdown using: {'{'}{'{'} image1:left {'}'}{'}'}, {'{'}{'{'} image2:center {'}'}{'}'}, {'{'}{'{'} image3:right {'}'}{'}'}  
+                    Upload up to 3 images and insert them in markdown using:<br/>
+                    <code className="bg-muted px-1 py-0.5 rounded">{'{'}{'{'} image1:left:50% {'}'}{'}'}  </code> (left-aligned, 50% width)<br/>
+                    <code className="bg-muted px-1 py-0.5 rounded">{'{'}{'{'} image2:center:300px {'}'}{'}'}  </code> (centered, 300px width)<br/>
+                    <code className="bg-muted px-1 py-0.5 rounded">{'{'}{'{'} image3:right {'}'}{'}'}  </code> (right-aligned, full width)
                   </p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -1280,6 +1288,28 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 </div>
               )}
 
+              {/* Save and Delete Buttons - Moved to Top */}
+              <div className="flex gap-2 mb-4">
+                <Button onClick={handleSave} disabled={upsertMutation.isPending}>
+                  {upsertMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Save Tab
+                </Button>
+                {selectedTab !== 0 && selectedTab !== 11 && (
+                  <Button 
+                    variant="destructive" 
+                    onClick={() => {
+                      if (selectedTab !== null && confirm(`Delete Tab ${selectedTab}?`)) {
+                        deleteMutation.mutate({ documentId, tabNumber: selectedTab });
+                      }
+                    }}
+                    disabled={deleteMutation.isPending}
+                  >
+                    {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+
               <MarkdownCheatsheet />
 
               {/* Import from Notion Section */}
@@ -1315,46 +1345,28 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
+              {/* Split-View Editor: Left (Input) and Right (Preview) */}
+              <div className="flex gap-4">
+                {/* Left: Markdown Input */}
+                <div className="flex-1">
                   <Label htmlFor="htmlContent">Markdown Content</Label>
                   <Textarea
                     id="htmlContent"
                     value={formData.htmlContent}
                     onChange={(e) => setFormData({ ...formData, htmlContent: e.target.value })}
-                    rows={15}
-                    className="font-mono text-sm"
-                    placeholder="Enter markdown content here...\n\n# Heading\n\n**Bold text**\n\n- List item"
+                    className="font-mono text-sm resize-y min-h-[400px]"
+                    placeholder="Enter markdown content here...\n\n# Heading\n\n**Bold text**\n\n- List item\n\n![Image](url){width=50%}"
                   />
                 </div>
-                <div>
-                  <Label>Preview</Label>
+                
+                {/* Right: Live Preview */}
+                <div className="flex-1">
+                  <Label>Live Preview</Label>
                   <div 
-                    className="border rounded-md p-4 h-[360px] overflow-y-auto prose prose-sm max-w-none"
+                    className="border rounded-md p-4 min-h-[400px] overflow-y-auto prose prose-sm max-w-none bg-background"
                     dangerouslySetInnerHTML={{ __html: formData.htmlContent ? marked(formData.htmlContent) : '<p class="text-muted-foreground">Preview will appear here...</p>' }}
                   />
                 </div>
-              </div>
-
-              <div className="flex gap-2">
-                <Button onClick={handleSave} disabled={upsertMutation.isPending}>
-                  {upsertMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Save Tab
-                </Button>
-                {selectedTab !== 0 && selectedTab !== 11 && (
-                  <Button 
-                    variant="destructive" 
-                    onClick={() => {
-                      if (selectedTab !== null && confirm(`Delete Tab ${selectedTab}?`)) {
-                        deleteMutation.mutate({ documentId, tabNumber: selectedTab });
-                      }
-                    }}
-                    disabled={deleteMutation.isPending}
-                  >
-                    {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                )}
               </div>
             </>
           ) : (

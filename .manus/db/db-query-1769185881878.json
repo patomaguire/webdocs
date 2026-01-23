@@ -1,0 +1,14 @@
+{
+  "query": "SELECT id, password FROM documents WHERE slug = 'busplan_2026_01' LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, password FROM documents WHERE slug = 'busplan_2026_01' LIMIT 1;",
+  "rows": [
+    {
+      "id": "90002",
+      "password": "ippbp202601"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tpassword\n90002\tippbp202601\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

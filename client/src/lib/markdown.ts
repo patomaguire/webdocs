@@ -90,13 +90,24 @@ export function processImageShortcodes(
  * Note: Notion placeholder processing happens in ProposalContent component
  * This function handles markdown-to-HTML conversion and image shortcodes
  */
+/**
+ * Process Notion-style image scaling: ![alt](url){width=50%}
+ * Converts to HTML with inline width style
+ */
+export function processNotionImageScaling(content: string): string {
+  // Match ![alt](url){width=value} pattern
+  const regex = /!\[([^\]]*)\]\(([^)]+)\)\{width=([^}]+)\}/gi;
+  
+  return content.replace(regex, (match, alt, url, width) => {
+    return `<img src="${url}" alt="${alt}" style="width: ${width.trim()};" class="max-w-full h-auto rounded-lg" />`;
+  });
+}
+
 export function renderContent(
   content: string | null | undefined,
   imageUrls?: { image1?: string; image2?: string; image3?: string }
 ): string {
   if (!content) return '';
-  
-
   
   // Process image shortcodes first
   let processed = content;
@@ -104,13 +115,14 @@ export function renderContent(
     processed = processImageShortcodes(content, imageUrls);
   }
   
+  // Process Notion-style image scaling
+  processed = processNotionImageScaling(processed);
+  
   // If content looks like markdown, parse it
   if (isMarkdown(processed)) {
-
     return parseMarkdown(processed);
   }
   
   // Otherwise return as-is (HTML)
-
   return processed;
 }
