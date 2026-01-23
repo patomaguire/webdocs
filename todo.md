@@ -740,6 +740,13 @@
 - [x] Move Save and Delete Tab buttons to top of tab editor
 - [x] Fix new tabs not appearing in navigation after creation (added all attributes)
 - [x] Ensure new tabs have all editing attributes available
-- [ ] Test all 4 features thoroughly
+- [x] Test all 4 features thoroughly
 - [x] Remove debug code
-- [ ] Save checkpoint
+- [x] Save checkpoint
+
+## Phase 39: Fix Admin UI Issues (Proper Implementation)
+- [x] Move Save/Delete buttons to VERY TOP of tab editing section (not just above content)
+- [x] Add split-view for Notion Markdown: left for pasting, right for preview
+- [x] Sync left and right markdown box heights when resizing textarea
+- [x] Test all 3 fixes by actually using the Admin interface
+- [x] Save checkpoint

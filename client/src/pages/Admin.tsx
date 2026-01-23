@@ -838,6 +838,37 @@ function TabsContentTab({ documentId }: { documentId: number }) {
     notionDatabaseUrl3: "",
   });
 
+  // Sync textarea and preview heights
+  useEffect(() => {
+    const textarea = document.getElementById('htmlContent') as HTMLTextAreaElement;
+    const preview = document.getElementById('htmlContentPreview') as HTMLDivElement;
+    const notionTextarea = document.getElementById('notionMarkdownInput') as HTMLTextAreaElement;
+    const notionPreview = document.getElementById('notionMarkdownPreview') as HTMLDivElement;
+    
+    if (!textarea || !preview) return;
+    
+    const syncHeight = () => {
+      if (textarea && preview) {
+        preview.style.height = `${textarea.offsetHeight}px`;
+      }
+      if (notionTextarea && notionPreview) {
+        notionPreview.style.height = `${notionTextarea.offsetHeight}px`;
+      }
+    };
+    
+    // Initial sync
+    syncHeight();
+    
+    // Create ResizeObserver to watch for textarea resize
+    const resizeObserver = new ResizeObserver(syncHeight);
+    if (textarea) resizeObserver.observe(textarea);
+    if (notionTextarea) resizeObserver.observe(notionTextarea);
+    
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [selectedTab, formData.htmlContent, notionMarkdownInput]);
+
   const handleSelectTab = (tabNumber: number) => {
     const tab = tabs?.find(t => t.tabNumber === tabNumber);
     if (tab) {
@@ -1004,6 +1035,28 @@ function TabsContentTab({ documentId }: { documentId: number }) {
         <CardContent className="space-y-4">
           {selectedTab !== null ? (
             <>
+              {/* Save and Delete Buttons - At Very Top */}
+              <div className="flex gap-2 pb-4 border-b">
+                <Button onClick={handleSave} disabled={upsertMutation.isPending}>
+                  {upsertMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Save Tab
+                </Button>
+                {selectedTab !== 0 && selectedTab !== 11 && (
+                  <Button 
+                    variant="destructive" 
+                    onClick={() => {
+                      if (selectedTab !== null && confirm(`Delete Tab ${selectedTab}?`)) {
+                        deleteMutation.mutate({ documentId, tabNumber: selectedTab });
+                      }
+                    }}
+                    disabled={deleteMutation.isPending}
+                  >
+                    {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+
               <div>
                 <Label htmlFor="tabTitle">Tab Title</Label>
                 <Input
@@ -1288,61 +1341,56 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 </div>
               )}
 
-              {/* Save and Delete Buttons - Moved to Top */}
-              <div className="flex gap-2 mb-4">
-                <Button onClick={handleSave} disabled={upsertMutation.isPending}>
-                  {upsertMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Save Tab
-                </Button>
-                {selectedTab !== 0 && selectedTab !== 11 && (
-                  <Button 
-                    variant="destructive" 
-                    onClick={() => {
-                      if (selectedTab !== null && confirm(`Delete Tab ${selectedTab}?`)) {
-                        deleteMutation.mutate({ documentId, tabNumber: selectedTab });
-                      }
-                    }}
-                    disabled={deleteMutation.isPending}
-                  >
-                    {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-
               <MarkdownCheatsheet />
 
-              {/* Import from Notion Section */}
+              {/* Import from Notion Section - Split View */}
               <div className="border rounded-md p-4 mb-4 bg-muted/50">
-                <Label className="text-sm font-semibold">Paste Notion Markdown</Label>
-                <Textarea
-                  placeholder="Copy markdown from Notion (Cmd/Ctrl+Shift+C) and paste here..."
-                  value={notionMarkdownInput}
-                  onChange={(e) => setNotionMarkdownInput(e.target.value)}
-                  rows={6}
-                  className="font-mono text-sm mt-2"
-                />
-                <div className="flex gap-2 mt-2">
-                  <Button
-                    onClick={handleConvertNotionMarkdown}
-                    disabled={!notionMarkdownInput.trim()}
-                    variant="outline"
-                    size="sm"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Convert & Insert
-                  </Button>
-                  <Button
-                    onClick={() => setNotionMarkdownInput('')}
-                    variant="ghost"
-                    size="sm"
-                  >
-                    Clear
-                  </Button>
+                <div className="flex items-center justify-between mb-2">
+                  <Label className="text-sm font-semibold">Paste Notion Markdown</Label>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={handleConvertNotionMarkdown}
+                      disabled={!notionMarkdownInput.trim()}
+                      variant="outline"
+                      size="sm"
+                    >
+                      <Download className="mr-2 h-4 w-4" />
+                      Convert & Insert
+                    </Button>
+                    <Button
+                      onClick={() => setNotionMarkdownInput('')}
+                      variant="ghost"
+                      size="sm"
+                    >
+                      Clear
+                    </Button>
+                  </div>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-xs text-muted-foreground mb-2">
                   💡 In Notion: Select content → Copy as Markdown (Cmd/Ctrl+Shift+C) → Paste here → Click Convert
                 </p>
+                <div className="flex gap-4">
+                  {/* Left: Paste Area */}
+                  <div className="flex-1">
+                    <Label className="text-xs">Paste Here</Label>
+                    <Textarea
+                      id="notionMarkdownInput"
+                      placeholder="Paste Notion markdown here..."
+                      value={notionMarkdownInput}
+                      onChange={(e) => setNotionMarkdownInput(e.target.value)}
+                      className="font-mono text-sm mt-1 resize-y min-h-[150px]"
+                    />
+                  </div>
+                  {/* Right: Preview */}
+                  <div className="flex-1">
+                    <Label className="text-xs">Preview</Label>
+                    <div 
+                      id="notionMarkdownPreview"
+                      className="border rounded-md p-3 mt-1 min-h-[150px] overflow-y-auto prose prose-sm max-w-none bg-background"
+                      dangerouslySetInnerHTML={{ __html: notionMarkdownInput ? marked(notionMarkdownInput) : '<p class="text-muted-foreground text-sm">Preview will appear here...</p>' }}
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Split-View Editor: Left (Input) and Right (Preview) */}
@@ -1363,6 +1411,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 <div className="flex-1">
                   <Label>Live Preview</Label>
                   <div 
+                    id="htmlContentPreview"
                     className="border rounded-md p-4 min-h-[400px] overflow-y-auto prose prose-sm max-w-none bg-background"
                     dangerouslySetInnerHTML={{ __html: formData.htmlContent ? marked(formData.htmlContent) : '<p class="text-muted-foreground">Preview will appear here...</p>' }}
                   />
