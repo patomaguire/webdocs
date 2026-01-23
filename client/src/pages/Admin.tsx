@@ -997,6 +997,11 @@ function TabsContentTab({ documentId }: { documentId: number }) {
               notionDatabaseUrl: "",
               notionDatabaseUrl2: "",
               notionDatabaseUrl3: "",
+            }, {
+              onSuccess: () => {
+                setSelectedTab(nextTabNumber);
+                toast.success(`New tab ${nextTabNumber} created!`);
+              }
             });
           }}>Add New Tab</Button>
         </CardHeader>
@@ -1338,12 +1343,10 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                       )}
                     </div>
                   </div>
-                </div>
-              )}
+              </div>
+            )}
 
-              <MarkdownCheatsheet />
-
-              {/* Import from Notion Section - Split View */}
+            {/* Import from Notion Section - Split View */}
               <div className="border rounded-md p-4 mb-4 bg-muted/50">
                 <div className="flex items-center justify-between mb-2">
                   <Label className="text-sm font-semibold">Paste Notion Markdown</Label>
@@ -1390,10 +1393,12 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                       dangerouslySetInnerHTML={{ __html: notionMarkdownInput ? marked(notionMarkdownInput) : '<p class="text-muted-foreground text-sm">Preview will appear here...</p>' }}
                     />
                   </div>
-                </div>
               </div>
+            </div>
 
-              {/* Split-View Editor: Left (Input) and Right (Preview) */}
+            <MarkdownCheatsheet />
+
+            {/* Split-View Editor: Left (Input) and Right (Preview) */}
               <div className="flex gap-4">
                 {/* Left: Markdown Input */}
                 <div className="flex-1">

@@ -750,3 +750,12 @@
 - [x] Sync left and right markdown box heights when resizing textarea
 - [x] Test all 3 fixes by actually using the Admin interface
 - [x] Save checkpoint
+
+## Phase 40: Move Formatting Guide and Fix New Tabs
+- [x] Move Markdown Formatting Guide section after Notion Markdown paste section
+- [x] Debug why newly added tabs don't appear in navigation
+- [x] Check if new tabs are being saved to database
+- [x] Check if new tabs are being loaded by frontend
+- [x] Fix new tabs visibility issue (added onSuccess callback to auto-select)
+- [x] Test adding a new tab and verify it appears (New Tab 102 created and selected)
+- [x] Save checkpoint
