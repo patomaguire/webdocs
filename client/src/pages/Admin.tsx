@@ -1107,42 +1107,126 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 )}
               </div>
 
-              {/* Notion Database URLs - Only for tabs 1-10 */}
+              {/* Content Images - Only for tabs 1-10 */}
               {selectedTab !== null && selectedTab >= 1 && selectedTab <= 10 && (
-                <div className="space-y-3">
-                  <div>
-                    <Label htmlFor="notionDatabaseUrl">Notion Database 1 (db1)</Label>
-                    <Input
-                      id="notionDatabaseUrl"
-                      type="text"
-                      value={formData.notionDatabaseUrl}
-                      onChange={(e) => setFormData({ ...formData, notionDatabaseUrl: e.target.value })}
-                      placeholder="https://notion.so/your-database-id"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="notionDatabaseUrl2">Notion Database 2 (db2)</Label>
-                    <Input
-                      id="notionDatabaseUrl2"
-                      type="text"
-                      value={formData.notionDatabaseUrl2}
-                      onChange={(e) => setFormData({ ...formData, notionDatabaseUrl2: e.target.value })}
-                      placeholder="https://notion.so/your-second-database-id"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="notionDatabaseUrl3">Notion Database 3 (db3)</Label>
-                    <Input
-                      id="notionDatabaseUrl3"
-                      type="text"
-                      value={formData.notionDatabaseUrl3}
-                      onChange={(e) => setFormData({ ...formData, notionDatabaseUrl3: e.target.value })}
-                      placeholder="https://notion.so/your-third-database-id"
-                    />
-                  </div>
+                <div className="space-y-3 border rounded-md p-4 bg-muted/30">
+                  <Label className="text-sm font-semibold">Content Images</Label>
                   <p className="text-xs text-muted-foreground">
-                    💡 Use placeholders in markdown: {'{'}{'{'} notion:db1:column_name {'}'}{'}'},  {'{'}{'{'} notion:db2:column_name {'}'}{'}'},  etc.
+                    Upload up to 3 images and insert them in markdown using: {'{'}{'{'} image1:left {'}'}{'}'}, {'{'}{'{'} image2:center {'}'}{'}'}, {'{'}{'{'} image3:right {'}'}{'}'}  
                   </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    {/* Image 1 */}
+                    <div className="space-y-2">
+                      <Label htmlFor="image1" className="text-xs">Image 1</Label>
+                      <Input
+                        id="image1"
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          try {
+                            const result = await imageUploadMutation.mutateAsync({ file });
+                            setFormData({ ...formData, notionDatabaseUrl: result.url });
+                            toast.success('Image 1 uploaded!');
+                          } catch (error) {
+                            toast.error('Failed to upload image');
+                          }
+                        }}
+                        className="text-xs"
+                      />
+                      {formData.notionDatabaseUrl && (
+                        <div className="relative w-full h-20 rounded border">
+                          <img
+                            src={formData.notionDatabaseUrl}
+                            alt="Image 1"
+                            className="w-full h-full object-cover rounded"
+                          />
+                          <button
+                            onClick={() => setFormData({ ...formData, notionDatabaseUrl: '' })}
+                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Image 2 */}
+                    <div className="space-y-2">
+                      <Label htmlFor="image2" className="text-xs">Image 2</Label>
+                      <Input
+                        id="image2"
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          try {
+                            const result = await imageUploadMutation.mutateAsync({ file });
+                            setFormData({ ...formData, notionDatabaseUrl2: result.url });
+                            toast.success('Image 2 uploaded!');
+                          } catch (error) {
+                            toast.error('Failed to upload image');
+                          }
+                        }}
+                        className="text-xs"
+                      />
+                      {formData.notionDatabaseUrl2 && (
+                        <div className="relative w-full h-20 rounded border">
+                          <img
+                            src={formData.notionDatabaseUrl2}
+                            alt="Image 2"
+                            className="w-full h-full object-cover rounded"
+                          />
+                          <button
+                            onClick={() => setFormData({ ...formData, notionDatabaseUrl2: '' })}
+                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Image 3 */}
+                    <div className="space-y-2">
+                      <Label htmlFor="image3" className="text-xs">Image 3</Label>
+                      <Input
+                        id="image3"
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          try {
+                            const result = await imageUploadMutation.mutateAsync({ file });
+                            setFormData({ ...formData, notionDatabaseUrl3: result.url });
+                            toast.success('Image 3 uploaded!');
+                          } catch (error) {
+                            toast.error('Failed to upload image');
+                          }
+                        }}
+                        className="text-xs"
+                      />
+                      {formData.notionDatabaseUrl3 && (
+                        <div className="relative w-full h-20 rounded border">
+                          <img
+                            src={formData.notionDatabaseUrl3}
+                            alt="Image 3"
+                            className="w-full h-full object-cover rounded"
+                          />
+                          <button
+                            onClick={() => setFormData({ ...formData, notionDatabaseUrl3: '' })}
+                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               )}
 

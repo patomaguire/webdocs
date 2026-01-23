@@ -626,7 +626,7 @@
 - [x] Add tabDocuments table to database schema
 - [x] Update tabs schema to support image URLs in notionDatabaseUrl fields
 - [x] Create backend procedures for document upload/delete/list
-- [ ] Implement image shortcode processing in markdown renderer
+- [x] Implement image shortcode processing in markdown renderer
 - [x] Redesign Admin tab setup screen layout
 - [x] Move Save button to top (after Tab title)
 - [x] Rearrange Tab background: color picker | color code | image link (one line)
@@ -639,3 +639,8 @@
 - [ ] Test image uploads and shortcodes
 - [ ] Test document uploads and downloads
 - [ ] Test layout responsiveness
+
+## Phase 31: Scroll Behavior Improvement
+- [ ] Fix automatic scroll after tab button click to include tab title
+- [ ] Adjust scroll offset to start at tab heading instead of bypassing it
+- [ ] Reduce scroll step/speed for smoother transition

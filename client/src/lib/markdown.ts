@@ -54,18 +54,54 @@ export function isMarkdown(content: string | null | undefined): boolean {
 }
 
 /**
+ * Process image shortcodes in content
+ * Replaces {{image1:left}}, {{image2:center}}, {{image3:right}} with aligned images
+ */
+export function processImageShortcodes(
+  content: string,
+  imageUrls: { image1?: string; image2?: string; image3?: string }
+): string {
+  let processed = content;
+  
+  // Process image1, image2, image3 with alignment
+  ['image1', 'image2', 'image3'].forEach((imageKey, index) => {
+    const imageUrl = imageUrls[imageKey as keyof typeof imageUrls];
+    if (!imageUrl) return;
+    
+    // Match {{imageN:alignment}} where alignment is left, center, or right
+    const regex = new RegExp(`\\{\\{\\s*${imageKey}\\s*:\\s*(left|center|right)\\s*\\}\\}`, 'gi');
+    
+    processed = processed.replace(regex, (match, alignment) => {
+      const alignClass = alignment === 'left' ? 'text-left' : alignment === 'center' ? 'text-center' : 'text-right';
+      return `<div class="${alignClass} my-4"><img src="${imageUrl}" alt="Image ${index + 1}" class="inline-block max-w-full h-auto rounded-lg shadow-md" /></div>`;
+    });
+  });
+  
+  return processed;
+}
+
+/**
  * Render content - auto-detect markdown or HTML
  * Note: Notion placeholder processing happens in ProposalContent component
- * This function only handles markdown-to-HTML conversion
+ * This function handles markdown-to-HTML conversion and image shortcodes
  */
-export function renderContent(content: string | null | undefined): string {
+export function renderContent(
+  content: string | null | undefined,
+  imageUrls?: { image1?: string; image2?: string; image3?: string }
+): string {
   if (!content) return '';
   
+  // Process image shortcodes first
+  let processed = content;
+  if (imageUrls) {
+    processed = processImageShortcodes(content, imageUrls);
+  }
+  
   // If content looks like markdown, parse it
-  if (isMarkdown(content)) {
-    return parseMarkdown(content);
+  if (isMarkdown(processed)) {
+    return parseMarkdown(processed);
   }
   
   // Otherwise return as-is (HTML)
-  return content;
+  return processed;
 }

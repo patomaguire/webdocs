@@ -654,7 +654,11 @@ function ProposalContent({ documentId }: { documentId: number }) {
                 <div className="mb-8">
                   <div 
                     dangerouslySetInnerHTML={{ 
-                      __html: renderContent(tabContent)
+                      __html: renderContent(tabContent, {
+                        image1: currentTab.notionDatabaseUrl || undefined,
+                        image2: currentTab.notionDatabaseUrl2 || undefined,
+                        image3: currentTab.notionDatabaseUrl3 || undefined,
+                      })
                     }} 
                     className="prose max-w-none mb-8"
                   />
@@ -709,7 +713,11 @@ function ProposalContent({ documentId }: { documentId: number }) {
               {activeTab !== 8 && activeTab !== 11 && (
                 <div 
                   dangerouslySetInnerHTML={{ 
-                    __html: renderContent(tabContent)
+                    __html: renderContent(tabContent, {
+                      image1: currentTab.notionDatabaseUrl || undefined,
+                      image2: currentTab.notionDatabaseUrl2 || undefined,
+                      image3: currentTab.notionDatabaseUrl3 || undefined,
+                    })
                   }} 
                   className="prose max-w-none"
                 />
