@@ -1,0 +1,13 @@
+{
+  "query": "SELECT password FROM documents WHERE slug = 'default' LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT password FROM documents WHERE slug = 'default' LIMIT 1;",
+  "rows": [
+    {
+      "password": "newpass123"
+    }
+  ],
+  "messages": [],
+  "stdout": "password\nnewpass123\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

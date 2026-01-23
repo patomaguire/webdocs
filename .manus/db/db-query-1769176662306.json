@@ -1,0 +1,122 @@
+{
+  "query": "SELECT tabNumber, tabTitle, backgroundType, backgroundValue, SUBSTRING(htmlContent, 1, 50) as content FROM tabs_content WHERE documentId = 1 ORDER BY tabNumber;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT tabNumber, tabTitle, backgroundType, backgroundValue, SUBSTRING(htmlContent, 1, 50) as content FROM tabs_content WHERE documentId = 1 ORDER BY tabNumber;",
+  "rows": [
+    {
+      "tabNumber": "0",
+      "tabTitle": "Who We Are",
+      "backgroundType": "image",
+      "backgroundValue": "https://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/backgrounds/1769031037504-lhslyze5srm-test-background.jpg",
+      "content": "<h2>Who We Are</h2>"
+    },
+    {
+      "tabNumber": "1",
+      "tabTitle": "Executive Summary",
+      "backgroundType": "gradient",
+      "backgroundValue": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      "content": "# Test Tab"
+    },
+    {
+      "tabNumber": "2",
+      "tabTitle": "Background",
+      "backgroundType": "color",
+      "backgroundValue": "NULL",
+      "content": "<h2>Background</h2>"
+    },
+    {
+      "tabNumber": "3",
+      "tabTitle": "Scope",
+      "backgroundType": "color",
+      "backgroundValue": "NULL",
+      "content": "<h2>Scope of Work</h2>"
+    },
+    {
+      "tabNumber": "4",
+      "tabTitle": "Approach",
+      "backgroundType": "color",
+      "backgroundValue": "NULL",
+      "content": "<h2>Our Approach</h2>"
+    },
+    {
+      "tabNumber": "5",
+      "tabTitle": "Schedule",
+      "backgroundType": "color",
+      "backgroundValue": "NULL",
+      "content": "<h2>Project Schedule</h2>"
+    },
+    {
+      "tabNumber": "6",
+      "tabTitle": "Deliverables",
+      "backgroundType": "color",
+      "backgroundValue": "NULL",
+      "content": "<h2>Project Deliverables</h2>"
+    },
+    {
+      "tabNumber": "7",
+      "tabTitle": "Requirements",
+      "backgroundType": "color",
+      "backgroundValue": "NULL",
+      "content": "<h2><##>Requirements</h2>"
+    },
+    {
+      "tabNumber": "8",
+      "tabTitle": "Team",
+      "backgroundType": "color",
+      "backgroundValue": "NULL",
+      "content": "<h2>Our Team</h2>"
+    },
+    {
+      "tabNumber": "9",
+      "tabTitle": "Assumptions",
+      "backgroundType": "color",
+      "backgroundValue": "NULL",
+      "content": "<h2>Project Assumptions</h2>"
+    },
+    {
+      "tabNumber": "10",
+      "tabTitle": "Commercial",
+      "backgroundType": "color",
+      "backgroundValue": "NULL",
+      "content": "<h2>Commercial Terms</h2>"
+    },
+    {
+      "tabNumber": "11",
+      "tabTitle": "Experience Map",
+      "backgroundType": "color",
+      "backgroundValue": "NULL",
+      "content": "<h2>Our Experience</h2>"
+    },
+    {
+      "tabNumber": "100",
+      "tabTitle": "New Tab 100",
+      "backgroundType": "color",
+      "backgroundValue": "NULL",
+      "content": ""
+    },
+    {
+      "tabNumber": "101",
+      "tabTitle": "New Tab 101",
+      "backgroundType": "color",
+      "backgroundValue": "NULL",
+      "content": ""
+    }
+  ],
+  "messages": [
+    "<p>We are a leading profession",
+    "This is a test with an image shortcode",
+    "<p>Understanding the context a",
+    "<p>Our proposed scope encom",
+    "<p>We follow a structured, p",
+    "<p>We propose the follow",
+    "<p>We commit to deli",
+    "<p>To ensure successful ",
+    "<p>Meet the experienced professi",
+    "<p>This proposal is b",
+    "<h3>Investment</h3>",
+    "<p>O",
+    "<p>Explore our portfolio o"
+  ],
+  "stdout": "tabNumber\ttabTitle\tbackgroundType\tbackgroundValue\tcontent\n0\tWho We Are\timage\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/backgrounds/1769031037504-lhslyze5srm-test-background.jpg\t<h2>Who We Are</h2>\n<p>We are a leading profession\n1\tExecutive Summary\tgradient\tlinear-gradient(135deg, #667eea 0%, #764ba2 100%)\t# Test Tab\n\nThis is a test with an image shortcode\n2\tBackground\tcolor\tNULL\t<h2>Background</h2>\n<p>Understanding the context a\n3\tScope\tcolor\tNULL\t<h2>Scope of Work</h2>\n<p>Our proposed scope encom\n4\tApproach\tcolor\tNULL\t<h2>Our Approach</h2>\n<p>We follow a structured, p\n5\tSchedule\tcolor\tNULL\t<h2>Project Schedule</h2>\n<p>We propose the follow\n6\tDeliverables\tcolor\tNULL\t<h2>Project Deliverables</h2>\n<p>We commit to deli\n7\tRequirements\tcolor\tNULL\t<h2><##>Requirements</h2>\n<p>To ensure successful \n8\tTeam\tcolor\tNULL\t<h2>Our Team</h2>\n<p>Meet the experienced professi\n9\tAssumptions\tcolor\tNULL\t<h2>Project Assumptions</h2>\n<p>This proposal is b\n10\tCommercial\tcolor\tNULL\t<h2>Commercial Terms</h2>\n<h3>Investment</h3>\n<p>O\n11\tExperience Map\tcolor\tNULL\t<h2>Our Experience</h2>\n<p>Explore our portfolio o\n100\tNew Tab 100\tcolor\tNULL\t\n101\tNew Tab 101\tcolor\tNULL\t\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

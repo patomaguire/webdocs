@@ -1,0 +1,54 @@
+{
+  "query": "SELECT tabNumber, tabTitle FROM tabs_content WHERE documentId = 1 AND tabNumber BETWEEN 0 AND 10 ORDER BY tabNumber;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT tabNumber, tabTitle FROM tabs_content WHERE documentId = 1 AND tabNumber BETWEEN 0 AND 10 ORDER BY tabNumber;",
+  "rows": [
+    {
+      "tabNumber": "0",
+      "tabTitle": "Who We Are"
+    },
+    {
+      "tabNumber": "1",
+      "tabTitle": "Executive Summary"
+    },
+    {
+      "tabNumber": "2",
+      "tabTitle": "Background"
+    },
+    {
+      "tabNumber": "3",
+      "tabTitle": "Scope"
+    },
+    {
+      "tabNumber": "4",
+      "tabTitle": "Approach"
+    },
+    {
+      "tabNumber": "5",
+      "tabTitle": "Schedule"
+    },
+    {
+      "tabNumber": "6",
+      "tabTitle": "Deliverables"
+    },
+    {
+      "tabNumber": "7",
+      "tabTitle": "Requirements"
+    },
+    {
+      "tabNumber": "8",
+      "tabTitle": "Team"
+    },
+    {
+      "tabNumber": "9",
+      "tabTitle": "Assumptions"
+    },
+    {
+      "tabNumber": "10",
+      "tabTitle": "Commercial"
+    }
+  ],
+  "messages": [],
+  "stdout": "tabNumber\ttabTitle\n0\tWho We Are\n1\tExecutive Summary\n2\tBackground\n3\tScope\n4\tApproach\n5\tSchedule\n6\tDeliverables\n7\tRequirements\n8\tTeam\n9\tAssumptions\n10\tCommercial\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

@@ -1,0 +1,21 @@
+{
+  "query": "SELECT tabNumber, tabTitle, backgroundType, backgroundValue, SUBSTRING(htmlContent, 1, 100) as content FROM tabs_content WHERE documentId = 1 AND tabNumber = 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT tabNumber, tabTitle, backgroundType, backgroundValue, SUBSTRING(htmlContent, 1, 100) as content FROM tabs_content WHERE documentId = 1 AND tabNumber = 1;",
+  "rows": [
+    {
+      "tabNumber": "1",
+      "tabTitle": "Executive Summary",
+      "backgroundType": "gradient",
+      "backgroundValue": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      "content": "# Test Tab"
+    }
+  ],
+  "messages": [
+    "This is a test with an image shortcode:",
+    "{{image1:center}}",
+    "More text after the image."
+  ],
+  "stdout": "tabNumber\ttabTitle\tbackgroundType\tbackgroundValue\tcontent\n1\tExecutive Summary\tgradient\tlinear-gradient(135deg, #667eea 0%, #764ba2 100%)\t# Test Tab\n\nThis is a test with an image shortcode:\n\n{{image1:center}}\n\nMore text after the image.\n",
+  "stderr": "",
+  "execution_time_ms": 70
+}

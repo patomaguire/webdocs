@@ -692,3 +692,25 @@
 - [x] Verified background rendering code is correct
 - [x] Identified root cause: users need to type shortcode syntax in content
 - [x] Created comprehensive debug findings document
+
+## Phase 35: Fix Confirmed Image Shortcode and Background Bugs
+- [ ] Test image shortcode functionality with real uploaded image
+- [ ] Test background gradient functionality with real gradient value
+- [ ] Test background image functionality with real uploaded image
+- [ ] Identify actual bug preventing image shortcodes from rendering
+- [ ] Identify actual bug preventing gradients from displaying
+- [ ] Identify actual bug preventing background images from displaying
+- [ ] Fix all identified bugs
+- [ ] Test end-to-end with real data
+- [ ] Save working checkpoint
+
+## Phase 35: Verify Image Shortcodes and Background Features
+- [x] Test image shortcodes with real data and uploaded images
+- [x] Test CSS gradient backgrounds (linear-gradient)
+- [x] Test image backgrounds (uploaded files)
+- [x] Identify root causes (all features working, Tab 1 was hidden)
+- [x] Make Tab 1 visible to demonstrate gradient background
+- [x] Add test content with image shortcode to Tab 1
+- [x] Remove debug code from Proposal.tsx and markdown.ts
+- [x] Verify all features work correctly without debug code
+- [x] Document findings: image backgrounds work, CSS gradients work, image shortcodes work

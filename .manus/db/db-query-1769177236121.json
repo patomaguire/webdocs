@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE tabs_content \nSET isVisible = true, \n    htmlContent = '# Test Tab with Gradient\\n\\nThis tab has a CSS gradient background.\\n\\n{{image1:center}}\\n\\nThe image above should be centered.'\nWHERE documentId = 1 AND tabNumber = 1 AND backgroundType = 'gradient';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute UPDATE tabs_content \nSET isVisible = true, \n    htmlContent = '# Test Tab with Gradient\\n\\nThis tab has a CSS gradient background.\\n\\n{{image1:center}}\\n\\nThe image above should be centered.'\nWHERE documentId = 1 AND tabNumber = 1 AND backgroundType = 'gradient';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 61
+}

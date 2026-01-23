@@ -61,27 +61,27 @@ export function processImageShortcodes(
   content: string,
   imageUrls: { image1?: string; image2?: string; image3?: string }
 ): string {
-  console.log('[processImageShortcodes] Called with:', { contentLength: content.length, imageUrls });
+
   let processed = content;
   
   // Process image1, image2, image3 with alignment
   ['image1', 'image2', 'image3'].forEach((imageKey, index) => {
     const imageUrl = imageUrls[imageKey as keyof typeof imageUrls];
-    console.log(`[processImageShortcodes] Processing ${imageKey}: ${imageUrl ? 'has URL' : 'no URL'}`);
+
     if (!imageUrl) return;
     
     // Match {{imageN:alignment}} where alignment is left, center, or right
     const regex = new RegExp(`\\{\\{\\s*${imageKey}\\s*:\\s*(left|center|right)\\s*\\}\\}`, 'gi');
-    console.log(`[processImageShortcodes] Regex for ${imageKey}:`, regex);
+
     
     processed = processed.replace(regex, (match, alignment) => {
-      console.log(`[processImageShortcodes] Found match: ${match}, alignment: ${alignment}, replacing with URL: ${imageUrl}`);
+
       const alignClass = alignment === 'left' ? 'text-left' : alignment === 'center' ? 'text-center' : 'text-right';
       return `<div class="${alignClass} my-4"><img src="${imageUrl}" alt="Image ${index + 1}" class="inline-block max-w-full h-auto rounded-lg shadow-md" /></div>`;
     });
   });
   
-  console.log('[processImageShortcodes] Finished processing, changed:', processed !== content);
+
   return processed;
 }
 
@@ -96,7 +96,7 @@ export function renderContent(
 ): string {
   if (!content) return '';
   
-  console.log('[renderContent] Called with:', { contentLength: content.length, imageUrls });
+
   
   // Process image shortcodes first
   let processed = content;
@@ -106,11 +106,11 @@ export function renderContent(
   
   // If content looks like markdown, parse it
   if (isMarkdown(processed)) {
-    console.log('[renderContent] Content is markdown, parsing...');
+
     return parseMarkdown(processed);
   }
   
   // Otherwise return as-is (HTML)
-  console.log('[renderContent] Content is HTML, returning as-is');
+
   return processed;
 }

@@ -146,20 +146,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
     }
   }, [visibleTabs, activeTab]);
 
-  // Debug logging for image URLs
-  useEffect(() => {
-    if (currentTab) {
-      console.log('[Proposal] Current tab data:', {
-        tabNumber: currentTab.tabNumber,
-        tabTitle: currentTab.tabTitle,
-        notionDatabaseUrl: currentTab.notionDatabaseUrl,
-        notionDatabaseUrl2: currentTab.notionDatabaseUrl2,
-        notionDatabaseUrl3: currentTab.notionDatabaseUrl3,
-        backgroundType: currentTab.backgroundType,
-        backgroundValue: currentTab.backgroundValue,
-      });
-    }
-  }, [currentTab]);
+
 
   // Print Functions
   const printSection = () => {
@@ -660,7 +647,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
         >
           {currentTab && (
             <div>
-              <h2 className="text-3xl font-bold mb-6" style={{ color: primaryColor }}>
+<h2 className="text-3xl font-bold mb-6" style={{ color: primaryColor }}>
                 {currentTab.tabTitle}
               </h2>
 
