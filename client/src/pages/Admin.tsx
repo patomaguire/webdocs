@@ -1126,10 +1126,11 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                         onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (!file) return;
-                          try {
-                            // Convert file to base64
-                            const reader = new FileReader();
-                            reader.onload = async () => {
+                          
+                          // Convert file to base64
+                          const reader = new FileReader();
+                          reader.onload = async () => {
+                            try {
                               const base64 = reader.result as string;
                               const result = await imageUploadMutation.mutateAsync({
                                 fileData: base64,
@@ -1139,15 +1140,15 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                               });
                               setFormData({ ...formData, notionDatabaseUrl: result.url });
                               toast.success('Image 1 uploaded!');
-                            };
-                            reader.onerror = () => {
-                              toast.error('Failed to read image file');
-                            };
-                            reader.readAsDataURL(file);
-                          } catch (error) {
-                            console.error('Image upload error:', error);
-                            toast.error(`Failed to upload image: ${error instanceof Error ? error.message : 'Unknown error'}`);
-                          }
+                            } catch (error) {
+                              console.error('Image 1 upload error:', error);
+                              toast.error(`Failed to upload image 1: ${error instanceof Error ? error.message : 'Unknown error'}`);
+                            }
+                          };
+                          reader.onerror = () => {
+                            toast.error('Failed to read image file');
+                          };
+                          reader.readAsDataURL(file);
                         }}
                         className="text-xs"
                       />
@@ -1178,10 +1179,11 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                         onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (!file) return;
-                          try {
-                            // Convert file to base64
-                            const reader = new FileReader();
-                            reader.onload = async () => {
+                          
+                          // Convert file to base64
+                          const reader = new FileReader();
+                          reader.onload = async () => {
+                            try {
                               const base64 = reader.result as string;
                               const result = await imageUploadMutation.mutateAsync({
                                 fileData: base64,
@@ -1191,15 +1193,15 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                               });
                               setFormData({ ...formData, notionDatabaseUrl2: result.url });
                               toast.success('Image 2 uploaded!');
-                            };
-                            reader.onerror = () => {
-                              toast.error('Failed to read image file');
-                            };
-                            reader.readAsDataURL(file);
-                          } catch (error) {
-                            console.error('Image upload error:', error);
-                            toast.error(`Failed to upload image: ${error instanceof Error ? error.message : 'Unknown error'}`);
-                          }
+                            } catch (error) {
+                              console.error('Image 2 upload error:', error);
+                              toast.error(`Failed to upload image 2: ${error instanceof Error ? error.message : 'Unknown error'}`);
+                            }
+                          };
+                          reader.onerror = () => {
+                            toast.error('Failed to read image file');
+                          };
+                          reader.readAsDataURL(file);
                         }}
                         className="text-xs"
                       />
@@ -1230,10 +1232,11 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                         onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (!file) return;
-                          try {
-                            // Convert file to base64
-                            const reader = new FileReader();
-                            reader.onload = async () => {
+                          
+                          // Convert file to base64
+                          const reader = new FileReader();
+                          reader.onload = async () => {
+                            try {
                               const base64 = reader.result as string;
                               const result = await imageUploadMutation.mutateAsync({
                                 fileData: base64,
@@ -1243,15 +1246,15 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                               });
                               setFormData({ ...formData, notionDatabaseUrl3: result.url });
                               toast.success('Image 3 uploaded!');
-                            };
-                            reader.onerror = () => {
-                              toast.error('Failed to read image file');
-                            };
-                            reader.readAsDataURL(file);
-                          } catch (error) {
-                            console.error('Image upload error:', error);
-                            toast.error(`Failed to upload image: ${error instanceof Error ? error.message : 'Unknown error'}`);
-                          }
+                            } catch (error) {
+                              console.error('Image 3 upload error:', error);
+                              toast.error(`Failed to upload image 3: ${error instanceof Error ? error.message : 'Unknown error'}`);
+                            }
+                          };
+                          reader.onerror = () => {
+                            toast.error('Failed to read image file');
+                          };
+                          reader.readAsDataURL(file);
                         }}
                         className="text-xs"
                       />

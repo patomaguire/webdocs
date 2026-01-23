@@ -658,3 +658,9 @@
 - [ ] Check the upload handler code for all 3 image inputs
 - [ ] Fix the base64 conversion or mutation call
 - [ ] Test image uploads end-to-end
+
+## Phase 32: Fix Content Images Upload with FormData
+- [x] Rewrite image upload backend router to accept multipart/form-data
+- [x] Update Admin frontend to send files using FormData instead of base64
+- [ ] Test image uploads end-to-end
+- [ ] Verify images display correctly with shortcodes
