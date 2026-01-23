@@ -767,3 +767,15 @@
 - [x] Fix the tab visibility filtering or rendering issue (removed tab number restrictions)
 - [x] Test by creating a new tab in Admin and verifying it appears on website (New Tab 102 visible!)
 - [x] Save checkpoint
+
+## Phase 42: Add Full Editing Options to Tabs A and B
+- [ ] Save checkpoint to preserve Tab B dynamic map functionality
+- [ ] Check current Tab A and B editing interface in Admin.tsx
+- [ ] Identify what editing options are missing from Tab A and B
+- [ ] Add background settings (type, value, color picker) to Tab A and B
+- [ ] Add image upload fields (Image 1, 2, 3) to Tab A and B
+- [ ] Add Notion Markdown paste section to Tab A and B
+- [ ] Add Markdown Formatting Guide to Tab A and B
+- [ ] Test Tab A editing - verify all options work
+- [ ] Test Tab B editing - verify all options work AND dynamic map still functions
+- [ ] Save final checkpoint
