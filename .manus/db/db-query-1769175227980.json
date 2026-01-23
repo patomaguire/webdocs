@@ -1,0 +1,17 @@
+{
+  "query": "SELECT tabNumber, tabTitle, notionDatabaseUrl, notionDatabaseUrl2, notionDatabaseUrl3 FROM tabs_content WHERE documentId = 1 AND (notionDatabaseUrl IS NOT NULL OR notionDatabaseUrl2 IS NOT NULL OR notionDatabaseUrl3 IS NOT NULL) LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT tabNumber, tabTitle, notionDatabaseUrl, notionDatabaseUrl2, notionDatabaseUrl3 FROM tabs_content WHERE documentId = 1 AND (notionDatabaseUrl IS NOT NULL OR notionDatabaseUrl2 IS NOT NULL OR notionDatabaseUrl3 IS NOT NULL) LIMIT 5;",
+  "rows": [
+    {
+      "tabNumber": "0",
+      "tabTitle": "Who We Are",
+      "notionDatabaseUrl": "",
+      "notionDatabaseUrl2": "",
+      "notionDatabaseUrl3": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "tabNumber\ttabTitle\tnotionDatabaseUrl\tnotionDatabaseUrl2\tnotionDatabaseUrl3\n0\tWho We Are\t\t\t\n",
+  "stderr": "",
+  "execution_time_ms": 66
+}

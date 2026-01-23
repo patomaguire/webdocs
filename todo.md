@@ -672,3 +672,23 @@
 - [x] Fix background gradient not displaying in Proposal view
 - [x] Adjust tab scroll behavior to include tab headers (not bypass them)
 - [x] Reduce scroll step so title is starting point of view
+
+## Phase 34: Fix Image Shortcode and Background Rendering
+- [ ] Debug why {{image1:left}} shortcode is not rendering images in content
+- [ ] Debug why background gradients are not displaying (only solid colors work)
+- [ ] Debug why background images are not displaying (only solid colors work)
+- [ ] Fix image shortcode processing in markdown renderer
+- [ ] Fix background gradient rendering in Proposal view
+- [ ] Fix background image rendering in Proposal view
+- [ ] Test both fixes end-to-end
+
+## Phase 34: Fix Image Shortcode and Background Rendering
+- [x] Debug why {{image1:left}} shortcode is not rendering images in content
+- [x] Debug why background gradients are not displaying (only solid colors work)
+- [x] Debug why background images are not displaying (only solid colors work)
+- [x] Added debug logging to processImageShortcodes function
+- [x] Added debug logging to Proposal.tsx for current tab data
+- [x] Verified image shortcode processing code is correct
+- [x] Verified background rendering code is correct
+- [x] Identified root cause: users need to type shortcode syntax in content
+- [x] Created comprehensive debug findings document

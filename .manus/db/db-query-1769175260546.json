@@ -1,0 +1,40 @@
+{
+  "query": "SELECT tabNumber, tabTitle, backgroundType, SUBSTRING(backgroundValue, 1, 200) as bg_value FROM tabs_content WHERE documentId = 1 AND backgroundType IS NOT NULL LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT tabNumber, tabTitle, backgroundType, SUBSTRING(backgroundValue, 1, 200) as bg_value FROM tabs_content WHERE documentId = 1 AND backgroundType IS NOT NULL LIMIT 5;",
+  "rows": [
+    {
+      "tabNumber": "0",
+      "tabTitle": "Who We Are",
+      "backgroundType": "image",
+      "bg_value": "https://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/backgrounds/1769031037504-lhslyze5srm-test-background.jpg"
+    },
+    {
+      "tabNumber": "1",
+      "tabTitle": "Executive Summary",
+      "backgroundType": "color",
+      "bg_value": "NULL"
+    },
+    {
+      "tabNumber": "2",
+      "tabTitle": "Background",
+      "backgroundType": "color",
+      "bg_value": "NULL"
+    },
+    {
+      "tabNumber": "3",
+      "tabTitle": "Scope",
+      "backgroundType": "color",
+      "bg_value": "NULL"
+    },
+    {
+      "tabNumber": "4",
+      "tabTitle": "Approach",
+      "backgroundType": "color",
+      "bg_value": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "tabNumber\ttabTitle\tbackgroundType\tbg_value\n0\tWho We Are\timage\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/backgrounds/1769031037504-lhslyze5srm-test-background.jpg\n1\tExecutive Summary\tcolor\tNULL\n2\tBackground\tcolor\tNULL\n3\tScope\tcolor\tNULL\n4\tApproach\tcolor\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}

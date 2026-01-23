@@ -146,6 +146,21 @@ function ProposalContent({ documentId }: { documentId: number }) {
     }
   }, [visibleTabs, activeTab]);
 
+  // Debug logging for image URLs
+  useEffect(() => {
+    if (currentTab) {
+      console.log('[Proposal] Current tab data:', {
+        tabNumber: currentTab.tabNumber,
+        tabTitle: currentTab.tabTitle,
+        notionDatabaseUrl: currentTab.notionDatabaseUrl,
+        notionDatabaseUrl2: currentTab.notionDatabaseUrl2,
+        notionDatabaseUrl3: currentTab.notionDatabaseUrl3,
+        backgroundType: currentTab.backgroundType,
+        backgroundValue: currentTab.backgroundValue,
+      });
+    }
+  }, [currentTab]);
+
   // Print Functions
   const printSection = () => {
     const style = document.createElement('style');
