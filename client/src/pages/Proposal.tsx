@@ -680,7 +680,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                         image3: currentTab.notionDatabaseUrl3 || undefined,
                       })
                     }} 
-                    className="prose max-w-none mb-8"
+                    className="markdown-content prose max-w-none mb-8"
                   />
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {teamMembers?.filter(m => m.isVisible).map((member) => (
@@ -739,7 +739,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                       image3: currentTab.notionDatabaseUrl3 || undefined,
                     })
                   }} 
-                  className="prose max-w-none"
+                  className="markdown-content prose max-w-none"
                 />
               )}
 

@@ -1389,7 +1389,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                     <Label className="text-xs">Preview</Label>
                     <div 
                       id="notionMarkdownPreview"
-                      className="border rounded-md p-3 mt-1 min-h-[150px] overflow-y-auto prose prose-sm max-w-none bg-background"
+                      className="markdown-content border rounded-md p-3 mt-1 min-h-[150px] overflow-y-auto prose prose-sm max-w-none bg-background"
                       dangerouslySetInnerHTML={{ __html: notionMarkdownInput ? marked(notionMarkdownInput) : '<p class="text-muted-foreground text-sm">Preview will appear here...</p>' }}
                     />
                   </div>
@@ -1417,7 +1417,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                   <Label>Live Preview</Label>
                   <div 
                     id="htmlContentPreview"
-                    className="border rounded-md p-4 min-h-[400px] overflow-y-auto prose prose-sm max-w-none bg-background"
+                    className="markdown-content border rounded-md p-4 min-h-[400px] overflow-y-auto prose prose-sm max-w-none bg-background"
                     dangerouslySetInnerHTML={{ __html: formData.htmlContent ? marked(formData.htmlContent) : '<p class="text-muted-foreground">Preview will appear here...</p>' }}
                   />
                 </div>

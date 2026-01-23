@@ -800,4 +800,17 @@
 - [x] Fix tab button scroll to properly jump to beginning of tab content
 - [x] Test scrolling on all tabs (Tab A, Tab B, tabs 1-10, and new tabs)
 - [x] Verify Tab B dynamic map still works after scroll fix
+- [x] Save checkpoint
+## Phase 46: Fix Notion Markdown Rendering
+- [ ] Investigate current renderContent() implementation in markdown.ts
+- [ ] Identify why bullets, indentation, and line spacing are not rendering correctly
+- [ ] Check how Notion markdown is being parsed and converted to HTML
+- [ ] Fix bullet point rendering with proper indentation
+- [ ] Fix line spacing to match Notion
+- [ ] Fix nested list rendering (sub-bullets)
+- [x] Test rendering in Admin panel preview (right side)
+- [x] Test rendering on actual website
+- [x] Document how the Notion markdown rendering works
 - [ ] Save checkpoint
+- [x] Apply markdown-content class to all rendered markdown content (Admin preview and website)
+- [x] Ensure bullets show as proper disc bullets, not hyphens
