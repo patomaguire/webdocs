@@ -779,3 +779,11 @@
 - [ ] Test Tab A editing - verify all options work
 - [ ] Test Tab B editing - verify all options work AND dynamic map still functions
 - [ ] Save final checkpoint
+## Phase 43: Investigate and Fix Background Color Issues
+- [ ] Save checkpoint before investigation to preserve current working state
+- [ ] Investigate background color issues across all tabs
+- [ ] Identify specific problems with background colors
+- [ ] Fix background color problems without breaking existing functionality
+- [ ] Test all tabs after fixes
+- [ ] Verify Tab B dynamic map still works after fixes
+- [ ] Save final checkpoint
