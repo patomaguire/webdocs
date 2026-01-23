@@ -1,0 +1,15 @@
+{
+  "query": "SELECT tabNumber, tabTitle, isVisible FROM tabs_content WHERE documentId = 1 AND tabNumber = 102;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT tabNumber, tabTitle, isVisible FROM tabs_content WHERE documentId = 1 AND tabNumber = 102;",
+  "rows": [
+    {
+      "tabNumber": "102",
+      "tabTitle": "New Tab 102",
+      "isVisible": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "tabNumber\ttabTitle\tisVisible\n102\tNew Tab 102\t1\n",
+  "stderr": "",
+  "execution_time_ms": 103
+}

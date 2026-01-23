@@ -532,7 +532,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
         <div className="container mx-auto px-4 py-4">
           {/* Desktop: Single row if all fit, Mobile: Two rows with horizontal scroll */}
           <div className="hidden md:flex gap-2 flex-wrap justify-center">
-            {visibleTabs.filter(t => t.tabNumber >= 1 && t.tabNumber <= 10).map((tab) => (
+            {visibleTabs.filter(t => t.tabNumber !== 0 && t.tabNumber !== 11).map((tab) => (
               <button
                 key={tab.tabNumber}
                 onClick={() => {
@@ -567,7 +567,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
           <div className="md:hidden space-y-2">
             {/* First Row: Tabs 1-5 */}
             <div className="flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
-              {visibleTabs.filter(t => t.tabNumber >= 1 && t.tabNumber <= 5).map((tab) => (
+              {visibleTabs.filter(t => t.tabNumber !== 0 && t.tabNumber !== 11).slice(0, Math.ceil(visibleTabs.filter(t => t.tabNumber !== 0 && t.tabNumber !== 11).length / 2)).map((tab) => (
                 <button
                   key={tab.tabNumber}
                   onClick={() => {
@@ -600,7 +600,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
             
             {/* Second Row: Tabs 6-10 */}
             <div className="flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
-              {visibleTabs.filter(t => t.tabNumber >= 6 && t.tabNumber <= 10).map((tab) => (
+              {visibleTabs.filter(t => t.tabNumber !== 0 && t.tabNumber !== 11).slice(Math.ceil(visibleTabs.filter(t => t.tabNumber !== 0 && t.tabNumber !== 11).length / 2)).map((tab) => (
                 <button
                   key={tab.tabNumber}
                   onClick={() => {

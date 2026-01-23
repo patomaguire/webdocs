@@ -759,3 +759,11 @@
 - [x] Fix new tabs visibility issue (added onSuccess callback to auto-select)
 - [x] Test adding a new tab and verify it appears (New Tab 102 created and selected)
 - [x] Save checkpoint
+
+## Phase 41: Fix New Tabs Not Appearing in Website
+- [x] Check database to verify New Tab 102 is saved with isVisible=true
+- [x] Check Proposal.tsx tab button rendering logic
+- [x] Identify why new tabs don't appear in website navigation (hardcoded <= 10 limit)
+- [x] Fix the tab visibility filtering or rendering issue (removed tab number restrictions)
+- [x] Test by creating a new tab in Admin and verifying it appears on website (New Tab 102 visible!)
+- [x] Save checkpoint
