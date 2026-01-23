@@ -1127,9 +1127,23 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                           const file = e.target.files?.[0];
                           if (!file) return;
                           try {
-                            const result = await imageUploadMutation.mutateAsync({ file });
-                            setFormData({ ...formData, notionDatabaseUrl: result.url });
-                            toast.success('Image 1 uploaded!');
+                            // Convert file to base64
+                            const reader = new FileReader();
+                            reader.onload = async () => {
+                              const base64 = reader.result as string;
+                              const result = await imageUploadMutation.mutateAsync({
+                                fileData: base64,
+                                fileName: file.name,
+                                contentType: file.type,
+                                folder: 'content-images'
+                              });
+                              setFormData({ ...formData, notionDatabaseUrl: result.url });
+                              toast.success('Image 1 uploaded!');
+                            };
+                            reader.onerror = () => {
+                              toast.error('Failed to read image file');
+                            };
+                            reader.readAsDataURL(file);
                           } catch (error) {
                             toast.error('Failed to upload image');
                           }
@@ -1164,9 +1178,23 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                           const file = e.target.files?.[0];
                           if (!file) return;
                           try {
-                            const result = await imageUploadMutation.mutateAsync({ file });
-                            setFormData({ ...formData, notionDatabaseUrl2: result.url });
-                            toast.success('Image 2 uploaded!');
+                            // Convert file to base64
+                            const reader = new FileReader();
+                            reader.onload = async () => {
+                              const base64 = reader.result as string;
+                              const result = await imageUploadMutation.mutateAsync({
+                                fileData: base64,
+                                fileName: file.name,
+                                contentType: file.type,
+                                folder: 'content-images'
+                              });
+                              setFormData({ ...formData, notionDatabaseUrl2: result.url });
+                              toast.success('Image 2 uploaded!');
+                            };
+                            reader.onerror = () => {
+                              toast.error('Failed to read image file');
+                            };
+                            reader.readAsDataURL(file);
                           } catch (error) {
                             toast.error('Failed to upload image');
                           }
@@ -1201,9 +1229,23 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                           const file = e.target.files?.[0];
                           if (!file) return;
                           try {
-                            const result = await imageUploadMutation.mutateAsync({ file });
-                            setFormData({ ...formData, notionDatabaseUrl3: result.url });
-                            toast.success('Image 3 uploaded!');
+                            // Convert file to base64
+                            const reader = new FileReader();
+                            reader.onload = async () => {
+                              const base64 = reader.result as string;
+                              const result = await imageUploadMutation.mutateAsync({
+                                fileData: base64,
+                                fileName: file.name,
+                                contentType: file.type,
+                                folder: 'content-images'
+                              });
+                              setFormData({ ...formData, notionDatabaseUrl3: result.url });
+                              toast.success('Image 3 uploaded!');
+                            };
+                            reader.onerror = () => {
+                              toast.error('Failed to read image file');
+                            };
+                            reader.readAsDataURL(file);
                           } catch (error) {
                             toast.error('Failed to upload image');
                           }

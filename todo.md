@@ -644,3 +644,11 @@
 - [ ] Fix automatic scroll after tab button click to include tab title
 - [ ] Adjust scroll offset to start at tab heading instead of bypassing it
 - [ ] Reduce scroll step/speed for smoother transition
+
+## Phase 32: Fix Image Upload and Background Rendering
+- [x] Investigate image upload failure error in Admin
+- [x] Fix image upload mutation to properly handle file uploads
+- [ ] Fix background gradient rendering in Proposal view
+- [ ] Fix background image rendering in Proposal view
+- [ ] Test all background types (solid color, gradient, image)
+- [ ] Test content image uploads (image1, image2, image3)
