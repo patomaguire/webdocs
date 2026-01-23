@@ -1172,8 +1172,8 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                 )}
               </div>
 
-              {/* Content Images - Only for tabs 1-10 */}
-              {selectedTab !== null && selectedTab >= 1 && selectedTab <= 10 && (
+              {/* Content Images - Available for all tabs */}
+              {selectedTab !== null && (
                 <div className="space-y-3 border rounded-md p-4 bg-muted/30">
                   <Label className="text-sm font-semibold">Content Images</Label>
                   <p className="text-xs text-muted-foreground">
