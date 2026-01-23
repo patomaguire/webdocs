@@ -540,7 +540,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   setTimeout(() => {
                     const element = mainContentRef.current;
                     if (element) {
-                      const yOffset = -120; // Offset to include tab title
+                      // Calculate offset to show tab buttons row (approx 80px) + header padding
+                      const tabButtonsHeight = 100;
+                      const padding = 30;
+                      const yOffset = -(tabButtonsHeight + padding);
                       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
                       window.scrollTo({ top: y, behavior: 'smooth' });
                     }
@@ -572,7 +575,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     setTimeout(() => {
                       const element = mainContentRef.current;
                       if (element) {
-                        const yOffset = -120; // Offset to include tab title
+                        // Calculate offset to show tab buttons row (approx 80px) + some padding
+                        const tabButtonsHeight = 100;
+                        const padding = 30;
+                        const yOffset = -(tabButtonsHeight + padding);
                         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
                         window.scrollTo({ top: y, behavior: 'smooth' });
                       }
@@ -602,7 +608,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     setTimeout(() => {
                       const element = mainContentRef.current;
                       if (element) {
-                        const yOffset = -120; // Offset to include tab title
+                        // Calculate offset to show tab buttons row (approx 80px) + some padding
+                        const tabButtonsHeight = 100;
+                        const padding = 30;
+                        const yOffset = -(tabButtonsHeight + padding);
                         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
                         window.scrollTo({ top: y, behavior: 'smooth' });
                       }

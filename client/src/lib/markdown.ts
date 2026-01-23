@@ -70,14 +70,14 @@ export function processImageShortcodes(
 
     if (!imageUrl) return;
     
-    // Match {{imageN:alignment}} where alignment is left, center, or right
-    const regex = new RegExp(`\\{\\{\\s*${imageKey}\\s*:\\s*(left|center|right)\\s*\\}\\}`, 'gi');
+    // Match {{imageN:alignment:width}} where alignment is left, center, or right, and width is optional
+    const regex = new RegExp(`\\{\\{\\s*${imageKey}\\s*:\\s*(left|center|right)(?:\\s*:\\s*([^}]+))?\\s*\\}\\}`, 'gi');
 
     
-    processed = processed.replace(regex, (match, alignment) => {
-
+    processed = processed.replace(regex, (match, alignment, width) => {
       const alignClass = alignment === 'left' ? 'text-left' : alignment === 'center' ? 'text-center' : 'text-right';
-      return `<div class="${alignClass} my-4"><img src="${imageUrl}" alt="Image ${index + 1}" class="inline-block max-w-full h-auto rounded-lg shadow-md" /></div>`;
+      const widthStyle = width ? ` style="width: ${width.trim()};"` : '';
+      return `<div class="${alignClass} my-4"><img src="${imageUrl}" alt="Image ${index + 1}" class="inline-block max-w-full h-auto rounded-lg shadow-md"${widthStyle} /></div>`;
     });
   });
   

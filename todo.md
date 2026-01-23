@@ -714,3 +714,18 @@
 - [x] Remove debug code from Proposal.tsx and markdown.ts
 - [x] Verify all features work correctly without debug code
 - [x] Document findings: image backgrounds work, CSS gradients work, image shortcodes work
+
+## Phase 36: Fix Image Dimensions, Backgrounds, and Scroll Positioning
+- [x] Add width parameter to image shortcode syntax (e.g., {{image1:center:50%}} or {{image1:left:300px}})
+- [x] Update markdown.ts to parse width parameter from shortcode
+- [x] Apply width to rendered image elements
+- [x] Debug why background gradients are not displaying (WORKING - gradient displays correctly)
+- [x] Debug why background images are not displaying (WORKING - image displays correctly)
+- [x] Fix background rendering logic in Proposal.tsx (no fix needed - working correctly)
+- [x] Fix tab scroll positioning to start exactly at header line (increased offset to 130px)
+- [x] Test image shortcodes with width parameter
+- [x] Test background gradients on production site (confirmed working)
+- [x] Test background images on production site (confirmed working)
+- [x] Test tab scroll positioning (improved significantly)
+- [x] Create user guide for image shortcodes and backgrounds
+- [ ] Save checkpoint
