@@ -1,0 +1,100 @@
+{
+  "query": "SELECT tabNumber, tabTitle, backgroundType, backgroundValue FROM tabs_content WHERE documentId = 1 ORDER BY tabNumber;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT tabNumber, tabTitle, backgroundType, backgroundValue FROM tabs_content WHERE documentId = 1 ORDER BY tabNumber;",
+  "rows": [
+    {
+      "tabNumber": "0",
+      "tabTitle": "Who We Are",
+      "backgroundType": "image",
+      "backgroundValue": "https://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/backgrounds/1769031037504-lhslyze5srm-test-background.jpg"
+    },
+    {
+      "tabNumber": "1",
+      "tabTitle": "Executive Summary",
+      "backgroundType": "gradient",
+      "backgroundValue": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+    },
+    {
+      "tabNumber": "2",
+      "tabTitle": "Background",
+      "backgroundType": "color",
+      "backgroundValue": "NULL"
+    },
+    {
+      "tabNumber": "3",
+      "tabTitle": "Scope",
+      "backgroundType": "color",
+      "backgroundValue": "NULL"
+    },
+    {
+      "tabNumber": "4",
+      "tabTitle": "Approach",
+      "backgroundType": "color",
+      "backgroundValue": "NULL"
+    },
+    {
+      "tabNumber": "5",
+      "tabTitle": "Schedule",
+      "backgroundType": "color",
+      "backgroundValue": "NULL"
+    },
+    {
+      "tabNumber": "6",
+      "tabTitle": "Deliverables",
+      "backgroundType": "color",
+      "backgroundValue": "NULL"
+    },
+    {
+      "tabNumber": "7",
+      "tabTitle": "Requirements",
+      "backgroundType": "color",
+      "backgroundValue": "NULL"
+    },
+    {
+      "tabNumber": "8",
+      "tabTitle": "Team",
+      "backgroundType": "color",
+      "backgroundValue": "NULL"
+    },
+    {
+      "tabNumber": "9",
+      "tabTitle": "Assumptions",
+      "backgroundType": "color",
+      "backgroundValue": "NULL"
+    },
+    {
+      "tabNumber": "10",
+      "tabTitle": "Commercial",
+      "backgroundType": "color",
+      "backgroundValue": "NULL"
+    },
+    {
+      "tabNumber": "11",
+      "tabTitle": "Experience Map",
+      "backgroundType": "color",
+      "backgroundValue": "#FFFFFF"
+    },
+    {
+      "tabNumber": "100",
+      "tabTitle": "New Tab 100",
+      "backgroundType": "color",
+      "backgroundValue": "NULL"
+    },
+    {
+      "tabNumber": "101",
+      "tabTitle": "New Tab 101",
+      "backgroundType": "color",
+      "backgroundValue": "NULL"
+    },
+    {
+      "tabNumber": "102",
+      "tabTitle": "New Tab 102",
+      "backgroundType": "color",
+      "backgroundValue": "#FFFFFF"
+    }
+  ],
+  "messages": [],
+  "stdout": "tabNumber\ttabTitle\tbackgroundType\tbackgroundValue\n0\tWho We Are\timage\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/backgrounds/1769031037504-lhslyze5srm-test-background.jpg\n1\tExecutive Summary\tgradient\tlinear-gradient(135deg, #667eea 0%, #764ba2 100%)\n2\tBackground\tcolor\tNULL\n3\tScope\tcolor\tNULL\n4\tApproach\tcolor\tNULL\n5\tSchedule\tcolor\tNULL\n6\tDeliverables\tcolor\tNULL\n7\tRequirements\tcolor\tNULL\n8\tTeam\tcolor\tNULL\n9\tAssumptions\tcolor\tNULL\n10\tCommercial\tcolor\tNULL\n11\tExperience Map\tcolor\t#FFFFFF\n100\tNew Tab 100\tcolor\tNULL\n101\tNew Tab 101\tcolor\tNULL\n102\tNew Tab 102\tcolor\t#FFFFFF\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

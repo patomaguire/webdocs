@@ -668,7 +668,7 @@ function SettingsTab({ documentId }: { documentId: number }) {
               )}
             </div>
             <div className="flex gap-2">
-              <input type="file" id="logo2-upload" accept="image/*" onChange={async (e) => { const file = e.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = async () => { const base64 = reader.result as string; const result = await trpc.imageUpload.uploadImage.mutate({ fileData: base64, fileName: file.name, contentType: file.type, folder: 'logos', }); if (result.success) { setFormData({ ...formData, logo2_url: result.url }); toast.success('Logo 2 uploaded!'); } }; reader.readAsDataURL(file); }} className="hidden" />
+              <input type="file" id="logo2-upload" accept="image/*" onChange={async (e) => { const file = e.target.files?.[0]; if (!file) return; try { const reader = new FileReader(); reader.onload = async () => { try { const base64 = reader.result as string; const result = await trpc.imageUpload.uploadImage.mutate({ fileData: base64, fileName: file.name, contentType: file.type, folder: 'logos', }); if (result.success) { setFormData({ ...formData, logo2_url: result.url }); toast.success('Logo 2 uploaded!'); } else { toast.error('Logo 2 upload failed'); } } catch (error) { console.error('Logo 2 upload error:', error); toast.error('Logo 2 upload failed: ' + (error instanceof Error ? error.message : 'Unknown error')); } }; reader.onerror = () => { toast.error('Failed to read file'); }; reader.readAsDataURL(file); } catch (error) { console.error('Logo 2 file read error:', error); toast.error('Failed to read file'); } }} className="hidden" />
               <Button type="button" variant="outline" onClick={() => document.getElementById('logo2-upload')?.click()} className="flex-1"><Upload className="mr-2 h-4 w-4" />Upload Image</Button>
               <Input placeholder="Or paste URL" value={formData.logo2_url} onChange={(e) => setFormData({ ...formData, logo2_url: e.target.value })} className="flex-1" />
             </div>
@@ -683,7 +683,7 @@ function SettingsTab({ documentId }: { documentId: number }) {
               )}
             </div>
             <div className="flex gap-2">
-              <input type="file" id="logo3-upload" accept="image/*" onChange={async (e) => { const file = e.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = async () => { const base64 = reader.result as string; const result = await trpc.imageUpload.uploadImage.mutate({ fileData: base64, fileName: file.name, contentType: file.type, folder: 'logos', }); if (result.success) { setFormData({ ...formData, logo3_url: result.url }); toast.success('Logo 3 uploaded!'); } }; reader.readAsDataURL(file); }} className="hidden" />
+              <input type="file" id="logo3-upload" accept="image/*" onChange={async (e) => { const file = e.target.files?.[0]; if (!file) return; try { const reader = new FileReader(); reader.onload = async () => { try { const base64 = reader.result as string; const result = await trpc.imageUpload.uploadImage.mutate({ fileData: base64, fileName: file.name, contentType: file.type, folder: 'logos', }); if (result.success) { setFormData({ ...formData, logo3_url: result.url }); toast.success('Logo 3 uploaded!'); } else { toast.error('Logo 3 upload failed'); } } catch (error) { console.error('Logo 3 upload error:', error); toast.error('Logo 3 upload failed: ' + (error instanceof Error ? error.message : 'Unknown error')); } }; reader.onerror = () => { toast.error('Failed to read file'); }; reader.readAsDataURL(file); } catch (error) { console.error('Logo 3 file read error:', error); toast.error('Failed to read file'); } }} className="hidden" />
               <Button type="button" variant="outline" onClick={() => document.getElementById('logo3-upload')?.click()} className="flex-1"><Upload className="mr-2 h-4 w-4" />Upload Image</Button>
               <Input placeholder="Or paste URL" value={formData.logo3_url} onChange={(e) => setFormData({ ...formData, logo3_url: e.target.value })} className="flex-1" />
             </div>
@@ -698,7 +698,7 @@ function SettingsTab({ documentId }: { documentId: number }) {
               )}
             </div>
             <div className="flex gap-2">
-              <input type="file" id="logo4-upload" accept="image/*" onChange={async (e) => { const file = e.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = async () => { const base64 = reader.result as string; const result = await trpc.imageUpload.uploadImage.mutate({ fileData: base64, fileName: file.name, contentType: file.type, folder: 'logos', }); if (result.success) { setFormData({ ...formData, logo4_url: result.url }); toast.success('Logo 4 uploaded!'); } }; reader.readAsDataURL(file); }} className="hidden" />
+              <input type="file" id="logo4-upload" accept="image/*" onChange={async (e) => { const file = e.target.files?.[0]; if (!file) return; try { const reader = new FileReader(); reader.onload = async () => { try { const base64 = reader.result as string; const result = await trpc.imageUpload.uploadImage.mutate({ fileData: base64, fileName: file.name, contentType: file.type, folder: 'logos', }); if (result.success) { setFormData({ ...formData, logo4_url: result.url }); toast.success('Logo 4 uploaded!'); } else { toast.error('Logo 4 upload failed'); } } catch (error) { console.error('Logo 4 upload error:', error); toast.error('Logo 4 upload failed: ' + (error instanceof Error ? error.message : 'Unknown error')); } }; reader.onerror = () => { toast.error('Failed to read file'); }; reader.readAsDataURL(file); } catch (error) { console.error('Logo 4 file read error:', error); toast.error('Failed to read file'); } }} className="hidden" />
               <Button type="button" variant="outline" onClick={() => document.getElementById('logo4-upload')?.click()} className="flex-1"><Upload className="mr-2 h-4 w-4" />Upload Image</Button>
               <Input placeholder="Or paste URL" value={formData.logo4_url} onChange={(e) => setFormData({ ...formData, logo4_url: e.target.value })} className="flex-1" />
             </div>
@@ -1102,13 +1102,13 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                   <div className="flex gap-2">
                     <Input
                       type="color"
-                      value={formData.backgroundValue}
+                      value={formData.backgroundValue || "#FFFFFF"}
                       onChange={(e) => setFormData({ ...formData, backgroundValue: e.target.value })}
                       className="w-20"
                     />
                     <Input
                       type="text"
-                      value={formData.backgroundValue}
+                      value={formData.backgroundValue || "#FFFFFF"}
                       onChange={(e) => setFormData({ ...formData, backgroundValue: e.target.value })}
                       placeholder="#FFFFFF"
                     />
