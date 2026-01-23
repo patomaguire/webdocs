@@ -1145,7 +1145,8 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                             };
                             reader.readAsDataURL(file);
                           } catch (error) {
-                            toast.error('Failed to upload image');
+                            console.error('Image upload error:', error);
+                            toast.error(`Failed to upload image: ${error instanceof Error ? error.message : 'Unknown error'}`);
                           }
                         }}
                         className="text-xs"
@@ -1196,7 +1197,8 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                             };
                             reader.readAsDataURL(file);
                           } catch (error) {
-                            toast.error('Failed to upload image');
+                            console.error('Image upload error:', error);
+                            toast.error(`Failed to upload image: ${error instanceof Error ? error.message : 'Unknown error'}`);
                           }
                         }}
                         className="text-xs"
@@ -1247,7 +1249,8 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                             };
                             reader.readAsDataURL(file);
                           } catch (error) {
-                            toast.error('Failed to upload image');
+                            console.error('Image upload error:', error);
+                            toast.error(`Failed to upload image: ${error instanceof Error ? error.message : 'Unknown error'}`);
                           }
                         }}
                         className="text-xs"

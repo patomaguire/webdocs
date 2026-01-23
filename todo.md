@@ -652,3 +652,9 @@
 - [ ] Fix background image rendering in Proposal view
 - [ ] Test all background types (solid color, gradient, image)
 - [ ] Test content image uploads (image1, image2, image3)
+
+## Phase 31: Fix Content Images Upload Error
+- [ ] Investigate why Content Images 1/2/3 uploads are failing in production
+- [ ] Check the upload handler code for all 3 image inputs
+- [ ] Fix the base64 conversion or mutation call
+- [ ] Test image uploads end-to-end
