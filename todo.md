@@ -664,3 +664,11 @@
 - [x] Update Admin frontend to send files using FormData instead of base64
 - [ ] Test image uploads end-to-end
 - [ ] Verify images display correctly with shortcodes
+
+## Phase 33: Critical Fixes - Image Upload, Background Rendering, Tab Scroll
+- [x] Verify imageUploadMutation is properly defined in Admin.tsx
+- [x] Fix image upload error (user getting "An unexpected error occurred")
+- [x] Fix background image not displaying in Proposal view
+- [x] Fix background gradient not displaying in Proposal view
+- [x] Adjust tab scroll behavior to include tab headers (not bypass them)
+- [x] Reduce scroll step so title is starting point of view

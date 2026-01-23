@@ -538,7 +538,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   setTimeout(() => {
                     const element = mainContentRef.current;
                     if (element) {
-                      const yOffset = -20; // Small offset from top
+                      const yOffset = -120; // Offset to include tab title
                       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
                       window.scrollTo({ top: y, behavior: 'smooth' });
                     }
@@ -570,7 +570,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     setTimeout(() => {
                       const element = mainContentRef.current;
                       if (element) {
-                        const yOffset = -20;
+                        const yOffset = -120; // Offset to include tab title
                         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
                         window.scrollTo({ top: y, behavior: 'smooth' });
                       }
@@ -600,7 +600,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     setTimeout(() => {
                       const element = mainContentRef.current;
                       if (element) {
-                        const yOffset = -20;
+                        const yOffset = -120; // Offset to include tab title
                         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
                         window.scrollTo({ top: y, behavior: 'smooth' });
                       }

@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Loader2, Trash2, Plus, Copy, Upload, Download } from "lucide-react";
+import { Loader2, Trash2, Plus, Copy, Upload, Download, X } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -936,11 +936,13 @@ function TabsContentTab({ documentId }: { documentId: number }) {
 
   const handleSave = () => {
     if (selectedTab !== null) {
-      upsertMutation.mutate({
+      const dataToSave = {
         documentId,
         tabNumber: selectedTab,
         ...formData,
-      });
+      };
+      console.log('[Admin] Saving tab with data:', dataToSave);
+      upsertMutation.mutate(dataToSave);
     }
   };
 
