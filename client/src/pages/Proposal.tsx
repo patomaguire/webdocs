@@ -496,17 +496,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
             <div className="flex gap-4 justify-center mt-2 no-print">
               {visibleTabs.some(t => t.tabNumber === 0) && (
                 <button
-                  onClick={() => {
-                    setActiveTab(0);
-                    setTimeout(() => {
-                      const element = mainContentRef.current;
-                      if (element) {
-                        // Scroll to show content starting from the title
-                        const y = element.getBoundingClientRect().top + window.pageYOffset;
-                        window.scrollTo({ top: y, behavior: 'smooth' });
-                      }
-                    }, 100);
-                  }}
+                  onClick={() => setActiveTab(0)}
                   className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
                   style={{ backgroundColor: primaryColor }}
                 >
@@ -521,17 +511,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
               )}
               {visibleTabs.some(t => t.tabNumber === 11) && (
                 <button
-                  onClick={() => {
-                    setActiveTab(11);
-                    setTimeout(() => {
-                      const element = mainContentRef.current;
-                      if (element) {
-                        // Scroll to show content starting from the title
-                        const y = element.getBoundingClientRect().top + window.pageYOffset;
-                        window.scrollTo({ top: y, behavior: 'smooth' });
-                      }
-                    }, 100);
-                  }}
+                  onClick={() => setActiveTab(11)}
                   className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
                   style={{ backgroundColor: primaryColor }}
                 >
@@ -560,8 +540,11 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   setTimeout(() => {
                     const element = mainContentRef.current;
                     if (element) {
-                      // Scroll to show content starting from the title
-                      const y = element.getBoundingClientRect().top + window.pageYOffset;
+                      // Calculate offset to show tab buttons row (approx 80px) + header padding
+                      const tabButtonsHeight = 100;
+                      const padding = 30;
+                      const yOffset = -(tabButtonsHeight + padding);
+                      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
                       window.scrollTo({ top: y, behavior: 'smooth' });
                     }
                   }, 100);
@@ -592,8 +575,11 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     setTimeout(() => {
                       const element = mainContentRef.current;
                       if (element) {
-                        // Scroll to show content starting from the title
-                        const y = element.getBoundingClientRect().top + window.pageYOffset;
+                        // Calculate offset to show tab buttons row (approx 80px) + some padding
+                        const tabButtonsHeight = 100;
+                        const padding = 30;
+                        const yOffset = -(tabButtonsHeight + padding);
+                        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
                         window.scrollTo({ top: y, behavior: 'smooth' });
                       }
                     }, 100);
@@ -622,8 +608,11 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     setTimeout(() => {
                       const element = mainContentRef.current;
                       if (element) {
-                        // Scroll to show content starting from the title
-                        const y = element.getBoundingClientRect().top + window.pageYOffset;
+                        // Calculate offset to show tab buttons row (approx 80px) + some padding
+                        const tabButtonsHeight = 100;
+                        const padding = 30;
+                        const yOffset = -(tabButtonsHeight + padding);
+                        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
                         window.scrollTo({ top: y, behavior: 'smooth' });
                       }
                     }, 100);
@@ -647,8 +636,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
 
       {/* Main Content Area (Full Width) */}
       <div className="flex">
+        <div ref={mainContentRef} className="scroll-mt-4"></div>
+
         {/* Main Content Area with Per-Tab Background */}
-        <main ref={mainContentRef} 
+        <main 
           className="flex-1 p-8 transition-all duration-300" 
           style={{
             ...(currentTab?.backgroundType === "image" && currentTab?.backgroundValue ? {
@@ -665,7 +656,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
         >
           {currentTab && (
             <div>
-              <h2 className="text-3xl font-bold mb-6 scroll-mt-4" style={{ color: primaryColor }}>
+<h2 className="text-3xl font-bold mb-6" style={{ color: primaryColor }}>
                 {currentTab.tabTitle}
               </h2>
 
@@ -680,7 +671,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                         image3: currentTab.notionDatabaseUrl3 || undefined,
                       })
                     }} 
-                    className="markdown-content prose max-w-none mb-8"
+                    className="prose max-w-none mb-8"
                   />
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {teamMembers?.filter(m => m.isVisible).map((member) => (
@@ -739,7 +730,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                       image3: currentTab.notionDatabaseUrl3 || undefined,
                     })
                   }} 
-                  className="markdown-content prose max-w-none"
+                  className="prose max-w-none"
                 />
               )}
 

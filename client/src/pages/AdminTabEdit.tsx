@@ -316,7 +316,7 @@ export function TabEditForm({
           {/* Right: Preview */}
           <div className="border rounded-md p-4 bg-white overflow-y-auto prose prose-sm max-w-none resize-y min-h-[200px]">
             {notionMarkdownInput ? (
-              <div className="markdown-content" dangerouslySetInnerHTML={{ __html: marked(notionMarkdownInput) }} />
+              <div dangerouslySetInnerHTML={{ __html: marked(notionMarkdownInput) }} />
             ) : (
               <p className="text-muted-foreground text-sm">Preview will appear here...</p>
             )}
@@ -340,7 +340,7 @@ export function TabEditForm({
           {/* Right: Preview */}
           <div className="border rounded-md p-4 bg-white overflow-y-auto prose prose-sm max-w-none resize-y min-h-[400px]">
             {formData.htmlContent ? (
-              <div className="markdown-content" dangerouslySetInnerHTML={{ __html: marked(formData.htmlContent) }} />
+              <div dangerouslySetInnerHTML={{ __html: marked(formData.htmlContent) }} />
             ) : (
               <p className="text-muted-foreground text-sm">Preview will appear here...</p>
             )}
