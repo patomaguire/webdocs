@@ -862,3 +862,13 @@
 - [x] Make stamp background transparent (shows hero background through)
 - [x] Visually test stamp in browser - outline style with pink border and text ✅
 - [x] Save checkpoint for publishing
+
+## Phase 63: Admin Settings UI and Hero Rendering Updates
+- [x] Rename "Proposal Settings" header to "Website Settings" in Admin Settings tab
+- [x] Move "Save Settings" button to far right of "Website Settings" header
+- [x] Move "Save Hero Section" button to far right of "Hero Section" header
+- [x] Hero already renders by default for all tabs (0-11) - no changes needed
+- [x] Hero visibility respects toggle in tab settings
+- [x] Visually test Admin UI changes - both Save buttons in headers ✅
+- [x] Visually test hero rendering on tabs 0 and 11 - shows correctly ✅
+- [x] Save checkpoint

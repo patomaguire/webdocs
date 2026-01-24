@@ -496,9 +496,15 @@ function SettingsTab({ documentId }: { documentId: number }) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Proposal Settings</CardTitle>
-        <CardDescription>Configure password, colors, logos, and notification email</CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle>Website Settings</CardTitle>
+          <CardDescription>Configure password, colors, logos, and notification email</CardDescription>
+        </div>
+        <Button onClick={handleSave} disabled={upsertMutation.isPending}>
+          {upsertMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Save Settings
+        </Button>
       </CardHeader>
       <CardContent className="space-y-4">
         <div>
@@ -820,11 +826,6 @@ function SettingsTab({ documentId }: { documentId: number }) {
             💡 Tip: Click the panel icon in the top-right corner to open Management UI → Dashboard
           </p>
         </div>
-
-        <Button onClick={handleSave} disabled={upsertMutation.isPending}>
-          {upsertMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Save Settings
-        </Button>
       </CardContent>
     </Card>
   );
@@ -867,9 +868,15 @@ function HeroTab({ documentId }: { documentId: number }) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Hero Section</CardTitle>
-        <CardDescription>Configure the main title, subtitle, and stamp badge</CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle>Hero Section</CardTitle>
+          <CardDescription>Configure the main title, subtitle, and stamp badge</CardDescription>
+        </div>
+        <Button onClick={handleSave} disabled={upsertMutation.isPending}>
+          {upsertMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Save Hero Section
+        </Button>
       </CardHeader>
       <CardContent className="space-y-4">
         <div>
@@ -901,11 +908,6 @@ function HeroTab({ documentId }: { documentId: number }) {
             placeholder="ISSUED FOR DISCUSSION"
           />
         </div>
-
-        <Button onClick={handleSave} disabled={upsertMutation.isPending}>
-          {upsertMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Save Hero Section
-        </Button>
       </CardContent>
     </Card>
   );
