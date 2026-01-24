@@ -1,0 +1,8 @@
+{
+  "query": "-- Renumber all tabs in one go using CASE\nUPDATE tabs_content \nSET tabNumber = CASE tabNumber\n  WHEN 0 THEN 1\n  WHEN 1 THEN 10\n  WHEN 2 THEN 20\n  WHEN 3 THEN 30\n  WHEN 4 THEN 40\n  WHEN 5 THEN 50\n  WHEN 6 THEN 60\n  WHEN 7 THEN 70\n  WHEN 8 THEN 80\n  WHEN 9 THEN 90\n  WHEN 10 THEN 100\n  WHEN 11 THEN 2\n  ELSE tabNumber\nEND;\n\nSELECT documentId, tabNumber, tabTitle FROM tabs_content WHERE documentId = 1 ORDER BY tabNumber;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute -- Renumber all tabs in one go using CASE\nUPDATE tabs_content \nSET tabNumber = CASE tabNumber\n  WHEN 0 THEN 1\n  WHEN 1 THEN 10\n  WHEN 2 THEN 20\n  WHEN 3 THEN 30\n  WHEN 4 THEN 40\n  WHEN 5 THEN 50\n  WHEN 6 THEN 60\n  WHEN 7 THEN 70\n  WHEN 8 THEN 80\n  WHEN 9 THEN 90\n  WHEN 10 THEN 100\n  WHEN 11 THEN 2\n  ELSE tabNumber\nEND;\n\nSELECT documentId, tabNumber, tabTitle FROM tabs_content WHERE documentId = 1 ORDER BY tabNumber;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1062 (23000) at line 2: Duplicate entry '?' for key 'tabs_content.unique_document_tab'"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "query": "-- Temporarily drop unique constraint\nALTER TABLE tabs_content DROP INDEX unique_document_tab;\n\n-- Renumber tabs using CASE statement (10k range for 100+ documents)\nUPDATE tabs_content \nSET tabNumber = CASE tabNumber\n  WHEN 0 THEN 100\n  WHEN 1 THEN 1000\n  WHEN 2 THEN 2000\n  WHEN 3 THEN 3000\n  WHEN 4 THEN 4000\n  WHEN 5 THEN 5000\n  WHEN 6 THEN 6000\n  WHEN 7 THEN 7000\n  WHEN 8 THEN 8000\n  WHEN 9 THEN 9000\n  WHEN 10 THEN 10000\n  WHEN 11 THEN 200\n  ELSE tabNumber\nEND;\n\n-- Recreate unique constraint\nALTER TABLE tabs_content ADD UNIQUE INDEX unique_document_tab (documentId, tabNumber);\n\n-- Verify\nSELECT documentId, tabNumber, tabTitle FROM tabs_content WHERE documentId = 1 ORDER BY tabNumber;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute -- Temporarily drop unique constraint\nALTER TABLE tabs_content DROP INDEX unique_document_tab;\n\n-- Renumber tabs using CASE statement (10k range for 100+ documents)\nUPDATE tabs_content \nSET tabNumber = CASE tabNumber\n  WHEN 0 THEN 100\n  WHEN 1 THEN 1000\n  WHEN 2 THEN 2000\n  WHEN 3 THEN 3000\n  WHEN 4 THEN 4000\n  WHEN 5 THEN 5000\n  WHEN 6 THEN 6000\n  WHEN 7 THEN 7000\n  WHEN 8 THEN 8000\n  WHEN 9 THEN 9000\n  WHEN 10 THEN 10000\n  WHEN 11 THEN 200\n  ELSE tabNumber\nEND;\n\n-- Recreate unique constraint\nALTER TABLE tabs_content ADD UNIQUE INDEX unique_document_tab (documentId, tabNumber);\n\n-- Verify\nSELECT documentId, tabNumber, tabTitle FROM tabs_content WHERE documentId = 1 ORDER BY tabNumber;",
+  "rows": [
+    {
+      "documentId": "1",
+      "tabNumber": "-100",
+      "tabTitle": "Commercial"
+    },
+    {
+      "documentId": "1",
+      "tabNumber": "-20",
+      "tabTitle": "Experience Map"
+    },
+    {
+      "documentId": "1",
+      "tabNumber": "-10",
+      "tabTitle": "Who We Are"
+    },
+    {
+      "documentId": "1",
+      "tabNumber": "20",
+      "tabTitle": "Background"
+    },
+    {
+      "documentId": "1",
+      "tabNumber": "30",
+      "tabTitle": "Scope"
+    },
+    {
+      "documentId": "1",
+      "tabNumber": "40",
+      "tabTitle": "Approach"
+    },
+    {
+      "documentId": "1",
+      "tabNumber": "50",
+      "tabTitle": "Schedule"
+    },
+    {
+      "documentId": "1",
+      "tabNumber": "60",
+      "tabTitle": "Deliverables"
+    },
+    {
+      "documentId": "1",
+      "tabNumber": "70",
+      "tabTitle": "Requirements"
+    },
+    {
+      "documentId": "1",
+      "tabNumber": "80",
+      "tabTitle": "Team"
+    },
+    {
+      "documentId": "1",
+      "tabNumber": "90",
+      "tabTitle": "Assumptions"
+    },
+    {
+      "documentId": "1",
+      "tabNumber": "1100",
+      "tabTitle": "Executive Summary"
+    }
+  ],
+  "messages": [],
+  "stdout": "documentId\ttabNumber\ttabTitle\n1\t-100\tCommercial\n1\t-20\tExperience Map\n1\t-10\tWho We Are\n1\t20\tBackground\n1\t30\tScope\n1\t40\tApproach\n1\t50\tSchedule\n1\t60\tDeliverables\n1\t70\tRequirements\n1\t80\tTeam\n1\t90\tAssumptions\n1\t1100\tExecutive Summary\n",
+  "stderr": "",
+  "execution_time_ms": 958
+}

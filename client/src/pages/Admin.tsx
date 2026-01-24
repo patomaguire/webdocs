@@ -15,7 +15,7 @@ import { FileText } from "lucide-react";
 import { marked } from 'marked';
 import { MarkdownCheatsheet } from '@/components/MarkdownCheatsheet';
 import { FilterCheatsheet } from '@/components/FilterCheatsheet';
-import { filterProjects, filterTeamMembers } from '@/lib/advancedFilter';
+import { filterProjects, filterTeamMembers} from '@/lib/advancedFilter';
 
 // ============= Document Selector Component =============
 interface DocumentSelectorProps {
@@ -1093,7 +1093,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Tab List</CardTitle>
           <Button size="sm" onClick={() => {
-            const nextTabNumber = tabs && tabs.length > 0 ? Math.max(...tabs.map(t => t.tabNumber)) + 1 : 0;
+            const nextTabNumber = tabs && tabs.length > 0 ? Math.max(...tabs.map(t => t.tabNumber)) + 100 : 100;
             upsertMutation.mutate({
               documentId,
               tabNumber: nextTabNumber,
@@ -1117,11 +1117,11 @@ function TabsContentTab({ documentId }: { documentId: number }) {
           <div className="space-y-2">
             {tabs
               ?.sort((a, b) => {
-                // Sort order: Tab A (0), Tab B (11), then 1-10
-                if (a.tabNumber === 0) return -1;
-                if (b.tabNumber === 0) return 1;
-                if (a.tabNumber === 11) return b.tabNumber === 0 ? 1 : -1;
-                if (b.tabNumber === 11) return 1;
+                // Sort order: Tab A (100), Tab B (200), then 1000-10000
+                if (a.tabNumber === 100) return -1;
+                if (b.tabNumber === 100) return 1;
+                if (a.tabNumber === 200) return b.tabNumber === 100 ? 1 : -1;
+                if (b.tabNumber === 200) return 1;
                 return a.tabNumber - b.tabNumber;
               })
               .map(tab => (
@@ -1131,7 +1131,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                   className="w-full justify-start"
                   onClick={() => handleSelectTab(tab.tabNumber)}
                 >
-                  {tab.tabNumber === 0 ? 'Tab A' : tab.tabNumber === 11 ? 'Tab B' : tab.tabTitle}
+                  {tab.tabTitle}
                 </Button>
               ))}
           </div>

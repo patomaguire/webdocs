@@ -187,7 +187,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
       tabSection.style.pageBreakAfter = index < visibleTabs.length - 1 ? 'always' : 'auto';
       
       const title = document.createElement('h2');
-      title.textContent = `${tab.tabNumber}. ${tab.tabTitle}`;
+      title.textContent = `${tab.tabTitle}`;
       title.style.color = primaryColor;
       title.style.fontSize = '24pt';
       title.style.marginBottom = '16px';
@@ -216,8 +216,8 @@ function ProposalContent({ documentId }: { documentId: number }) {
         });
       }
       
-      // Add projects for tab 11
-      if (tab.tabNumber === 11 && projects) {
+      // Add projects for tab 200 (Experience Map)
+      if (tab.tabNumber === 200 && projects) {
         projects.filter(p => p.isVisible).forEach(project => {
           const projectDiv = document.createElement('div');
           projectDiv.style.marginTop = '16px';
@@ -292,7 +292,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
     `;
     
     allTabComments.forEach(({ tab, comments: tabComments }) => {
-      html += `<div class="tab-title">${tab.tabNumber}. ${tab.tabTitle}</div>`;
+      html += `<div class="tab-title">${tab.tabTitle}</div>`;
       
       if (tabComments && tabComments.length > 0) {
         tabComments.forEach((comment: any) => {
@@ -500,15 +500,15 @@ function ProposalContent({ documentId }: { documentId: number }) {
         </div>
       </div>
 
-      {/* Navigation Buttons for Tab A (0) and Tab B (11) */}
-      {(visibleTabs.some(t => t.tabNumber === 0) || visibleTabs.some(t => t.tabNumber === 11)) && (
+      {/* Navigation Buttons for Tab A (100) and Tab B (200) */}
+      {(visibleTabs.some(t => t.tabNumber === 100) || visibleTabs.some(t => t.tabNumber === 200)) && (
         <div className="py-4 text-center" style={{ backgroundColor: `${primaryColor}10` }}>
           <div className="container mx-auto px-4">
             <div className="flex gap-4 justify-center no-print">
-              {visibleTabs.some(t => t.tabNumber === 0) && (
+              {visibleTabs.some(t => t.tabNumber === 100) && (
                 <button
                   onClick={() => {
-                    setActiveTab(0);
+                    setActiveTab(100);
                     setTimeout(() => {
                       const tabButtons = tabButtonsRef.current;
                       const header = headerRef.current;
@@ -529,13 +529,13 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                     <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                   </svg>
-                  {visibleTabs.find(t => t.tabNumber === 0)?.tabTitle || (language === "en" ? "Who we are" : "Quiénes somos")}
+                  {visibleTabs.find(t => t.tabNumber === 100)?.tabTitle || (language === "en" ? "Who we are" : "Quiénes somos")}
                 </button>
               )}
-              {visibleTabs.some(t => t.tabNumber === 11) && (
+              {visibleTabs.some(t => t.tabNumber === 200) && (
                 <button
                   onClick={() => {
-                    setActiveTab(11);
+                    setActiveTab(200);
                     setTimeout(() => {
                       const tabButtons = tabButtonsRef.current;
                       const header = headerRef.current;
@@ -554,7 +554,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                     <circle cx="12" cy="10" r="3"/>
                   </svg>
-                  {visibleTabs.find(t => t.tabNumber === 11)?.tabTitle || (language === "en" ? "Experience map" : "Mapa de experiencia")}
+                  {visibleTabs.find(t => t.tabNumber === 200)?.tabTitle || (language === "en" ? "Experience map" : "Mapa de experiencia")}
                 </button>
               )}
             </div>
