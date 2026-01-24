@@ -787,8 +787,3 @@
 - [ ] Test all tabs after fixes
 - [ ] Verify Tab B dynamic map still works after fixes
 - [ ] Save final checkpoint
-## Phase 48: Fix Bullet List Rendering in Admin Live Preview
-- [ ] Replace marked() with renderContent() in Admin.tsx Live Preview
-- [ ] Test bullet rendering in Admin preview
-- [ ] Save Tab and test on actual website
-- [ ] Save checkpoint
