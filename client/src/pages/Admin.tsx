@@ -605,51 +605,14 @@ function SettingsTab({ documentId }: { documentId: number }) {
           {/* Logo 1 */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label className="text-sm font-semibold text-foreground">Logo 1 (left)</Label>
+              <Label className="text-sm font-semibold text-foreground">Logo 1 (far left)</Label>
               {formData.logo1_url && (
                 <img src={formData.logo1_url} alt="Logo 1" className="h-8 max-w-[100px] object-contain" />
               )}
             </div>
             <div className="flex gap-2">
-              <input
-                type="file"
-                id="logo1-upload"
-                accept="image/*"
-                onChange={async (e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
-                  const reader = new FileReader();
-                  reader.onload = async () => {
-                    try {
-                      const base64 = reader.result as string;
-                      const result = await imageUploadMutation.mutateAsync({
-                        fileData: base64,
-                        fileName: file.name,
-                        contentType: file.type,
-                        folder: 'logos',
-                      });
-                      if (result.success) {
-                        setFormData({ ...formData, logo1_url: result.url });
-                        toast.success('Logo 1 uploaded!');
-                      }
-                    } catch (error) {
-                      console.error('Logo upload error:', error);
-                      toast.error('Failed to upload logo: ' + (error as Error).message);
-                    }
-                  };
-                  reader.readAsDataURL(file);
-                }}
-                className="hidden"
-              />
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => document.getElementById('logo1-upload')?.click()}
-                className="flex-1"
-              >
-                <Upload className="mr-2 h-4 w-4" />
-                Upload Image
-              </Button>
+              <input type="file" id="logo1-upload" accept="image/*" onChange={async (e) => { const file = e.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = async () => { try { const base64 = reader.result as string; const result = await imageUploadMutation.mutateAsync({ fileData: base64, fileName: file.name, contentType: file.type, folder: 'logos', }); if (result.success) { setFormData({ ...formData, logo1_url: result.url }); toast.success('Logo 1 uploaded!'); } } catch (error) { console.error('Logo upload error:', error); toast.error('Failed to upload logo'); } }; reader.readAsDataURL(file); }} className="hidden" />
+              <Button type="button" variant="outline" onClick={() => document.getElementById('logo1-upload')?.click()} className="flex-1"><Upload className="mr-2 h-4 w-4" />Upload Image</Button>
               <Input
                 placeholder="Or paste URL"
                 value={formData.logo1_url}
@@ -662,7 +625,7 @@ function SettingsTab({ documentId }: { documentId: number }) {
           {/* Logo 2 */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label className="text-sm font-semibold text-foreground">Logo 2 (right)</Label>
+              <Label className="text-sm font-semibold text-foreground">Logo 2 (left)</Label>
               {formData.logo2_url && (
                 <img src={formData.logo2_url} alt="Logo 2" className="h-8 max-w-[100px] object-contain" />
               )}
@@ -677,7 +640,7 @@ function SettingsTab({ documentId }: { documentId: number }) {
           {/* Logo 3 */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label className="text-sm font-semibold text-foreground">Logo 3 (left)</Label>
+              <Label className="text-sm font-semibold text-foreground">Logo 3 (right)</Label>
               {formData.logo3_url && (
                 <img src={formData.logo3_url} alt="Logo 3" className="h-8 max-w-[100px] object-contain" />
               )}
@@ -692,7 +655,7 @@ function SettingsTab({ documentId }: { documentId: number }) {
           {/* Logo 4 */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label className="text-sm font-semibold text-foreground">Logo 4 (right)</Label>
+              <Label className="text-sm font-semibold text-foreground">Logo 4 (far right)</Label>
               {formData.logo4_url && (
                 <img src={formData.logo4_url} alt="Logo 4" className="h-8 max-w-[100px] object-contain" />
               )}

@@ -1,0 +1,20 @@
+{
+  "query": "SELECT id, slug, name FROM documents ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, slug, name FROM documents ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal"
+    },
+    {
+      "id": "180002",
+      "slug": "test01",
+      "name": "Test 01"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tslug\tname\n1\tdefault\tDefault Proposal\n180002\ttest01\tTest 01\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}
