@@ -175,3 +175,30 @@
     }
   }
 }
+/* Document content styling - tables and images */
+.prose table {
+  border: 3px solid var(--contrast-color, #ffffff);
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+.prose table th,
+.prose table td {
+  border: 2px solid var(--contrast-color, #ffffff);
+  padding: 0.75rem;
+}
+
+.prose table th {
+  background-color: var(--secondary-color, #fff76b);
+  font-weight: bold;
+}
+
+/* Team member images - round with contrast border */
+.prose img[alt*="team"],
+.prose img[alt*="Team"],
+.team-image {
+  border: 4px solid var(--contrast-color, #ffffff);
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

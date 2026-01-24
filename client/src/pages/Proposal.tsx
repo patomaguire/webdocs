@@ -115,6 +115,8 @@ function ProposalContent({ documentId }: { documentId: number }) {
   }, [settings]);
 
   const primaryColor = settingsMap.primary_color || "#E65100";
+  const secondaryColor = settingsMap.secondary_color || "#fff76b";
+  const contrastColor = settingsMap.contrast_color || "#ffffff";
   const visibleTabs = tabs?.filter(t => t.isVisible) || [];
   
   // Get current tab
@@ -488,10 +490,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
             </h1>
           )}
           {hero?.subtitle && (
-            <p className="text-base text-gray-700 mb-0">{hero.subtitle}</p>
+            <p className="text-base mb-0" style={{ color: secondaryColor }}>{hero.subtitle}</p>
           )}
           {hero?.stampText && (
-            <div className="inline-block px-5 py-1.5 border-2 mb-0 mt-1" style={{ borderColor: primaryColor, color: primaryColor }}>
+            <div className="inline-block px-5 py-1.5 border-3 mb-0 mt-1" style={{ borderColor: contrastColor, backgroundColor: 'transparent', color: contrastColor, borderWidth: '3px' }}>
               <span className="font-bold text-sm">{hero.stampText}</span>
             </div>
           )}
@@ -584,10 +586,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
                 className={`px-3 py-2 rounded-lg text-xs font-medium transition ${
                   activeTab === tab.tabNumber
                     ? 'text-white shadow-md'
-                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                    : 'text-gray-700 hover:opacity-90 border border-gray-300'
                 }`}
                 style={{
-                  backgroundColor: activeTab === tab.tabNumber ? primaryColor : undefined,
+                  backgroundColor: activeTab === tab.tabNumber ? primaryColor : secondaryColor,
                 }}
               >
                 {tab.tabTitle}
@@ -618,10 +620,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   className={`px-3 py-2 rounded-lg text-xs font-medium transition flex-shrink-0 ${
                     activeTab === tab.tabNumber
                       ? 'text-white shadow-md'
-                      : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                      : 'text-gray-700 hover:opacity-90 border border-gray-300'
                   }`}
                   style={{
-                    backgroundColor: activeTab === tab.tabNumber ? primaryColor : undefined,
+                    backgroundColor: activeTab === tab.tabNumber ? primaryColor : secondaryColor,
                   }}
                 >
                   {tab.tabTitle}
@@ -650,10 +652,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   className={`px-3 py-2 rounded-lg text-xs font-medium transition flex-shrink-0 ${
                     activeTab === tab.tabNumber
                       ? 'text-white shadow-md'
-                      : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                      : 'text-gray-700 hover:opacity-90 border border-gray-300'
                   }`}
                   style={{
-                    backgroundColor: activeTab === tab.tabNumber ? primaryColor : undefined,
+                    backgroundColor: activeTab === tab.tabNumber ? primaryColor : secondaryColor,
                   }}
                 >
                   {tab.tabTitle}
@@ -684,7 +686,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
         >
           {currentTab && (
             <div>
-              <h2 className="text-3xl font-bold mb-6 scroll-mt-4" style={{ color: primaryColor }}>
+              <h2 className="text-3xl font-bold mb-6 scroll-mt-4" style={{ color: secondaryColor }}>
                 {currentTab.tabTitle}
               </h2>
 
@@ -700,6 +702,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                       })
                     }} 
                     className="prose max-w-none mb-8"
+                    style={{ '--contrast-color': contrastColor, '--secondary-color': secondaryColor } as React.CSSProperties}
                   />
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {teamMembers?.filter(m => m.isVisible).map((member) => (
@@ -710,6 +713,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                               src={member.photoUrl} 
                               alt={member.name} 
                               className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                              style={{ border: `4px solid ${contrastColor}` }}
                             />
                           )}
                           <h3 className="text-xl font-bold text-center mb-1">{member.name}</h3>
@@ -759,6 +763,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     })
                   }} 
                   className="prose max-w-none"
+                  style={{ '--contrast-color': contrastColor, '--secondary-color': secondaryColor } as React.CSSProperties}
                 />
               )}
 

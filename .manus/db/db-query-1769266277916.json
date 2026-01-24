@@ -1,0 +1,26 @@
+{
+  "query": "SELECT settingKey, settingValue FROM proposal_settings WHERE documentId = (SELECT id FROM documents WHERE slug = 'default') AND settingKey IN ('primary_color', 'secondary_color', 'contrast_color', 'background_color') ORDER BY settingKey;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT settingKey, settingValue FROM proposal_settings WHERE documentId = (SELECT id FROM documents WHERE slug = 'default') AND settingKey IN ('primary_color', 'secondary_color', 'contrast_color', 'background_color') ORDER BY settingKey;",
+  "rows": [
+    {
+      "settingKey": "background_color",
+      "settingValue": "#ebfdc4"
+    },
+    {
+      "settingKey": "contrast_color",
+      "settingValue": "#ff337a"
+    },
+    {
+      "settingKey": "primary_color",
+      "settingValue": "#76bb40"
+    },
+    {
+      "settingKey": "secondary_color",
+      "settingValue": "#020302"
+    }
+  ],
+  "messages": [],
+  "stdout": "settingKey\tsettingValue\nbackground_color\t#ebfdc4\ncontrast_color\t#ff337a\nprimary_color\t#76bb40\nsecondary_color\t#020302\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

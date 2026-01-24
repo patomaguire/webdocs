@@ -848,3 +848,17 @@
 - [x] Applied exact pattern to all 4 logo uploads in Settings
 - [x] Visually confirmed all 4 show "Choose File" buttons matching Content Images
 - [x] Save checkpoint after visual confirmation
+
+## Phase 61: Enhance Secondary and Contrast Color Usage
+- [ ] Apply secondary color (yellow) to: tab section titles, menu items, hero subtitle
+- [ ] Apply contrast color (white) to: TEST STAMP border/bg, important table borders, team photo borders
+- [ ] Find document rendering code (likely client/src/pages/Doc.tsx or similar)
+- [ ] Update CSS/styling to apply colors to identified elements
+- [ ] Visually test all changes in browser
+- [ ] Save checkpoint after visual confirmation
+
+## Phase 62: Fix TEST STAMP Styling
+- [x] Change stamp to use contrast color for border and text only (not background)
+- [x] Make stamp background transparent (shows hero background through)
+- [x] Visually test stamp in browser - outline style with pink border and text ✅
+- [x] Save checkpoint for publishing
