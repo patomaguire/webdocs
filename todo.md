@@ -787,3 +787,8 @@
 - [ ] Test all tabs after fixes
 - [ ] Verify Tab B dynamic map still works after fixes
 - [ ] Save final checkpoint
+
+## Phase 50: Fix Tab Button Scrolling Position
+- [ ] Adjust scroll offset in Proposal.tsx to show FULL tab buttons line at top (not halfway)
+- [ ] Test on actual website to verify tab buttons ribbon is fully visible
+- [ ] Save checkpoint

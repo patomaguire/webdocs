@@ -560,8 +560,8 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   setTimeout(() => {
                     const element = mainContentRef.current;
                     if (element) {
-                      // Scroll to show content starting from the title
-                      const y = element.getBoundingClientRect().top + window.pageYOffset;
+                      // Scroll to show tab buttons ribbon at top
+                      const y = element.getBoundingClientRect().top + window.pageYOffset - 100;
                       window.scrollTo({ top: y, behavior: 'smooth' });
                     }
                   }, 100);
