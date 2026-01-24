@@ -69,6 +69,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const mainContentRef = useRef<HTMLDivElement>(null);
   const tabButtonsRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   
   // Language
   const [language, setLanguage] = useState<"en" | "es">("en");
@@ -366,6 +367,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
       <div className="min-h-screen" style={{ backgroundColor: settingsMap.background_color || '#f5f5f5' }}>
       {/* Minimal Header with Logos, Print, and Language */}
       <header 
+        ref={headerRef}
         className="sticky top-0 z-50 shadow-md"
         style={{ backgroundColor: primaryColor }}
       >
@@ -500,11 +502,13 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   onClick={() => {
                     setActiveTab(0);
                     setTimeout(() => {
-                      const element = mainContentRef.current;
-                      if (element) {
-                        // Scroll to show content starting from the title
-                        const y = element.getBoundingClientRect().top + window.pageYOffset;
-                        window.scrollTo({ top: y, behavior: 'smooth' });
+                      const tabButtons = tabButtonsRef.current;
+                      const header = headerRef.current;
+                      if (tabButtons && header) {
+                        // Scroll to tab buttons row, accounting for sticky header
+                        const headerHeight = header.offsetHeight;
+                        const tabButtonsTop = tabButtons.getBoundingClientRect().top + window.pageYOffset;
+                        window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
                       }
                     }, 100);
                   }}
@@ -525,11 +529,13 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   onClick={() => {
                     setActiveTab(11);
                     setTimeout(() => {
-                      const element = mainContentRef.current;
-                      if (element) {
-                        // Scroll to show content starting from the title
-                        const y = element.getBoundingClientRect().top + window.pageYOffset;
-                        window.scrollTo({ top: y, behavior: 'smooth' });
+                      const tabButtons = tabButtonsRef.current;
+                      const header = headerRef.current;
+                      if (tabButtons && header) {
+                        // Scroll to tab buttons row, accounting for sticky header
+                        const headerHeight = header.offsetHeight;
+                        const tabButtonsTop = tabButtons.getBoundingClientRect().top + window.pageYOffset;
+                        window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
                       }
                     }, 100);
                   }}
@@ -560,10 +566,12 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   setActiveTab(tab.tabNumber);
                   setTimeout(() => {
                     const tabButtons = tabButtonsRef.current;
-                    if (tabButtons) {
-                      // Scroll to tab buttons row
-                      const y = tabButtons.getBoundingClientRect().top + window.pageYOffset;
-                      window.scrollTo({ top: y, behavior: 'smooth' });
+                    const header = headerRef.current;
+                    if (tabButtons && header) {
+                      // Scroll to tab buttons row, accounting for sticky header
+                      const headerHeight = header.offsetHeight;
+                      const tabButtonsTop = tabButtons.getBoundingClientRect().top + window.pageYOffset;
+                      window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
                     }
                   }, 100);
                 }}
@@ -591,11 +599,13 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   onClick={() => {
                     setActiveTab(tab.tabNumber);
                     setTimeout(() => {
-                      const element = mainContentRef.current;
-                      if (element) {
-                        // Scroll to show content starting from the title
-                        const y = element.getBoundingClientRect().top + window.pageYOffset;
-                        window.scrollTo({ top: y, behavior: 'smooth' });
+                      const tabButtons = tabButtonsRef.current;
+                      const header = headerRef.current;
+                      if (tabButtons && header) {
+                        // Scroll to tab buttons row, accounting for sticky header
+                        const headerHeight = header.offsetHeight;
+                        const tabButtonsTop = tabButtons.getBoundingClientRect().top + window.pageYOffset;
+                        window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
                       }
                     }, 100);
                   }}
@@ -621,11 +631,13 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   onClick={() => {
                     setActiveTab(tab.tabNumber);
                     setTimeout(() => {
-                      const element = mainContentRef.current;
-                      if (element) {
-                        // Scroll to show content starting from the title
-                        const y = element.getBoundingClientRect().top + window.pageYOffset;
-                        window.scrollTo({ top: y, behavior: 'smooth' });
+                      const tabButtons = tabButtonsRef.current;
+                      const header = headerRef.current;
+                      if (tabButtons && header) {
+                        // Scroll to tab buttons row, accounting for sticky header
+                        const headerHeight = header.offsetHeight;
+                        const tabButtonsTop = tabButtons.getBoundingClientRect().top + window.pageYOffset;
+                        window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
                       }
                     }, 100);
                   }}

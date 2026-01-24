@@ -789,6 +789,7 @@
 - [ ] Save final checkpoint
 
 ## Phase 50: Fix Tab Button Scrolling Position
-- [ ] Adjust scroll offset in Proposal.tsx to show FULL tab buttons line at top (not halfway)
-- [ ] Test on actual website to verify tab buttons ribbon is fully visible
-- [ ] Save checkpoint
+- [x] Adjust scroll offset in Proposal.tsx to show FULL tab buttons line at top (not halfway)
+- [x] Test on actual website to verify tab buttons ribbon is fully visible
+- [x] Save checkpoint
+- [x] Fix tab button scrolling - each button behaves differently, not scrolling to start of section consistently
