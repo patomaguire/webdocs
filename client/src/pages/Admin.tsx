@@ -16,6 +16,7 @@ import { marked } from 'marked';
 import { MarkdownCheatsheet } from '@/components/MarkdownCheatsheet';
 import { FilterCheatsheet } from '@/components/FilterCheatsheet';
 import { filterProjects, filterTeamMembers} from '@/lib/advancedFilter';
+import Papa from 'papaparse';
 
 // ============= Document Selector Component =============
 interface DocumentSelectorProps {
@@ -1656,30 +1657,36 @@ function TeamTab({ documentId }: { documentId: number }) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const text = await file.text();
-    const lines = text.split('\n').filter(line => line.trim());
-    const headers = lines[0].split(',').map(h => h.trim());
-    
-    for (let i = 1; i < lines.length; i++) {
-      const values = lines[i].split(',').map(v => v.trim());
-      const member: any = { documentId };
-      
-      headers.forEach((header, index) => {
-        const value = values[index];
-        if (header === 'name') member.name = value;
-        else if (header === 'title') member.title = value;
-        else if (header === 'bio') member.bio = value;
-        else if (header === 'photoUrl') member.photoUrl = value;
-        else if (header === 'yearsExperience') member.yearsExperience = parseInt(value) || 0;
-        else if (header === 'keySkills') member.keySkills = value;
-        else if (header === 'sortOrder') member.sortOrder = parseInt(value) || 0;
-      });
-      
-      await createMutation.mutateAsync(member);
-    }
-    
-    toast.success(`Imported ${lines.length - 1} team members`);
-    refetch();
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: async (results) => {
+        let imported = 0;
+        for (const row of results.data as any[]) {
+          const member: any = { documentId };
+          if (row.name) member.name = row.name;
+          if (row.title) member.title = row.title;
+          if (row.bio) member.bio = row.bio;
+          if (row.photoUrl) member.photoUrl = row.photoUrl;
+          if (row.yearsExperience) member.yearsExperience = parseInt(row.yearsExperience) || 0;
+          if (row.keySkills) member.keySkills = row.keySkills;
+          if (row.sortOrder) member.sortOrder = parseInt(row.sortOrder) || 0;
+          if (row.isVisible !== undefined) member.isVisible = row.isVisible === 'true' || row.isVisible === '1';
+          
+          try {
+            await createMutation.mutateAsync(member);
+            imported++;
+          } catch (error) {
+            console.error('Failed to import member:', member, error);
+          }
+        }
+        toast.success(`Imported ${imported} team members`);
+        refetch();
+      },
+      error: (error) => {
+        toast.error(`CSV parse error: ${error.message}`);
+      }
+    });
     e.target.value = '';
   };
 
@@ -1704,12 +1711,6 @@ function TeamTab({ documentId }: { documentId: number }) {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Team Members</h2>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setShowNotionDialog(true)}>
-            <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.887-.748-.84l-15.177.887c-.56.047-.747.327-.747.887zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/>
-            </svg>
-            Import from Notion
-          </Button>
           <label htmlFor="team-csv-upload">
             <Button variant="outline" asChild>
               <span className="cursor-pointer">
@@ -2083,35 +2084,41 @@ function ProjectsTab({ documentId }: { documentId: number }) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const text = await file.text();
-    const lines = text.split('\n').filter(line => line.trim());
-    const headers = lines[0].split(',').map(h => h.trim());
-    
-    for (let i = 1; i < lines.length; i++) {
-      const values = lines[i].split(',').map(v => v.trim());
-      const project: any = { documentId };
-      
-      headers.forEach((header, index) => {
-        const value = values[index];
-        if (header === 'projectName') project.projectName = value;
-        else if (header === 'entity') project.entity = value;
-        else if (header === 'client') project.client = value;
-        else if (header === 'location') project.location = value;
-        else if (header === 'country') project.country = value;
-        else if (header === 'latitude') project.latitude = value;
-        else if (header === 'longitude') project.longitude = value;
-        else if (header === 'projectValue') project.projectValue = value;
-        else if (header === 'projectYear') project.projectYear = value;
-        else if (header === 'services') project.services = value;
-        else if (header === 'description') project.description = value;
-        else if (header === 'sortOrder') project.sortOrder = parseInt(value) || 0;
-      });
-      
-      await createMutation.mutateAsync(project);
-    }
-    
-    toast.success(`Imported ${lines.length - 1} projects`);
-    refetch();
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: async (results) => {
+        let imported = 0;
+        for (const row of results.data as any[]) {
+          const project: any = { documentId };
+          if (row.projectName) project.projectName = row.projectName;
+          if (row.entity) project.entity = row.entity;
+          if (row.client) project.client = row.client;
+          if (row.location) project.location = row.location;
+          if (row.country) project.country = row.country;
+          if (row.latitude) project.latitude = row.latitude;
+          if (row.longitude) project.longitude = row.longitude;
+          if (row.projectValue) project.projectValue = row.projectValue;
+          if (row.projectYear) project.projectYear = row.projectYear;
+          if (row.services) project.services = row.services;
+          if (row.description) project.description = row.description;
+          if (row.sortOrder) project.sortOrder = parseInt(row.sortOrder) || 0;
+          if (row.isVisible !== undefined) project.isVisible = row.isVisible === 'true' || row.isVisible === '1';
+          
+          try {
+            await createMutation.mutateAsync(project);
+            imported++;
+          } catch (error) {
+            console.error('Failed to import project:', project, error);
+          }
+        }
+        toast.success(`Imported ${imported} projects`);
+        refetch();
+      },
+      error: (error) => {
+        toast.error(`CSV parse error: ${error.message}`);
+      }
+    });
     e.target.value = '';
   };
 
@@ -2141,12 +2148,6 @@ function ProjectsTab({ documentId }: { documentId: number }) {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Projects</h2>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setShowNotionDialog(true)}>
-            <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.887-.748-.84l-15.177.887c-.56.047-.747.327-.747.887zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/>
-            </svg>
-            Import from Notion
-          </Button>
           <label htmlFor="projects-csv-upload">
             <Button variant="outline" asChild>
               <span className="cursor-pointer">

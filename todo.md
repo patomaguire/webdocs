@@ -905,4 +905,15 @@
 - [x] Hero buttons: "Who We Are" (1100) and "Experience Map" (1200) now visible ✅
 - [x] Regular buttons: All 10 tabs (100-1000) showing in order ✅
 - [x] Section headings now use primary color ✅
+- [x] Save checkpoint
+
+## Phase 67: Critical Fixes - CSV Upload and Document Management
+- [x] Fix CSV upload for Team Members (parse: name,title,bio,yearsExperience,keySkills,photoUrl,isVisible)
+- [x] Fix CSV upload for Projects (parse: projectName,entity,client,location,country,latitude,longitude,projectValue,projectYear,services,description,isVisible)
+- [x] Remove Notion import buttons from Admin interface (kept Notion markdown converter)
+- [ ] Add document upload feature: 5 files per tab (.doc, .xlsx, .pdf)
+- [ ] Add visibility toggle for each uploaded document
+- [ ] Display downloadable documents on external site when visible
+- [ ] Improve markdown-to-HTML conversion reliability
+- [ ] Test all fixes in browser
 - [ ] Save checkpoint
