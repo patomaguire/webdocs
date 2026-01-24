@@ -507,7 +507,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                       if (tabButtons && header) {
                         // Scroll to tab buttons row, accounting for sticky header
                         const headerHeight = header.offsetHeight;
-                        const tabButtonsTop = tabButtons.getBoundingClientRect().top + window.pageYOffset;
+                        const tabButtonsTop = tabButtons.offsetTop;
                         window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
                       }
                     }, 100);
@@ -534,7 +534,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                       if (tabButtons && header) {
                         // Scroll to tab buttons row, accounting for sticky header
                         const headerHeight = header.offsetHeight;
-                        const tabButtonsTop = tabButtons.getBoundingClientRect().top + window.pageYOffset;
+                        const tabButtonsTop = tabButtons.offsetTop;
                         window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
                       }
                     }, 100);
@@ -604,7 +604,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                       if (tabButtons && header) {
                         // Scroll to tab buttons row, accounting for sticky header
                         const headerHeight = header.offsetHeight;
-                        const tabButtonsTop = tabButtons.getBoundingClientRect().top + window.pageYOffset;
+                        const tabButtonsTop = tabButtons.offsetTop;
                         window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
                       }
                     }, 100);
@@ -636,7 +636,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                       if (tabButtons && header) {
                         // Scroll to tab buttons row, accounting for sticky header
                         const headerHeight = header.offsetHeight;
-                        const tabButtonsTop = tabButtons.getBoundingClientRect().top + window.pageYOffset;
+                        const tabButtonsTop = tabButtons.offsetTop;
                         window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
                       }
                     }, 100);

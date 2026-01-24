@@ -793,3 +793,17 @@
 - [x] Test on actual website to verify tab buttons ribbon is fully visible
 - [x] Save checkpoint
 - [x] Fix tab button scrolling - each button behaves differently, not scrolling to start of section consistently
+
+## Phase 51: Fix ALL Tab Button Scrolling (Tabs 1-10 and custom tabs)
+- [ ] Test every single tab button on live website (Executive Summary, Background, Scope, Approach, Schedule, Deliverables, Team, Assumptions, Commercial, New Tab 100, New Tab 101, New Tab 102)
+- [ ] Document which tabs scroll correctly and which don't
+- [ ] Fix scroll logic for ALL broken tabs
+- [ ] Test every single tab again to verify fix works
+- [ ] Save checkpoint only after ALL tabs verified working
+
+## Phase 51: Fix ALL Tab Button Scrolling (Final Fix)
+- [x] Test ALL tabs on busplan_2026_01 document (tabs 1-8, 11)
+- [x] Test ALL tabs on default document (tabs 1-10, Tab A, Tab B, custom tabs 100-102)
+- [x] Fix scroll logic using offsetTop instead of getBoundingClientRect
+- [x] Verify fix works consistently on BOTH documents
+- [x] All tabs now scroll to show tab buttons row at top of viewport
