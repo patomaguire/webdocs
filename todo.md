@@ -827,3 +827,10 @@
 - [x] Test default document to ensure tabs A and B still work correctly
 - [x] Test capstat document visibility settings
 - [ ] Save checkpoint
+
+## Phase 54: Fix Erratic Scrolling Behavior
+- [x] Fix hero section to always render (even when title/subtitle/stamp are empty)
+- [x] Make scroll position IDENTICAL across all documents (same visual position regardless of hero content)
+- [x] Test scrolling on busplan, capstat, default - all should scroll to exact same position
+- [x] Verify tab buttons visibility is consistent across all documents
+- [ ] Save checkpoint

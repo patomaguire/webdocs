@@ -479,24 +479,24 @@ function ProposalContent({ documentId }: { documentId: number }) {
         </div>
       </header>
 
-      {/* Hero Section */}
-      {hero && hero.mainTitle && (
-        <div className="py-4 text-center" style={{ backgroundColor: `${primaryColor}10` }}>
-          <div className="container mx-auto px-4">
+      {/* Hero Section - always renders for consistent layout */}
+      <div className="py-4 text-center" style={{ backgroundColor: `${primaryColor}10` }}>
+        <div className="container mx-auto px-4">
+          {hero?.mainTitle && (
             <h1 className="text-3xl font-bold mb-0" style={{ color: primaryColor }}>
               {hero.mainTitle}
             </h1>
-            {hero.subtitle && (
-              <p className="text-base text-gray-700 mb-0">{hero.subtitle}</p>
-            )}
-            {hero.stampText && (
-              <div className="inline-block px-5 py-1.5 border-2 mb-0 mt-1" style={{ borderColor: primaryColor, color: primaryColor }}>
-                <span className="font-bold text-sm">{hero.stampText}</span>
-              </div>
-            )}
-          </div>
+          )}
+          {hero?.subtitle && (
+            <p className="text-base text-gray-700 mb-0">{hero.subtitle}</p>
+          )}
+          {hero?.stampText && (
+            <div className="inline-block px-5 py-1.5 border-2 mb-0 mt-1" style={{ borderColor: primaryColor, color: primaryColor }}>
+              <span className="font-bold text-sm">{hero.stampText}</span>
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
       {/* Navigation Buttons for Tab A (0) and Tab B (11) */}
       {(visibleTabs.some(t => t.tabNumber === 0) || visibleTabs.some(t => t.tabNumber === 11)) && (
@@ -576,7 +576,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     if (tabButtons && header) {
                       // Scroll to tab buttons row, accounting for sticky header
                       const headerHeight = header.offsetHeight;
-                      const tabButtonsTop = tabButtons.getBoundingClientRect().top + window.pageYOffset;
+                      const tabButtonsTop = tabButtons.offsetTop;
                       window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
                     }
                   }, 100);
