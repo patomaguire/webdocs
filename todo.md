@@ -817,3 +817,13 @@
 - [x] Test busplan_2026_01 to verify it matches default behavior
 - [x] Test capstat-gen to verify it matches default behavior
 - [ ] Save checkpoint
+
+## Phase 53: Fix Tabs A and B Visibility Settings
+- [x] Query database to check tabs A and B (tabNumber 0 and 11) visibility for all documents
+- [x] Identify code in Proposal.tsx that controls tabs A and B display
+- [x] Find hardcoded logic that ignores database visibility settings (buttons inside hero conditional)
+- [x] Fix code to respect isVisible settings from database for tabs A and B
+- [x] Test busplan document with tabs A and B set to visible
+- [x] Test default document to ensure tabs A and B still work correctly
+- [x] Test capstat document visibility settings
+- [ ] Save checkpoint

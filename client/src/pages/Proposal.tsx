@@ -479,8 +479,8 @@ function ProposalContent({ documentId }: { documentId: number }) {
         </div>
       </header>
 
-      {/* Hero Section with Navigation Buttons */}
-      {hero && (
+      {/* Hero Section */}
+      {hero && hero.mainTitle && (
         <div className="py-4 text-center" style={{ backgroundColor: `${primaryColor}10` }}>
           <div className="container mx-auto px-4">
             <h1 className="text-3xl font-bold mb-0" style={{ color: primaryColor }}>
@@ -494,9 +494,15 @@ function ProposalContent({ documentId }: { documentId: number }) {
                 <span className="font-bold text-sm">{hero.stampText}</span>
               </div>
             )}
-            
-            {/* Navigation Buttons below stamp */}
-            <div className="flex gap-4 justify-center mt-2 no-print">
+          </div>
+        </div>
+      )}
+
+      {/* Navigation Buttons for Tab A (0) and Tab B (11) */}
+      {(visibleTabs.some(t => t.tabNumber === 0) || visibleTabs.some(t => t.tabNumber === 11)) && (
+        <div className="py-4 text-center" style={{ backgroundColor: `${primaryColor}10` }}>
+          <div className="container mx-auto px-4">
+            <div className="flex gap-4 justify-center no-print">
               {visibleTabs.some(t => t.tabNumber === 0) && (
                 <button
                   onClick={() => {
