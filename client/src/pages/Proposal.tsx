@@ -513,8 +513,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
                       if (tabButtons && header) {
                         // Scroll to tab buttons row, accounting for sticky header
                         const headerHeight = header.offsetHeight;
-                        const tabButtonsTop = tabButtons.offsetTop;
-                        window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
+                        const currentScroll = window.pageYOffset;
+                        const tabButtonsRect = tabButtons.getBoundingClientRect();
+                        const scrollTarget = currentScroll + tabButtonsRect.top - headerHeight;
+                        window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
                       }
                     }, 100);
                   }}
@@ -540,8 +542,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
                       if (tabButtons && header) {
                         // Scroll to tab buttons row, accounting for sticky header
                         const headerHeight = header.offsetHeight;
-                        const tabButtonsTop = tabButtons.offsetTop;
-                        window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
+                        const currentScroll = window.pageYOffset;
+                        const tabButtonsRect = tabButtons.getBoundingClientRect();
+                        const scrollTarget = currentScroll + tabButtonsRect.top - headerHeight;
+                        window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
                       }
                     }, 100);
                   }}
@@ -576,8 +580,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     if (tabButtons && header) {
                       // Scroll to tab buttons row, accounting for sticky header
                       const headerHeight = header.offsetHeight;
-                      const tabButtonsTop = tabButtons.offsetTop;
-                      window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
+                      const currentScroll = window.pageYOffset;
+                      const tabButtonsRect = tabButtons.getBoundingClientRect();
+                      const scrollTarget = currentScroll + tabButtonsRect.top - headerHeight;
+                      window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
                     }
                   }, 100);
                 }}
@@ -610,8 +616,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
                       if (tabButtons && header) {
                         // Scroll to tab buttons row, accounting for sticky header
                         const headerHeight = header.offsetHeight;
-                        const tabButtonsTop = tabButtons.offsetTop;
-                        window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
+                        const currentScroll = window.pageYOffset;
+                        const tabButtonsRect = tabButtons.getBoundingClientRect();
+                        const scrollTarget = currentScroll + tabButtonsRect.top - headerHeight;
+                        window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
                       }
                     }, 100);
                   }}
@@ -642,8 +650,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
                       if (tabButtons && header) {
                         // Scroll to tab buttons row, accounting for sticky header
                         const headerHeight = header.offsetHeight;
-                        const tabButtonsTop = tabButtons.offsetTop;
-                        window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
+                        const currentScroll = window.pageYOffset;
+                        const tabButtonsRect = tabButtons.getBoundingClientRect();
+                        const scrollTarget = currentScroll + tabButtonsRect.top - headerHeight;
+                        window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
                       }
                     }, 100);
                   }}

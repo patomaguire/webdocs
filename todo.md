@@ -834,3 +834,46 @@
 - [x] Test scrolling on busplan, capstat, default - all should scroll to exact same position
 - [x] Verify tab buttons visibility is consistent across all documents
 - [ ] Save checkpoint
+
+## Phase 55: Fix Remaining Scroll Issues and Import Functionality
+- [ ] Test tab 11 ("11 Test Tab") scrolling on busplan visually
+- [ ] Fix tab 11 scroll if broken
+- [ ] Test Executive Summary tab scrolling on capstat visually
+- [ ] Test Background tab scrolling on capstat visually
+- [ ] Test New Tab 100 scrolling on capstat visually
+- [ ] Test New Tab 101 scrolling on capstat visually
+- [ ] Test New Tab 102 scrolling on capstat visually
+- [ ] Fix any broken tab scrolling on capstat
+- [ ] Save checkpoint after scroll fixes
+
+## Phase 56: Fix Projects Table Import
+- [ ] Test Notion import for projects table
+- [ ] Identify why Notion import fails
+- [ ] Test CSV upload for projects table
+- [ ] Identify why CSV upload fails
+- [ ] Fix Notion import functionality
+- [ ] Fix CSV upload functionality
+- [ ] Verify projects can be imported successfully
+- [ ] Save checkpoint after projects import fix
+
+## Phase 57: Fix Team Table Import
+- [ ] Test Notion import for team table
+- [ ] Identify why Notion import fails
+- [ ] Test CSV upload for team table
+- [ ] Identify why CSV upload fails
+- [ ] Fix Notion import functionality
+- [ ] Fix CSV upload functionality
+- [ ] Verify team members can be imported successfully
+- [ ] Save checkpoint after team import fix
+
+## Phase 55: Fix Remaining Scroll Issues and Import Functionality
+- [x] Test tab 11 scrolling on busplan - identify erratic behavior
+- [x] Test Executive Summary, Background, New Tabs (100-102) on capstat
+- [x] Fix scroll logic for all problematic tabs
+- [x] Verify all tabs scroll consistently across all documents
+- [ ] Test Notion import for projects table
+- [ ] Test Notion import for team table
+- [ ] Test CSV upload for projects table
+- [ ] Test CSV upload for team table
+- [ ] Fix import functionality issues
+- [ ] Save checkpoint
