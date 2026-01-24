@@ -68,6 +68,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
   const [activeTab, setActiveTab] = useState(0);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const mainContentRef = useRef<HTMLDivElement>(null);
+  const tabButtonsRef = useRef<HTMLDivElement>(null);
   
   // Language
   const [language, setLanguage] = useState<"en" | "es">("en");
@@ -548,7 +549,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
       )}
 
       {/* Horizontal Tab Navigation (Tabs 1-10 only) */}
-      <div className="bg-gray-100 border-y border-gray-300 no-print">
+      <div ref={tabButtonsRef} className="bg-gray-100 border-y border-gray-300 no-print">
         <div className="container mx-auto px-4 py-4">
           {/* Desktop: Single row if all fit, Mobile: Two rows with horizontal scroll */}
           <div className="hidden md:flex gap-2 flex-wrap justify-center">
@@ -558,10 +559,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
                 onClick={() => {
                   setActiveTab(tab.tabNumber);
                   setTimeout(() => {
-                    const element = mainContentRef.current;
-                    if (element) {
-                      // Scroll to show tab buttons ribbon at top
-                      const y = element.getBoundingClientRect().top + window.pageYOffset - 100;
+                    const tabButtons = tabButtonsRef.current;
+                    if (tabButtons) {
+                      // Scroll to tab buttons row
+                      const y = tabButtons.getBoundingClientRect().top + window.pageYOffset;
                       window.scrollTo({ top: y, behavior: 'smooth' });
                     }
                   }, 100);
