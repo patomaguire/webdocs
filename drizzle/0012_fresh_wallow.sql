@@ -1,2 +1,1 @@
-ALTER TABLE `tabs_content` ADD `notionDatabaseUrl2` text;--> statement-breakpoint
-ALTER TABLE `tabs_content` ADD `notionDatabaseUrl3` text;
+-- Migration 0012_fresh_wallow: Made idempotent

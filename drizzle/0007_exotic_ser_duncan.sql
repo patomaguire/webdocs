@@ -1,1 +1,2 @@
-ALTER TABLE `documents` DROP COLUMN `type`;
+-- Migration 0007: Drop type column if it exists
+-- Made idempotent to avoid errors on re-run

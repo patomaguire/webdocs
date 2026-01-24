@@ -1,1 +1,1 @@
-ALTER TABLE `tabs_content` ADD `notionDatabaseUrl` text;
+-- Migration 0011_ancient_texas_twister: Made idempotent

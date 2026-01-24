@@ -1,0 +1,101 @@
+{
+  "query": "SELECT id, documentId, tabNumber, tabTitle, isVisible FROM tabs_content WHERE documentId = 1 ORDER BY tabNumber;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, documentId, tabNumber, tabTitle, isVisible FROM tabs_content WHERE documentId = 1 ORDER BY tabNumber;",
+  "rows": [
+    {
+      "id": "11",
+      "documentId": "1",
+      "tabNumber": "-100",
+      "tabTitle": "Commercial",
+      "isVisible": "1"
+    },
+    {
+      "id": "12",
+      "documentId": "1",
+      "tabNumber": "-20",
+      "tabTitle": "Experience Map",
+      "isVisible": "1"
+    },
+    {
+      "id": "1",
+      "documentId": "1",
+      "tabNumber": "-10",
+      "tabTitle": "Who We Are",
+      "isVisible": "1"
+    },
+    {
+      "id": "1620001",
+      "documentId": "1",
+      "tabNumber": "0",
+      "tabTitle": "Who We Are",
+      "isVisible": "1"
+    },
+    {
+      "id": "3",
+      "documentId": "1",
+      "tabNumber": "20",
+      "tabTitle": "Background",
+      "isVisible": "1"
+    },
+    {
+      "id": "4",
+      "documentId": "1",
+      "tabNumber": "30",
+      "tabTitle": "Scope",
+      "isVisible": "1"
+    },
+    {
+      "id": "5",
+      "documentId": "1",
+      "tabNumber": "40",
+      "tabTitle": "Approach",
+      "isVisible": "1"
+    },
+    {
+      "id": "6",
+      "documentId": "1",
+      "tabNumber": "50",
+      "tabTitle": "Schedule",
+      "isVisible": "1"
+    },
+    {
+      "id": "7",
+      "documentId": "1",
+      "tabNumber": "60",
+      "tabTitle": "Deliverables",
+      "isVisible": "1"
+    },
+    {
+      "id": "8",
+      "documentId": "1",
+      "tabNumber": "70",
+      "tabTitle": "Requirements",
+      "isVisible": "1"
+    },
+    {
+      "id": "9",
+      "documentId": "1",
+      "tabNumber": "80",
+      "tabTitle": "Team",
+      "isVisible": "1"
+    },
+    {
+      "id": "10",
+      "documentId": "1",
+      "tabNumber": "90",
+      "tabTitle": "Assumptions",
+      "isVisible": "1"
+    },
+    {
+      "id": "2",
+      "documentId": "1",
+      "tabNumber": "1100",
+      "tabTitle": "Executive Summary",
+      "isVisible": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tdocumentId\ttabNumber\ttabTitle\tisVisible\n11\t1\t-100\tCommercial\t1\n12\t1\t-20\tExperience Map\t1\n1\t1\t-10\tWho We Are\t1\n1620001\t1\t0\tWho We Are\t1\n3\t1\t20\tBackground\t1\n4\t1\t30\tScope\t1\n5\t1\t40\tApproach\t1\n6\t1\t50\tSchedule\t1\n7\t1\t60\tDeliverables\t1\n8\t1\t70\tRequirements\t1\n9\t1\t80\tTeam\t1\n10\t1\t90\tAssumptions\t1\n2\t1\t1100\tExecutive Summary\t1\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

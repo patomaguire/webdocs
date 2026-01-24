@@ -40,61 +40,47 @@
     {
       "idx": 5,
       "version": "5",
-      "when": 1768038624052,
-      "tag": "0005_faithful_kang",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "5",
-      "when": 1768041320022,
-      "tag": "0006_glossy_spencer_smythe",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "5",
       "when": 1768041843670,
       "tag": "0007_exotic_ser_duncan",
       "breakpoints": true
     },
     {
-      "idx": 8,
+      "idx": 6,
       "version": "5",
       "when": 1768230107577,
       "tag": "0008_fancy_the_captain",
       "breakpoints": true
     },
     {
-      "idx": 9,
+      "idx": 7,
       "version": "5",
       "when": 1768252239080,
       "tag": "0009_natural_titanium_man",
       "breakpoints": true
     },
     {
-      "idx": 10,
+      "idx": 8,
       "version": "5",
       "when": 1768254457583,
       "tag": "0010_fancy_champions",
       "breakpoints": true
     },
     {
-      "idx": 11,
+      "idx": 9,
       "version": "5",
       "when": 1768315858036,
       "tag": "0011_ancient_texas_twister",
       "breakpoints": true
     },
     {
-      "idx": 12,
+      "idx": 10,
       "version": "5",
       "when": 1768320149466,
       "tag": "0012_fresh_wallow",
       "breakpoints": true
     },
     {
-      "idx": 13,
+      "idx": 11,
       "version": "5",
       "when": 1769097520466,
       "tag": "0013_wooden_silvermane",

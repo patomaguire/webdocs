@@ -888,3 +888,21 @@
 - [x] Update tab creation to use formula: tabNumber = baseNumber + documentId
 - [x] Visually tested tab navigation: 100 (Exec Summary), 1000 (Commercial), 1100 (Who We Are), 1200 (Experience Map) ✅
 - [x] Save checkpoint
+
+## Phase 66: Fix Tab Button Logic for All Documents
+- [x] Update tab heading (h2) color to use primary color
+- [x] Fix hero buttons to dynamically show tabs 11xx and 12xx (e.g., doc 1: 1100/1200, doc 13: 1113/1213, doc 92: 1192/1292)
+- [x] Hero buttons ordered by ascending ID (11xx before 12xx)
+- [x] Hero buttons respect visibility toggle from tab editing
+- [x] Fix regular tab buttons to dynamically show tabs 1xx-10xx (e.g., doc 1: 100-1000, doc 13: 113-1013, doc 92: 192-1092)
+- [x] Regular tab buttons ordered by ascending ID (100, 200, 300... 1000)
+- [x] Regular tab buttons NOT hardcoded - dynamic filtering and sorting
+- [x] Tab button labels show tab titles only (no IDs displayed)
+- [x] Visually tested with default document (doc 1) - ALL requirements met ✅
+- [x] ROOT CAUSE: Database had OLD tab numbering, not the new scheme from checkpoint 005262bd
+- [x] Migrated database tabs from old numbers to new scheme (0→1100, -20→1200, -100→100, 20→200, etc.)
+- [x] Code was already correct - just needed database migration
+- [x] Hero buttons: "Who We Are" (1100) and "Experience Map" (1200) now visible ✅
+- [x] Regular buttons: All 10 tabs (100-1000) showing in order ✅
+- [x] Section headings now use primary color ✅
+- [ ] Save checkpoint

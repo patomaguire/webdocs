@@ -505,58 +505,49 @@ function ProposalContent({ documentId }: { documentId: number }) {
         <div className="py-4 text-center" style={{ backgroundColor: `${primaryColor}10` }}>
           <div className="container mx-auto px-4">
             <div className="flex gap-4 justify-center no-print">
-              {visibleTabs.some(t => t.tabNumber === 1100) && (
-                <button
-                  onClick={() => {
-                    setActiveTab(1100);
-                    setTimeout(() => {
-                      const tabButtons = tabButtonsRef.current;
-                      const header = headerRef.current;
-                      if (tabButtons && header) {
-                        // Scroll to tab buttons row, accounting for sticky header
-                        const headerHeight = header.offsetHeight;
-                        const tabButtonsTop = tabButtons.offsetTop;
-                        window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
-                      }
-                    }, 100);
-                  }}
-                  className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
-                  style={{ backgroundColor: primaryColor }}
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                    <circle cx="9" cy="7" r="4"/>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                  </svg>
-                  {visibleTabs.find(t => t.tabNumber === 1100)?.tabTitle || (language === "en" ? "Who we are" : "Quiénes somos")}
-                </button>
-              )}
-              {visibleTabs.some(t => t.tabNumber === 1200) && (
-                <button
-                  onClick={() => {
-                    setActiveTab(1200);
-                    setTimeout(() => {
-                      const tabButtons = tabButtonsRef.current;
-                      const header = headerRef.current;
-                      if (tabButtons && header) {
-                        // Scroll to tab buttons row, accounting for sticky header
-                        const headerHeight = header.offsetHeight;
-                        const tabButtonsTop = tabButtons.offsetTop;
-                        window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
-                      }
-                    }, 100);
-                  }}
-                  className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
-                  style={{ backgroundColor: primaryColor }}
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
-                  {visibleTabs.find(t => t.tabNumber === 1200)?.tabTitle || (language === "en" ? "Experience map" : "Mapa de experiencia")}
-                </button>
-              )}
+              {/* Dynamic hero buttons for tabs 11xx and 12xx (ordered by ID) */}
+              {visibleTabs
+                .filter(t => t.tabNumber >= 1100 && t.tabNumber < 1300)
+                .sort((a, b) => a.tabNumber - b.tabNumber)
+                .map((tab) => (
+                  <button
+                    key={tab.tabNumber}
+                    onClick={() => {
+                      setActiveTab(tab.tabNumber);
+                      setTimeout(() => {
+                        const tabButtons = tabButtonsRef.current;
+                        const header = headerRef.current;
+                        if (tabButtons && header) {
+                          // Scroll to tab buttons row, accounting for sticky header
+                          const headerHeight = header.offsetHeight;
+                          const tabButtonsTop = tabButtons.offsetTop;
+                          window.scrollTo({ top: tabButtonsTop - headerHeight, behavior: 'smooth' });
+                        }
+                      }, 100);
+                    }}
+                    className="px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition flex items-center gap-2 shadow-lg"
+                    style={{ backgroundColor: primaryColor }}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                      {tab.tabNumber >= 1100 && tab.tabNumber < 1200 ? (
+                        // Icon for "Who We Are" type tabs (11xx)
+                        <>
+                          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                          <circle cx="9" cy="7" r="4"/>
+                          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </>
+                      ) : (
+                        // Icon for "Experience Map" type tabs (12xx)
+                        <>
+                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                          <circle cx="12" cy="10" r="3"/>
+                        </>
+                      )}
+                    </svg>
+                    {tab.tabTitle}
+                  </button>
+                ))}
             </div>
           </div>
         </div>
@@ -567,7 +558,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
         <div className="container mx-auto px-4 py-4">
           {/* Desktop: Single row if all fit, Mobile: Two rows with horizontal scroll */}
           <div className="hidden md:flex gap-2 flex-wrap justify-center">
-            {visibleTabs.filter(t => t.tabNumber !== 0 && t.tabNumber !== 11).map((tab) => (
+            {visibleTabs
+              .filter(t => t.tabNumber >= 100 && t.tabNumber < 1100)
+              .sort((a, b) => a.tabNumber - b.tabNumber)
+              .map((tab) => (
               <button
                 key={tab.tabNumber}
                 onClick={() => {
@@ -599,9 +593,13 @@ function ProposalContent({ documentId }: { documentId: number }) {
           
           {/* Mobile: Two rows with horizontal drag */}
           <div className="md:hidden space-y-2">
-            {/* First Row: Tabs 1-5 */}
+            {/* First Row: First half of regular tabs */}
             <div className="flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
-              {visibleTabs.filter(t => t.tabNumber !== 0 && t.tabNumber !== 11).slice(0, Math.ceil(visibleTabs.filter(t => t.tabNumber !== 0 && t.tabNumber !== 11).length / 2)).map((tab) => (
+              {visibleTabs
+                .filter(t => t.tabNumber >= 100 && t.tabNumber < 1100)
+                .sort((a, b) => a.tabNumber - b.tabNumber)
+                .slice(0, Math.ceil(visibleTabs.filter(t => t.tabNumber >= 100 && t.tabNumber < 1100).length / 2))
+                .map((tab) => (
                 <button
                   key={tab.tabNumber}
                   onClick={() => {
@@ -631,9 +629,13 @@ function ProposalContent({ documentId }: { documentId: number }) {
               ))}
             </div>
             
-            {/* Second Row: Tabs 6-10 */}
+            {/* Second Row: Second half of regular tabs */}
             <div className="flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
-              {visibleTabs.filter(t => t.tabNumber !== 0 && t.tabNumber !== 11).slice(Math.ceil(visibleTabs.filter(t => t.tabNumber !== 0 && t.tabNumber !== 11).length / 2)).map((tab) => (
+              {visibleTabs
+                .filter(t => t.tabNumber >= 100 && t.tabNumber < 1100)
+                .sort((a, b) => a.tabNumber - b.tabNumber)
+                .slice(Math.ceil(visibleTabs.filter(t => t.tabNumber >= 100 && t.tabNumber < 1100).length / 2))
+                .map((tab) => (
                 <button
                   key={tab.tabNumber}
                   onClick={() => {
@@ -686,7 +688,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
         >
           {currentTab && (
             <div>
-              <h2 className="text-3xl font-bold mb-6 scroll-mt-4" style={{ color: secondaryColor }}>
+              <h2 className="text-3xl font-bold mb-6 scroll-mt-4" style={{ color: primaryColor }}>
                 {currentTab.tabTitle}
               </h2>
 
@@ -702,7 +704,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                       })
                     }} 
                     className="prose max-w-none mb-8"
-                    style={{ '--contrast-color': contrastColor, '--secondary-color': secondaryColor } as React.CSSProperties}
+                    style={{ '--contrast-color': contrastColor, '--secondary-color': secondaryColor, '--tw-prose-headings': primaryColor } as React.CSSProperties}
                   />
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {teamMembers?.filter(m => m.isVisible).map((member) => (
@@ -763,7 +765,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     })
                   }} 
                   className="prose max-w-none"
-                  style={{ '--contrast-color': contrastColor, '--secondary-color': secondaryColor } as React.CSSProperties}
+                  style={{ '--contrast-color': contrastColor, '--secondary-color': secondaryColor, '--tw-prose-headings': primaryColor } as React.CSSProperties}
                 />
               )}
 
@@ -1013,6 +1015,7 @@ function ExperienceMapSection({
       <div 
         dangerouslySetInnerHTML={{ __html: "<p>Explore our portfolio of successful projects across various industries and sectors. Use the filters to view projects by entity or service type.</p>" }} 
         className="prose max-w-none mb-6"
+        style={{ '--tw-prose-headings': primaryColor } as React.CSSProperties}
       />
       
       {/* Filters and Map Layout */}
