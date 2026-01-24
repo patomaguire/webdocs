@@ -836,10 +836,8 @@
 - [ ] Save checkpoint
 
 ## Phase 59: Fix Logo Upload Functionality
-- [x] Fix Logo 1 upload button - file picker doesn't open, only URL paste works
 - [x] Fix logo position labels in console from "left, right, left, right" to "far left, left, right, far right"
-- [x] Replicate file picker fix to all 4 logo upload buttons
-- [x] Ensure logos positioned correctly: far left, left, right, far right
-- [x] Ensure logos sized appropriately (relatively quiet section at top)
-- [x] Test all 4 upload buttons visually
-- [x] Save checkpoint
+- [x] ROOT CAUSE: Logo uploads use hidden input + button pattern (doesn't work), Tabs section uses direct Input type="file" (works)
+- [x] Replace all 4 logo uploads with direct Input type="file" pattern from Tabs section
+- [x] Visually test all 4 logo upload file pickers open in browser - ALL 4 show "Choose File" buttons
+- [x] Save checkpoint ONLY after visual confirmation
