@@ -926,5 +926,20 @@
 - [ ] Add document upload feature: 5 files per tab (.doc, .xlsx, .pdf)
 - [ ] Add visibility toggle for each uploaded document
 - [ ] Display downloadable documents on external site when visible (centered, after content, before back-to-top)
-- [ ] Test all fixes in browser
-- [ ] Save final checkpoint
+- [x] Save checkpoint (5207048f) - Tiptap editor + Notion sync working
+- [ ] Implement generic chart builder (bar, line, pie) - NEXT
+- [ ] Implement Gantt chart generator for project timelines - NEXT
+- [ ] Complete document uploads feature - NEXT
+- [ ] Test all features in browser
+- [ ] Save final checkpoint with all features
+
+## Phase 68: Critical Bug Fixes - CSV Import & Interactive Map
+- [x] Debug CSV project import - found entity field required but CSV handler made it optional
+- [x] Fix CSV parsing - made entity field optional in schema
+- [x] Push schema changes to database
+- [ ] Test CSV import with sample data
+- [ ] Debug why projects don't show on interactive map in console
+- [ ] Verify map component is loading project data correctly
+- [ ] Check if latitude/longitude fields are populated
+- [ ] Test map display with existing projects
+- [ ] Save checkpoint after fixes

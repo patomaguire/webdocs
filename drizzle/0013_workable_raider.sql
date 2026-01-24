@@ -1,0 +1,1 @@
+ALTER TABLE `projects` MODIFY COLUMN `entity` varchar(100);
