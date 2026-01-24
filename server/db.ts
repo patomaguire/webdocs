@@ -436,8 +436,42 @@ export async function createDocument(doc: InsertDocument): Promise<Document> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
+  // Check document limit (max 99 documents)
+  const allDocs = await db.select().from(documents);
+  if (allDocs.length >= 99) {
+    throw new Error("Maximum number of documents reached (99). Cannot create more documents.");
+  }
+  
   const [result] = await db.insert(documents).values(doc);
-  const [created] = await db.select().from(documents).where(eq(documents.id, result.insertId));
+  const documentId = result.insertId;
+  const [created] = await db.select().from(documents).where(eq(documents.id, documentId));
+  
+  // Auto-create 12 tabs with proper numbering: baseNumber + documentId
+  const tabTemplates = [
+    { base: 100, title: 'Executive Summary' },
+    { base: 200, title: 'Background' },
+    { base: 300, title: 'Scope' },
+    { base: 400, title: 'Approach' },
+    { base: 500, title: 'Schedule' },
+    { base: 600, title: 'Deliverables' },
+    { base: 700, title: 'Requirements' },
+    { base: 800, title: 'Team' },
+    { base: 900, title: 'Assumptions' },
+    { base: 1000, title: 'Commercial' },
+    { base: 1100, title: 'Who We Are' },
+    { base: 1200, title: 'Experience Map' },
+  ];
+  
+  for (const template of tabTemplates) {
+    await db.insert(tabsContent).values({
+      documentId,
+      tabNumber: template.base + documentId,
+      tabTitle: template.title,
+      content: '',
+      isVisible: true,
+    });
+  }
+  
   return created;
 }
 

@@ -1117,11 +1117,9 @@ function TabsContentTab({ documentId }: { documentId: number }) {
           <div className="space-y-2">
             {tabs
               ?.sort((a, b) => {
-                // Sort order: Tab A (100), Tab B (200), then 1000-10000
-                if (a.tabNumber === 100) return -1;
-                if (b.tabNumber === 100) return 1;
-                if (a.tabNumber === 200) return b.tabNumber === 100 ? 1 : -1;
-                if (b.tabNumber === 200) return 1;
+                // Sort order: Tab 1-10 (100-1000), then Tab A (1100), Tab B (1200)
+                if (a.tabNumber < 1100 && b.tabNumber >= 1100) return -1;
+                if (a.tabNumber >= 1100 && b.tabNumber < 1100) return 1;
                 return a.tabNumber - b.tabNumber;
               })
               .map(tab => (

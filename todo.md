@@ -880,3 +880,11 @@
 - [x] Database renumbering is internal only, no user-facing changes
 - [x] Visually tested tabs show original titles (Experience Map, Who We Are, Background, etc.) ✅
 - [x] Save checkpoint
+
+## Phase 65: Implement New Tab Numbering Scheme (100-1200 + documentId)
+- [x] Update default document tabs: 1000→100, 2000→200, 3000→300, 4000→400, 5000→500, 6000→600, 7000→700, 8000→800, 9000→900, 10000→1000, 100→1100, 200→1200
+- [x] Add tab number generation logic: baseNumber (100-1200) + documentId
+- [x] Add validation: max 99 documents, error message if exceeded
+- [x] Update tab creation to use formula: tabNumber = baseNumber + documentId
+- [x] Visually tested tab navigation: 100 (Exec Summary), 1000 (Commercial), 1100 (Who We Are), 1200 (Experience Map) ✅
+- [x] Save checkpoint
