@@ -1,0 +1,8 @@
+{
+  "query": "SELECT d.id, d.slug, d.name, ps.primaryColor, ps.secondaryColor, ps.contrastColor, ps.showMap, ps.showTeam, ps.showComments \nFROM documents d \nLEFT JOIN proposal_settings ps ON d.id = ps.documentId \nWHERE d.slug IN ('default', 'busplan_2026_01', 'capstat-gen');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT d.id, d.slug, d.name, ps.primaryColor, ps.secondaryColor, ps.contrastColor, ps.showMap, ps.showTeam, ps.showComments \nFROM documents d \nLEFT JOIN proposal_settings ps ON d.id = ps.documentId \nWHERE d.slug IN ('default', 'busplan_2026_01', 'capstat-gen');",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'ps.primarycolor' in 'field list'"
+  ]
+}

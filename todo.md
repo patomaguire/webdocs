@@ -807,3 +807,13 @@
 - [x] Fix scroll logic using offsetTop instead of getBoundingClientRect
 - [x] Verify fix works consistently on BOTH documents
 - [x] All tabs now scroll to show tab buttons row at top of viewport
+
+## Phase 52: Fix Cross-Document Settings Inconsistency
+- [x] Query database to get settings for all three documents (default, busplan_2026_01, capstat-gen)
+- [x] Compare background settings and other configuration across documents
+- [x] Identify hardcoded values in Proposal.tsx that override database settings
+- [ ] Fix gradient color range to be more aggressive (max/min range)
+- [x] Ensure all documents read and apply settings from database consistently
+- [x] Test busplan_2026_01 to verify it matches default behavior
+- [x] Test capstat-gen to verify it matches default behavior
+- [ ] Save checkpoint

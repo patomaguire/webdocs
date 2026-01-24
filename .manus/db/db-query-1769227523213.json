@@ -1,0 +1,370 @@
+{
+  "query": "SELECT d.id, d.slug, d.name, ps.settingKey, ps.settingValue, ps.showMap, ps.showTeam, ps.showComments\nFROM documents d\nLEFT JOIN proposal_settings ps ON d.id = ps.documentId\nWHERE d.slug IN ('default', 'busplan_2026_01', 'capstat-gen')\nORDER BY d.slug, ps.settingKey;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT d.id, d.slug, d.name, ps.settingKey, ps.settingValue, ps.showMap, ps.showTeam, ps.showComments\nFROM documents d\nLEFT JOIN proposal_settings ps ON d.id = ps.documentId\nWHERE d.slug IN ('default', 'busplan_2026_01', 'capstat-gen')\nORDER BY d.slug, ps.settingKey;",
+  "rows": [
+    {
+      "id": "90002",
+      "slug": "busplan_2026_01",
+      "name": "IPP - Business Plan 2026 ",
+      "settingKey": "background_color",
+      "settingValue": "#e5e5dc",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "90002",
+      "slug": "busplan_2026_01",
+      "name": "IPP - Business Plan 2026 ",
+      "settingKey": "contrast_color",
+      "settingValue": "#36e713",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "90002",
+      "slug": "busplan_2026_01",
+      "name": "IPP - Business Plan 2026 ",
+      "settingKey": "google_maps_api_key",
+      "settingValue": "AIzaSyDummy_Key_For_Testing",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "90002",
+      "slug": "busplan_2026_01",
+      "name": "IPP - Business Plan 2026 ",
+      "settingKey": "logo1_url",
+      "settingValue": "https://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/logos/1769029278155-dp350a9f8yv-IPP logo.png",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "90002",
+      "slug": "busplan_2026_01",
+      "name": "IPP - Business Plan 2026 ",
+      "settingKey": "logo2_url",
+      "settingValue": "",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "90002",
+      "slug": "busplan_2026_01",
+      "name": "IPP - Business Plan 2026 ",
+      "settingKey": "logo3_url",
+      "settingValue": "",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "90002",
+      "slug": "busplan_2026_01",
+      "name": "IPP - Business Plan 2026 ",
+      "settingKey": "logo4_url",
+      "settingValue": "",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "90002",
+      "slug": "busplan_2026_01",
+      "name": "IPP - Business Plan 2026 ",
+      "settingKey": "notification_email",
+      "settingValue": "pmaguire@epcmconsultants.com",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "90002",
+      "slug": "busplan_2026_01",
+      "name": "IPP - Business Plan 2026 ",
+      "settingKey": "password",
+      "settingValue": "default-123",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "90002",
+      "slug": "busplan_2026_01",
+      "name": "IPP - Business Plan 2026 ",
+      "settingKey": "primary_color",
+      "settingValue": "#f7931e",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "90002",
+      "slug": "busplan_2026_01",
+      "name": "IPP - Business Plan 2026 ",
+      "settingKey": "secondary_color",
+      "settingValue": "#808080",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "90002",
+      "slug": "busplan_2026_01",
+      "name": "IPP - Business Plan 2026 ",
+      "settingKey": "test_setting",
+      "settingValue": "test_value",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "150002",
+      "slug": "capstat-gen",
+      "name": "IPP Latam - Capability Statement ",
+      "settingKey": "background_color",
+      "settingValue": "#d6d6d6",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "150002",
+      "slug": "capstat-gen",
+      "name": "IPP Latam - Capability Statement ",
+      "settingKey": "contrast_color",
+      "settingValue": "#f1592a",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "150002",
+      "slug": "capstat-gen",
+      "name": "IPP Latam - Capability Statement ",
+      "settingKey": "google_maps_api_key",
+      "settingValue": "AIzaSyDummy_Key_For_Testing",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "150002",
+      "slug": "capstat-gen",
+      "name": "IPP Latam - Capability Statement ",
+      "settingKey": "logo1_url",
+      "settingValue": "https://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/logos/1769028688340-1mii8gtzi72-IPP logo.png",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "150002",
+      "slug": "capstat-gen",
+      "name": "IPP Latam - Capability Statement ",
+      "settingKey": "logo2_url",
+      "settingValue": "",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "150002",
+      "slug": "capstat-gen",
+      "name": "IPP Latam - Capability Statement ",
+      "settingKey": "logo3_url",
+      "settingValue": "",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "150002",
+      "slug": "capstat-gen",
+      "name": "IPP Latam - Capability Statement ",
+      "settingKey": "logo4_url",
+      "settingValue": "https://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/logos/1769028688340-1mii8gtzi72-IPP logo.png",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "150002",
+      "slug": "capstat-gen",
+      "name": "IPP Latam - Capability Statement ",
+      "settingKey": "notification_email",
+      "settingValue": "",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "150002",
+      "slug": "capstat-gen",
+      "name": "IPP Latam - Capability Statement ",
+      "settingKey": "password",
+      "settingValue": "default-123",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "150002",
+      "slug": "capstat-gen",
+      "name": "IPP Latam - Capability Statement ",
+      "settingKey": "primary_color",
+      "settingValue": "#0262a4",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "150002",
+      "slug": "capstat-gen",
+      "name": "IPP Latam - Capability Statement ",
+      "settingKey": "secondary_color",
+      "settingValue": "#000000",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "150002",
+      "slug": "capstat-gen",
+      "name": "IPP Latam - Capability Statement ",
+      "settingKey": "test_setting",
+      "settingValue": "test_value",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "settingKey": "background_color",
+      "settingValue": "#efe6e6",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "settingKey": "contrast_color",
+      "settingValue": "#FFFFFF",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "settingKey": "google_maps_api_key",
+      "settingValue": "AIzaSyDummy_Key_For_Testing",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "settingKey": "logo1_url",
+      "settingValue": "https://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/logos/1769028688340-1mii8gtzi72-IPP logo.png",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "settingKey": "logo2_url",
+      "settingValue": "",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "settingKey": "logo3_url",
+      "settingValue": "",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "settingKey": "logo4_url",
+      "settingValue": "https://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/logos/1769028688340-1mii8gtzi72-IPP logo.png",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "settingKey": "notification_email",
+      "settingValue": "",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "settingKey": "password",
+      "settingValue": "default-123",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "settingKey": "primary_color",
+      "settingValue": "#76bb40",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "settingKey": "secondary_color",
+      "settingValue": "#fff76b",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    },
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "settingKey": "test_setting",
+      "settingValue": "test_value",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tslug\tname\tsettingKey\tsettingValue\tshowMap\tshowTeam\tshowComments\n90002\tbusplan_2026_01\tIPP - Business Plan 2026 \tbackground_color\t#e5e5dc\t1\t1\t1\n90002\tbusplan_2026_01\tIPP - Business Plan 2026 \tcontrast_color\t#36e713\t1\t1\t1\n90002\tbusplan_2026_01\tIPP - Business Plan 2026 \tgoogle_maps_api_key\tAIzaSyDummy_Key_For_Testing\t1\t1\t1\n90002\tbusplan_2026_01\tIPP - Business Plan 2026 \tlogo1_url\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/logos/1769029278155-dp350a9f8yv-IPP logo.png\t1\t1\t1\n90002\tbusplan_2026_01\tIPP - Business Plan 2026 \tlogo2_url\t\t1\t1\t1\n90002\tbusplan_2026_01\tIPP - Business Plan 2026 \tlogo3_url\t\t1\t1\t1\n90002\tbusplan_2026_01\tIPP - Business Plan 2026 \tlogo4_url\t\t1\t1\t1\n90002\tbusplan_2026_01\tIPP - Business Plan 2026 \tnotification_email\tpmaguire@epcmconsultants.com\t1\t1\t1\n90002\tbusplan_2026_01\tIPP - Business Plan 2026 \tpassword\tdefault-123\t1\t1\t1\n90002\tbusplan_2026_01\tIPP - Business Plan 2026 \tprimary_color\t#f7931e\t1\t1\t1\n90002\tbusplan_2026_01\tIPP - Business Plan 2026 \tsecondary_color\t#808080\t1\t1\t1\n90002\tbusplan_2026_01\tIPP - Business Plan 2026 \ttest_setting\ttest_value\t1\t1\t1\n150002\tcapstat-gen\tIPP Latam - Capability Statement \tbackground_color\t#d6d6d6\t1\t1\t1\n150002\tcapstat-gen\tIPP Latam - Capability Statement \tcontrast_color\t#f1592a\t1\t1\t1\n150002\tcapstat-gen\tIPP Latam - Capability Statement \tgoogle_maps_api_key\tAIzaSyDummy_Key_For_Testing\t1\t1\t1\n150002\tcapstat-gen\tIPP Latam - Capability Statement \tlogo1_url\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/logos/1769028688340-1mii8gtzi72-IPP logo.png\t1\t1\t1\n150002\tcapstat-gen\tIPP Latam - Capability Statement \tlogo2_url\t\t1\t1\t1\n150002\tcapstat-gen\tIPP Latam - Capability Statement \tlogo3_url\t\t1\t1\t1\n150002\tcapstat-gen\tIPP Latam - Capability Statement \tlogo4_url\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/logos/1769028688340-1mii8gtzi72-IPP logo.png\t1\t1\t1\n150002\tcapstat-gen\tIPP Latam - Capability Statement \tnotification_email\t\t1\t1\t1\n150002\tcapstat-gen\tIPP Latam - Capability Statement \tpassword\tdefault-123\t1\t1\t1\n150002\tcapstat-gen\tIPP Latam - Capability Statement \tprimary_color\t#0262a4\t1\t1\t1\n150002\tcapstat-gen\tIPP Latam - Capability Statement \tsecondary_color\t#000000\t1\t1\t1\n150002\tcapstat-gen\tIPP Latam - Capability Statement \ttest_setting\ttest_value\t1\t1\t1\n1\tdefault\tDefault Proposal\tbackground_color\t#efe6e6\t1\t1\t1\n1\tdefault\tDefault Proposal\tcontrast_color\t#FFFFFF\t1\t1\t1\n1\tdefault\tDefault Proposal\tgoogle_maps_api_key\tAIzaSyDummy_Key_For_Testing\t1\t1\t1\n1\tdefault\tDefault Proposal\tlogo1_url\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/logos/1769028688340-1mii8gtzi72-IPP logo.png\t1\t1\t1\n1\tdefault\tDefault Proposal\tlogo2_url\t\t1\t1\t1\n1\tdefault\tDefault Proposal\tlogo3_url\t\t1\t1\t1\n1\tdefault\tDefault Proposal\tlogo4_url\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663055864744/jkvEoGLbv7QkcKGpVwBVtE/logos/1769028688340-1mii8gtzi72-IPP logo.png\t1\t1\t1\n1\tdefault\tDefault Proposal\tnotification_email\t\t1\t1\t1\n1\tdefault\tDefault Proposal\tpassword\tdefault-123\t1\t1\t1\n1\tdefault\tDefault Proposal\tprimary_color\t#76bb40\t1\t1\t1\n1\tdefault\tDefault Proposal\tsecondary_color\t#fff76b\t1\t1\t1\n1\tdefault\tDefault Proposal\ttest_setting\ttest_value\t1\t1\t1\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

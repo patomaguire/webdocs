@@ -672,7 +672,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
             } : currentTab?.backgroundType === "gradient" && currentTab?.backgroundValue ? {
               background: currentTab.backgroundValue,
             } : {
-              backgroundColor: currentTab?.backgroundValue || '#FFFFFF',
+              backgroundColor: currentTab?.backgroundValue || settingsMap.background_color || '#f5f5f5',
             })
           }}
         >
