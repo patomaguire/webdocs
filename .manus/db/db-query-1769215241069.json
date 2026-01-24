@@ -1,0 +1,17 @@
+{
+  "query": "SELECT LENGTH(htmlContent) as length, SUBSTR(htmlContent, 1, 500) as preview FROM tabs_content WHERE documentId = 1 AND tabNumber = 0;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT LENGTH(htmlContent) as length, SUBSTR(htmlContent, 1, 500) as preview FROM tabs_content WHERE documentId = 1 AND tabNumber = 0;",
+  "rows": [
+    {
+      "length": "444",
+      "preview": "<h2>Who We Are</h2>"
+    }
+  ],
+  "messages": [
+    "<p>We are a leading professional services firm with decades of experience delivering exceptional results across multiple industries. Our team combines technical expertise with innovative thinking to solve complex challenges.</p>",
+    "<p>Our core values include integrity, excellence, and collaboration. We work closely with our clients to understand their unique needs and deliver tailored solutions that exceed expectations.</p>"
+  ],
+  "stdout": "length\tpreview\n444\t<h2>Who We Are</h2>\n<p>We are a leading professional services firm with decades of experience delivering exceptional results across multiple industries. Our team combines technical expertise with innovative thinking to solve complex challenges.</p>\n<p>Our core values include integrity, excellence, and collaboration. We work closely with our clients to understand their unique needs and deliver tailored solutions that exceed expectations.</p>\n",
+  "stderr": "",
+  "execution_time_ms": 120
+}

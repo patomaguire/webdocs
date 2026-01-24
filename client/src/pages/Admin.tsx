@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { FileText } from "lucide-react";
 import { marked } from 'marked';
+import { renderContent } from '@/lib/markdown';
 import { MarkdownCheatsheet } from '@/components/MarkdownCheatsheet';
 import { FilterCheatsheet } from '@/components/FilterCheatsheet';
 import { filterProjects, filterTeamMembers } from '@/lib/advancedFilter';
@@ -1418,7 +1419,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                   <div 
                     id="htmlContentPreview"
                     className="border rounded-md p-4 min-h-[400px] overflow-y-auto prose prose-sm max-w-none bg-background"
-                    dangerouslySetInnerHTML={{ __html: formData.htmlContent ? marked(formData.htmlContent) : '<p class="text-muted-foreground">Preview will appear here...</p>' }}
+                    dangerouslySetInnerHTML={{ __html: formData.htmlContent ? renderContent(formData.htmlContent) : '<p class="text-muted-foreground">Preview will appear here...</p>' }}
                   />
                 </div>
               </div>
