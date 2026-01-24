@@ -911,9 +911,20 @@
 - [x] Fix CSV upload for Team Members (parse: name,title,bio,yearsExperience,keySkills,photoUrl,isVisible)
 - [x] Fix CSV upload for Projects (parse: projectName,entity,client,location,country,latitude,longitude,projectValue,projectYear,services,description,isVisible)
 - [x] Remove Notion import buttons from Admin interface (kept Notion markdown converter)
+- [x] Visually tested CSV uploads in browser - working ✅
+- [x] Save checkpoint (0d2de1cf)
+- [x] Install Tiptap dependencies (@tiptap/react, @tiptap/starter-kit, @tiptap/extension-image)
+- [x] Replace markdown textarea with Tiptap WYSIWYG editor in Admin → Tabs
+- [x] Keep existing 3 image upload slots for reference library
+- [x] Add inline image upload capability in Tiptap
+- [x] Add "Sync from Notion Database" button in tab editor
+- [x] Implement Notion MCP integration for database sync
+- [x] Convert Notion database to HTML table in editor
+- [x] Install Chart.js dependencies
+- [ ] Implement generic chart builder (bar, line, pie)
+- [ ] Implement Gantt chart generator for project timelines
 - [ ] Add document upload feature: 5 files per tab (.doc, .xlsx, .pdf)
 - [ ] Add visibility toggle for each uploaded document
-- [ ] Display downloadable documents on external site when visible
-- [ ] Improve markdown-to-HTML conversion reliability
+- [ ] Display downloadable documents on external site when visible (centered, after content, before back-to-top)
 - [ ] Test all fixes in browser
-- [ ] Save checkpoint
+- [ ] Save final checkpoint
