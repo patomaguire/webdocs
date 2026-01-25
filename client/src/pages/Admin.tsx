@@ -14,7 +14,6 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { FileText } from "lucide-react";
 import { marked } from 'marked';
 import { MarkdownCheatsheet } from '@/components/MarkdownCheatsheet';
-import { RichTextEditor } from '@/components/RichTextEditor';
 import { FilterCheatsheet } from '@/components/FilterCheatsheet';
 import { filterProjects, filterTeamMembers} from '@/lib/advancedFilter';
 import Papa from 'papaparse';
@@ -1506,14 +1505,30 @@ function TabsContentTab({ documentId }: { documentId: number }) {
 
             <MarkdownCheatsheet />
 
-            {/* Rich Text Editor with Notion Sync */}
-            <div>
-              <Label>Content Editor</Label>
-              <RichTextEditor
-                content={formData.htmlContent}
-                onChange={(html) => setFormData({ ...formData, htmlContent: html })}
-              />
-            </div>
+            {/* Split-View Editor: Left (Input) and Right (Preview) */}
+              <div className="flex gap-4">
+                {/* Left: Markdown Input */}
+                <div className="flex-1">
+                  <Label htmlFor="htmlContent">Markdown Content</Label>
+                  <Textarea
+                    id="htmlContent"
+                    value={formData.htmlContent}
+                    onChange={(e) => setFormData({ ...formData, htmlContent: e.target.value })}
+                    className="font-mono text-sm resize-y min-h-[400px]"
+                    placeholder="Enter markdown content here...\n\n# Heading\n\n**Bold text**\n\n- List item\n\n![Image](url){width=50%}"
+                  />
+                </div>
+                
+                {/* Right: Live Preview */}
+                <div className="flex-1">
+                  <Label>Live Preview</Label>
+                  <div 
+                    id="htmlContentPreview"
+                    className="border rounded-md p-4 min-h-[400px] overflow-y-auto prose prose-sm max-w-none bg-background"
+                    dangerouslySetInnerHTML={{ __html: formData.htmlContent ? marked(formData.htmlContent) : '<p class="text-muted-foreground">Preview will appear here...</p>' }}
+                  />
+                </div>
+              </div>
             </>
           ) : (
             <p className="text-muted-foreground">Select a tab from the list to edit its content</p>

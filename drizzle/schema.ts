@@ -120,7 +120,7 @@ export const projects = mysqlTable("projects", {
   id: int("id").autoincrement().primaryKey(),
   documentId: int("documentId").notNull().default(1),
   projectName: varchar("projectName", { length: 255 }).notNull(),
-  entity: varchar("entity", { length: 100 }),
+  entity: varchar("entity", { length: 100 }).notNull(),
   client: varchar("client", { length: 255 }),
   location: varchar("location", { length: 255 }),
   country: varchar("country", { length: 100 }),

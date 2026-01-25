@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "84f6ce53-7305-4f18-ad53-0d7f20893da4",
-  "prevId": "d1a3459b-7e79-4ab3-9594-cb6662b54aae",
+  "id": "d1a3459b-7e79-4ab3-9594-cb6662b54aae",
+  "prevId": "6c78d109-fbca-425c-b912-187bfaa58d9f",
   "tables": {
     "comments": {
       "name": "comments",
@@ -247,7 +247,7 @@
           "name": "entity",
           "type": "varchar(100)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "client": {
