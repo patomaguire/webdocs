@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, projectName, isVisible, typeof(isVisible) as type, latitude, longitude FROM projects WHERE documentId = 1 LIMIT 3;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, projectName, isVisible, typeof(isVisible) as type, latitude, longitude FROM projects WHERE documentId = 1 LIMIT 3;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1305 (42000) at line 1: FUNCTION jkvEoGLbv7QkcKGpVwBVtE.typeof does not exist"
+  ]
+}

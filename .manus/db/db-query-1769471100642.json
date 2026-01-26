@@ -1,0 +1,50 @@
+{
+  "query": "SELECT id, projectName, isVisible, isVisible + 0 as isVisible_numeric, latitude, longitude FROM projects WHERE documentId = 1 LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, projectName, isVisible, isVisible + 0 as isVisible_numeric, latitude, longitude FROM projects WHERE documentId = 1 LIMIT 5;",
+  "rows": [
+    {
+      "id": "330001",
+      "projectName": "CTRL Phase 2",
+      "isVisible": "0",
+      "isVisible_numeric": "0",
+      "latitude": "54.475000",
+      "longitude": "-0.889000"
+    },
+    {
+      "id": "330002",
+      "projectName": "Klippoortjie",
+      "isVisible": "0",
+      "isVisible_numeric": "0",
+      "latitude": "-25.670000",
+      "longitude": "27.240000"
+    },
+    {
+      "id": "330003",
+      "projectName": "Juruti Bauxite - Plant Expansion",
+      "isVisible": "0",
+      "isVisible_numeric": "0",
+      "latitude": "-18.910000",
+      "longitude": "-43.420000"
+    },
+    {
+      "id": "330004",
+      "projectName": "ACB Debottlenecking and Polokwane second Caster",
+      "isVisible": "0",
+      "isVisible_numeric": "0",
+      "latitude": "-25.670000",
+      "longitude": "27.240000"
+    },
+    {
+      "id": "330005",
+      "projectName": "Amandelbult",
+      "isVisible": "0",
+      "isVisible_numeric": "0",
+      "latitude": "-25.670000",
+      "longitude": "27.240000"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tprojectName\tisVisible\tisVisible_numeric\tlatitude\tlongitude\n330001\tCTRL Phase 2\t0\t0\t54.475000\t-0.889000\n330002\tKlippoortjie\t0\t0\t-25.670000\t27.240000\n330003\tJuruti Bauxite - Plant Expansion\t0\t0\t-18.910000\t-43.420000\n330004\tACB Debottlenecking and Polokwane second Caster\t0\t0\t-25.670000\t27.240000\n330005\tAmandelbult\t0\t0\t-25.670000\t27.240000\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

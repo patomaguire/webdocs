@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "6e42acbc-8b9c-4248-81c3-6d4c356c7fae",
-  "prevId": "d1a3459b-7e79-4ab3-9594-cb6662b54aae",
+  "id": "c58ff1bb-fdee-4f2d-996b-406e688afd65",
+  "prevId": "04397ee2-8f14-4423-9dec-457f7a2925b4",
   "tables": {
     "comments": {
       "name": "comments",
@@ -320,14 +320,6 @@
           "notNull": true,
           "autoincrement": false,
           "default": true
-        },
-        "sortOrder": {
-          "name": "sortOrder",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
         },
         "createdAt": {
           "name": "createdAt",

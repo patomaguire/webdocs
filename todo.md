@@ -1037,3 +1037,21 @@
 - [x] Delete existing map implementation completely
 - [x] Build new minimalistic map component from scratch using only isVisible, latitude, longitude fields
 - [ ] KNOWN ISSUE: Map markers not rendering - projects query returns empty array due to Drizzle ORM schema cache issue after sortOrder column drop
+- [ ] Replace Google Maps with Leaflet.js for Experience Map
+- [ ] Add Leaflet dependencies (CSS + JS + MarkerCluster plugin)
+- [ ] Implement Leaflet map component with marker rendering
+- [ ] Add filtering controls (search by name/client, filter by entity/country)
+- [ ] Test with imported projects data to verify markers appear
+
+## Phase 26: Replace Google Maps with Leaflet.js
+- [x] Add Leaflet CSS and JS dependencies to client/index.html
+- [x] Replace Google Maps implementation with Leaflet in ExperienceMapSection
+- [x] Implement marker clustering with Leaflet.markercluster
+- [x] Add color-coded markers by entity (Axton=red, IPP=green)
+- [x] Add filtering controls (search, entity dropdown, country dropdown)
+- [x] Fix isVisible filter to accept truthy values (1 or true)
+- [x] Set all projects to visible in database (UPDATE projects SET isVisible = 1)
+- [x] Test map rendering with all 149 projects
+- [x] Verify marker clustering works correctly
+- [x] Remove debug logging and clean up code
+- [x] Save final checkpoint with working Leaflet map

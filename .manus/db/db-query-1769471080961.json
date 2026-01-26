@@ -1,0 +1,55 @@
+{
+  "query": "SELECT id, projectName, isVisible, latitude, longitude, entity, country FROM projects WHERE documentId = 1 AND latitude IS NOT NULL AND latitude != '' LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, projectName, isVisible, latitude, longitude, entity, country FROM projects WHERE documentId = 1 AND latitude IS NOT NULL AND latitude != '' LIMIT 5;",
+  "rows": [
+    {
+      "id": "330001",
+      "projectName": "CTRL Phase 2",
+      "isVisible": "0",
+      "latitude": "54.475000",
+      "longitude": "-0.889000",
+      "entity": "IPP",
+      "country": "United Kingdom"
+    },
+    {
+      "id": "330002",
+      "projectName": "Klippoortjie",
+      "isVisible": "0",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "entity": "IPP",
+      "country": "South Africa"
+    },
+    {
+      "id": "330003",
+      "projectName": "Juruti Bauxite - Plant Expansion",
+      "isVisible": "0",
+      "latitude": "-18.910000",
+      "longitude": "-43.420000",
+      "entity": "IPP",
+      "country": "Brazil"
+    },
+    {
+      "id": "330004",
+      "projectName": "ACB Debottlenecking and Polokwane second Caster",
+      "isVisible": "0",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "entity": "IPP",
+      "country": "South Africa"
+    },
+    {
+      "id": "330005",
+      "projectName": "Amandelbult",
+      "isVisible": "0",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "entity": "IPP",
+      "country": "South Africa"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tprojectName\tisVisible\tlatitude\tlongitude\tentity\tcountry\n330001\tCTRL Phase 2\t0\t54.475000\t-0.889000\tIPP\tUnited Kingdom\n330002\tKlippoortjie\t0\t-25.670000\t27.240000\tIPP\tSouth Africa\n330003\tJuruti Bauxite - Plant Expansion\t0\t-18.910000\t-43.420000\tIPP\tBrazil\n330004\tACB Debottlenecking and Polokwane second Caster\t0\t-25.670000\t27.240000\tIPP\tSouth Africa\n330005\tAmandelbult\t0\t-25.670000\t27.240000\tIPP\tSouth Africa\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

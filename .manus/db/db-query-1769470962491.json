@@ -1,0 +1,110 @@
+{
+  "query": "SELECT id, projectName, client, location, latitude, longitude, isVisible, documentId FROM projects WHERE documentId = 1 LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, projectName, client, location, latitude, longitude, isVisible, documentId FROM projects WHERE documentId = 1 LIMIT 10;",
+  "rows": [
+    {
+      "id": "330001",
+      "projectName": "CTRL Phase 2",
+      "client": "ACT Joint Venture",
+      "location": "NULL",
+      "latitude": "54.475000",
+      "longitude": "-0.889000",
+      "isVisible": "0",
+      "documentId": "1"
+    },
+    {
+      "id": "330002",
+      "projectName": "Klippoortjie",
+      "client": "AEMFC",
+      "location": "NULL",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "isVisible": "0",
+      "documentId": "1"
+    },
+    {
+      "id": "330003",
+      "projectName": "Juruti Bauxite - Plant Expansion",
+      "client": "Alcoa",
+      "location": "NULL",
+      "latitude": "-18.910000",
+      "longitude": "-43.420000",
+      "isVisible": "0",
+      "documentId": "1"
+    },
+    {
+      "id": "330004",
+      "projectName": "ACB Debottlenecking and Polokwane second Caster",
+      "client": "Anglo American",
+      "location": "NULL",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "isVisible": "0",
+      "documentId": "1"
+    },
+    {
+      "id": "330005",
+      "projectName": "Amandelbult",
+      "client": "Anglo American",
+      "location": "NULL",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "isVisible": "0",
+      "documentId": "1"
+    },
+    {
+      "id": "330006",
+      "projectName": "Bathopele Phase 5",
+      "client": "Anglo American",
+      "location": "NULL",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "isVisible": "0",
+      "documentId": "1"
+    },
+    {
+      "id": "330007",
+      "projectName": "Bess Venetia Pfs Study",
+      "client": "Anglo American",
+      "location": "NULL",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "isVisible": "0",
+      "documentId": "1"
+    },
+    {
+      "id": "330008",
+      "projectName": "Canyon Cole - Mine Closure",
+      "client": "Anglo American",
+      "location": "NULL",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "isVisible": "0",
+      "documentId": "1"
+    },
+    {
+      "id": "330009",
+      "projectName": "Commercial Assistance",
+      "client": "Anglo American",
+      "location": "NULL",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "isVisible": "0",
+      "documentId": "1"
+    },
+    {
+      "id": "330010",
+      "projectName": "Future of Mogalakwena - Early Capacity",
+      "client": "Anglo American",
+      "location": "NULL",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "isVisible": "0",
+      "documentId": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tprojectName\tclient\tlocation\tlatitude\tlongitude\tisVisible\tdocumentId\n330001\tCTRL Phase 2\tACT Joint Venture\tNULL\t54.475000\t-0.889000\t0\t1\n330002\tKlippoortjie\tAEMFC\tNULL\t-25.670000\t27.240000\t0\t1\n330003\tJuruti Bauxite - Plant Expansion\tAlcoa\tNULL\t-18.910000\t-43.420000\t0\t1\n330004\tACB Debottlenecking and Polokwane second Caster\tAnglo American\tNULL\t-25.670000\t27.240000\t0\t1\n330005\tAmandelbult\tAnglo American\tNULL\t-25.670000\t27.240000\t0\t1\n330006\tBathopele Phase 5\tAnglo American\tNULL\t-25.670000\t27.240000\t0\t1\n330007\tBess Venetia Pfs Study\tAnglo American\tNULL\t-25.670000\t27.240000\t0\t1\n330008\tCanyon Cole - Mine Closure\tAnglo American\tNULL\t-25.670000\t27.240000\t0\t1\n330009\tCommercial Assistance\tAnglo American\tNULL\t-25.670000\t27.240000\t0\t1\n330010\tFuture of Mogalakwena - Early Capacity\tAnglo American\tNULL\t-25.670000\t27.240000\t0\t1\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

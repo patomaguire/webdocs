@@ -760,7 +760,6 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   projects={projects || []} 
                   primaryColor={primaryColor}
                   language={language}
-                  apiKey={mapsConfig?.apiKey || settingsMap.google_maps_api_key}
                 />
               )}
 
@@ -869,149 +868,330 @@ function ProposalContent({ documentId }: { documentId: number }) {
   );
 }
 
-// NEW SIMPLE MAP COMPONENT - BUILT FROM SCRATCH
+// Experience Map Section Component with Leaflet
 function ExperienceMapSection({ 
   projects, 
   primaryColor, 
-  language,
-  apiKey 
+  language 
 }: { 
   projects: any[]; 
   primaryColor: string; 
   language: "en" | "es";
-  apiKey?: string;
 }) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<any>(null);
+  const mapInstanceRef = useRef<any>(null);
+  const markerClusterRef = useRef<any>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [entityFilter, setEntityFilter] = useState("all");
+  const [countryFilter, setCountryFilter] = useState("all");
+  const [visibleCount, setVisibleCount] = useState(0);
 
   // Filter visible projects with coordinates
-  const visibleProjects = projects.filter(p => 
-    p.isVisible === true && 
+  // Note: isVisible might be stored as 1/0 (integer) or true/false (boolean)
+  const validProjects = projects.filter(p => 
+    p.isVisible && // Truthy check (accepts 1 or true)
     p.latitude && 
     p.longitude
   );
 
-  console.log('[MAP] Total projects:', projects.length);
-  console.log('[MAP] Visible projects:', visibleProjects.length);
-  console.log('[MAP] API Key exists:', !!apiKey);
+  // Get unique countries for filter
+  const countries = useMemo(() => {
+    const uniqueCountries = [...new Set(validProjects.map(p => p.country).filter(Boolean))];
+    return uniqueCountries.sort();
+  }, [validProjects]);
 
-  // Load Google Maps
-  useEffect(() => {
-    if (!apiKey || !mapRef.current) {
-      console.log('Missing apiKey or mapRef');
-      return;
-    }
+  // Get unique entities
+  const entities = useMemo(() => {
+    const uniqueEntities = [...new Set(validProjects.map(p => p.entity).filter(Boolean))];
+    return uniqueEntities.sort();
+  }, [validProjects]);
 
-    // Check if already loaded
-    if (window.google && window.google.maps) {
-      console.log('Google Maps already loaded, initializing...');
-      initializeMap();
-      return;
-    }
-
-    // Load script
-    console.log('Loading Google Maps script...');
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
-    script.async = true;
-    script.onload = () => {
-      console.log('Google Maps script loaded');
-      initializeMap();
-    };
-    script.onerror = () => console.error('Failed to load Google Maps');
-    document.head.appendChild(script);
-  }, [apiKey]);
-
-  const initializeMap = () => {
-    if (!mapRef.current || !window.google) return;
-    
-    console.log('Creating map instance...');
-    const mapInstance = new window.google.maps.Map(mapRef.current, {
-      zoom: 2,
-      center: { lat: 0, lng: 0 },
-      mapTypeId: 'roadmap'
-    });
-    
-    setMap(mapInstance);
-    console.log('Map instance created');
+  // Entity colors
+  const ENTITY_COLORS: Record<string, string> = {
+    'IPP': '#4285F4',
+    'Axton': '#EA4335',
+    'default': '#666666'
   };
 
-  // Add markers
+  // Initialize Leaflet map
   useEffect(() => {
-    if (!map || !window.google) {
-      console.log('Map or Google not ready');
+    if (!mapRef.current || mapInstanceRef.current) return;
+
+    // Check if Leaflet is loaded
+    if (typeof window === 'undefined' || !(window as any).L) {
+      console.error('Leaflet not loaded');
       return;
     }
 
-    console.log('Adding markers for', visibleProjects.length, 'projects');
-    
-    visibleProjects.forEach((project, index) => {
-      const lat = parseFloat(project.latitude);
-      const lng = parseFloat(project.longitude);
-      
-      if (isNaN(lat) || isNaN(lng)) {
-        console.warn('Invalid coords:', project.projectName, lat, lng);
-        return;
-      }
+    const L = (window as any).L;
 
-      if (index < 5) {
-        console.log(`Creating marker ${index}:`, project.projectName, lat, lng);
-      }
+    // Create map
+    const map = L.map(mapRef.current).setView([0, 0], 2);
 
-      const marker = new window.google.maps.Marker({
-        position: { lat, lng },
-        map: map,
-        title: project.projectName
-      });
+    // Add tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 18
+    }).addTo(map);
 
-      const infoWindow = new window.google.maps.InfoWindow({
-        content: `
-          <div style="padding: 10px;">
-            <h3 style="margin: 0 0 8px; color: ${primaryColor};">${project.projectName}</h3>
-            <p style="margin: 4px 0;"><strong>Location:</strong> ${project.location || 'N/A'}</p>
-            <p style="margin: 4px 0;"><strong>Client:</strong> ${project.client || 'N/A'}</p>
-          </div>
-        `
-      });
-
-      marker.addListener('click', () => {
-        infoWindow.open(map, marker);
-      });
+    // Create marker cluster group
+    const markerCluster = L.markerClusterGroup({
+      spiderfyOnMaxZoom: true,
+      showCoverageOnHover: false,
+      zoomToBoundsOnClick: true,
+      maxClusterRadius: 50
     });
 
-    console.log('Markers added');
-  }, [map, visibleProjects, primaryColor]);
+    map.addLayer(markerCluster);
+
+    mapInstanceRef.current = map;
+    markerClusterRef.current = markerCluster;
+
+    // Cleanup
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+        markerClusterRef.current = null;
+      }
+    };
+  }, []);
+
+  // Create custom icon
+  const createIcon = (entity: string) => {
+    if (typeof window === 'undefined' || !(window as any).L) return null;
+    
+    const L = (window as any).L;
+    const color = ENTITY_COLORS[entity] || ENTITY_COLORS.default;
+    
+    return L.divIcon({
+      className: 'custom-div-icon',
+      html: `<div style="
+        background-color: ${color};
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 3px solid white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      "></div>`,
+      iconSize: [20, 20],
+      iconAnchor: [10, 10],
+      popupAnchor: [0, -10]
+    });
+  };
+
+  // Create popup content
+  const createPopupContent = (project: any) => {
+    return `
+      <div style="font-family: sans-serif;">
+        <h4 style="margin: 0 0 8px 0; color: #1a73e8; font-size: 15px;">${project.projectName || 'Unnamed Project'}</h4>
+        <div style="margin: 4px 0; font-size: 13px;"><strong>Client:</strong> ${project.client || 'N/A'}</div>
+        <div style="margin: 4px 0; font-size: 13px;"><strong>Location:</strong> ${project.location || 'N/A'}</div>
+        <div style="margin: 4px 0; font-size: 13px;"><strong>Country:</strong> ${project.country || 'N/A'}</div>
+        <div style="margin: 4px 0; font-size: 13px;"><strong>Entity:</strong> ${project.entity || 'N/A'}</div>
+        ${project.projectYear ? `<div style="margin: 4px 0; font-size: 13px;"><strong>Year:</strong> ${project.projectYear}</div>` : ''}
+        ${project.services ? `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee; font-size: 12px;"><strong>Services:</strong> ${project.services}</div>` : ''}
+      </div>
+    `;
+  };
+
+  // Update markers based on filters
+  useEffect(() => {
+    if (!mapInstanceRef.current || !markerClusterRef.current) return;
+    if (typeof window === 'undefined' || !(window as any).L) return;
+
+    const L = (window as any).L;
+    const markerCluster = markerClusterRef.current;
+
+    // Clear existing markers
+    markerCluster.clearLayers();
+
+    // Filter projects
+    const filteredProjects = validProjects.filter(project => {
+      const matchesSearch = !searchTerm || 
+        project.projectName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        project.client?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        project.services?.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesEntity = entityFilter === 'all' || project.entity === entityFilter;
+      const matchesCountry = countryFilter === 'all' || project.country === countryFilter;
+
+      return matchesSearch && matchesEntity && matchesCountry;
+    });
+
+    // Add markers
+    filteredProjects.forEach(project => {
+      const lat = parseFloat(project.latitude);
+      const lng = parseFloat(project.longitude);
+
+      if (isNaN(lat) || isNaN(lng)) return;
+
+      const marker = L.marker([lat, lng], {
+        icon: createIcon(project.entity)
+      });
+
+      marker.bindPopup(createPopupContent(project));
+      markerCluster.addLayer(marker);
+    });
+
+    setVisibleCount(filteredProjects.length);
+
+    // Fit bounds if markers exist
+    if (filteredProjects.length > 0 && markerCluster.getBounds().isValid()) {
+      mapInstanceRef.current.fitBounds(markerCluster.getBounds().pad(0.1));
+    }
+  }, [validProjects, searchTerm, entityFilter, countryFilter]);
 
   return (
-    <div>
-      <p className="mb-4">Explore our portfolio of successful projects across various industries and sectors.</p>
-      
-      {/* Map */}
-      <div 
-        ref={mapRef} 
-        className="w-full h-[500px] rounded-lg shadow-lg mb-8"
-        style={{ background: '#e5e7eb' }}
-      />
+    <div style={{ width: '100%' }}>
+      {/* Map Container */}
+      <div style={{ position: 'relative', width: '100%', height: '600px', marginBottom: '2rem' }}>
+        <div ref={mapRef} style={{ width: '100%', height: '100%', borderRadius: '8px', overflow: 'hidden' }} />
+        
+        {/* Controls Panel */}
+        <div style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          background: 'white',
+          padding: '15px',
+          borderRadius: '8px',
+          boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
+          zIndex: 1000,
+          maxWidth: '280px'
+        }}>
+          <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#333' }}>
+            {language === 'es' ? 'Filtros de Proyectos' : 'Project Filters'}
+          </h3>
+          
+          {/* Search */}
+          <div style={{ marginBottom: '12px' }}>
+            <label style={{ display: 'block', marginBottom: '5px', fontSize: '13px', color: '#666', fontWeight: 500 }}>
+              {language === 'es' ? 'Buscar Proyectos' : 'Search Projects'}
+            </label>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder={language === 'es' ? 'Buscar por nombre, cliente...' : 'Search by name, client...'}
+              style={{
+                width: '100%',
+                padding: '8px',
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+                fontSize: '13px'
+              }}
+            />
+          </div>
+          
+          {/* Entity Filter */}
+          {entities.length > 0 && (
+            <div style={{ marginBottom: '12px' }}>
+              <label style={{ display: 'block', marginBottom: '5px', fontSize: '13px', color: '#666', fontWeight: 500 }}>
+                {language === 'es' ? 'Entidad' : 'Entity'}
+              </label>
+              <select
+                value={entityFilter}
+                onChange={(e) => setEntityFilter(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: '13px'
+                }}
+              >
+                <option value="all">{language === 'es' ? 'Todas las Entidades' : 'All Entities'}</option>
+                {entities.map(entity => (
+                  <option key={entity} value={entity}>{entity}</option>
+                ))}
+              </select>
+            </div>
+          )}
+          
+          {/* Country Filter */}
+          {countries.length > 0 && (
+            <div style={{ marginBottom: '12px' }}>
+              <label style={{ display: 'block', marginBottom: '5px', fontSize: '13px', color: '#666', fontWeight: 500 }}>
+                {language === 'es' ? 'País' : 'Country'}
+              </label>
+              <select
+                value={countryFilter}
+                onChange={(e) => setCountryFilter(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: '13px'
+                }}
+              >
+                <option value="all">{language === 'es' ? 'Todos los Países' : 'All Countries'}</option>
+                {countries.map(country => (
+                  <option key={country} value={country}>{country}</option>
+                ))}
+              </select>
+            </div>
+          )}
+          
+          {/* Stats */}
+          <div style={{
+            fontSize: '12px',
+            color: '#888',
+            paddingTop: '10px',
+            borderTop: '1px solid #eee'
+          }}>
+            {language === 'es' 
+              ? `Mostrando ${visibleCount} de ${validProjects.length} proyectos`
+              : `Showing ${visibleCount} of ${validProjects.length} projects`
+            }
+          </div>
+        </div>
 
-      {/* Project Cards */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {visibleProjects.map((project) => (
-          <Card key={project.id}>
-            <CardContent className="pt-6">
-              <h3 className="text-lg font-bold mb-2" style={{ color: primaryColor }}>
-                {project.projectName}
-              </h3>
-              <p className="text-sm text-gray-700 mb-1">
-                <strong>Location:</strong> {project.location}
-              </p>
-              {project.client && (
-                <p className="text-sm text-gray-700 mb-1">
-                  <strong>Client:</strong> {project.client}
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        ))}
+        {/* Legend */}
+        {entities.length > 0 && (
+          <div style={{
+            position: 'absolute',
+            bottom: '30px',
+            left: '10px',
+            background: 'white',
+            padding: '12px',
+            borderRadius: '8px',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
+            zIndex: 1000
+          }}>
+            <h4 style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#333' }}>
+              {language === 'es' ? 'Leyenda de Entidades' : 'Entity Legend'}
+            </h4>
+            {entities.map(entity => (
+              <div key={entity} style={{ display: 'flex', alignItems: 'center', margin: '5px 0', fontSize: '12px' }}>
+                <div style={{
+                  width: '12px',
+                  height: '12px',
+                  borderRadius: '50%',
+                  backgroundColor: ENTITY_COLORS[entity] || ENTITY_COLORS.default,
+                  marginRight: '8px',
+                  border: '2px solid white',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.3)'
+                }} />
+                <span>{entity}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Description */}
+      <div style={{ marginTop: '2rem', padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+        <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.25rem', color: primaryColor }}>
+          {language === 'es' ? 'Nuestra Experiencia' : 'Our Experience'}
+        </h3>
+        <p style={{ margin: 0, fontSize: '0.95rem', color: '#666' }}>
+          {language === 'es' 
+            ? 'Explore nuestro portafolio de proyectos exitosos en diversas industrias y sectores. Utilice los filtros para ver proyectos por entidad o tipo de servicio.'
+            : 'Explore our portfolio of successful projects across various industries and sectors. Use the filters to view projects by entity or service type.'
+          }
+        </p>
       </div>
     </div>
   );
