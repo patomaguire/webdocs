@@ -1,0 +1,15 @@
+{
+  "query": "SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN latitude IS NULL OR latitude = '' THEN 1 ELSE 0 END) as null_lat,\n  SUM(CASE WHEN longitude IS NULL OR longitude = '' THEN 1 ELSE 0 END) as null_lng\nFROM projects WHERE documentId = 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN latitude IS NULL OR latitude = '' THEN 1 ELSE 0 END) as null_lat,\n  SUM(CASE WHEN longitude IS NULL OR longitude = '' THEN 1 ELSE 0 END) as null_lng\nFROM projects WHERE documentId = 1;",
+  "rows": [
+    {
+      "total": "149",
+      "null_lat": "2",
+      "null_lng": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tnull_lat\tnull_lng\n149\t2\t2\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

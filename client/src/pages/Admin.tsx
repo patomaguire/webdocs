@@ -2235,7 +2235,6 @@ function ProjectsTab({ documentId }: { documentId: number }) {
           if (row.projectYear) project.projectYear = row.projectYear;
           if (row.services) project.services = row.services;
           if (row.description) project.description = row.description;
-          if (row.sortOrder) project.sortOrder = parseInt(row.sortOrder) || 0;
           // Default isVisible to true if not specified in CSV
           project.isVisible = row.isVisible !== undefined ? (row.isVisible === 'true' || row.isVisible === '1' || row.isVisible === true) : true;
           

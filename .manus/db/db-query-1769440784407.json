@@ -1,0 +1,52 @@
+{
+  "query": "SELECT projectName, latitude, longitude, isVisible FROM projects WHERE documentId = 1 ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT projectName, latitude, longitude, isVisible FROM projects WHERE documentId = 1 ORDER BY id;",
+  "rows": [
+    {
+      "projectName": "Digital Transformation Initiative",
+      "latitude": "51.507400",
+      "longitude": "-0.127800",
+      "isVisible": "1"
+    },
+    {
+      "projectName": "Sample Project NYC",
+      "latitude": "40.712800",
+      "longitude": "-74.006000",
+      "isVisible": "1"
+    },
+    {
+      "projectName": "Sample Project Tokyo",
+      "latitude": "35.676200",
+      "longitude": "139.650300",
+      "isVisible": "1"
+    },
+    {
+      "projectName": "Enterprise System Modernization",
+      "latitude": "40.712800",
+      "longitude": "-74.006000",
+      "isVisible": "1"
+    },
+    {
+      "projectName": "Infrastructure Upgrade Program",
+      "latitude": "-33.868800",
+      "longitude": "151.209300",
+      "isVisible": "1"
+    },
+    {
+      "projectName": "London Finance System",
+      "latitude": "51.507400",
+      "longitude": "-0.127800",
+      "isVisible": "1"
+    },
+    {
+      "projectName": "Tokyo Retail Platform",
+      "latitude": "35.676200",
+      "longitude": "139.650300",
+      "isVisible": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "projectName\tlatitude\tlongitude\tisVisible\nDigital Transformation Initiative\t51.507400\t-0.127800\t1\nSample Project NYC\t40.712800\t-74.006000\t1\nSample Project Tokyo\t35.676200\t139.650300\t1\nEnterprise System Modernization\t40.712800\t-74.006000\t1\nInfrastructure Upgrade Program\t-33.868800\t151.209300\t1\nLondon Finance System\t51.507400\t-0.127800\t1\nTokyo Retail Platform\t35.676200\t139.650300\t1\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

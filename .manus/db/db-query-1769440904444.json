@@ -1,0 +1,59 @@
+{
+  "query": "SELECT id, projectName, latitude, longitude, CONCAT(latitude, ',', longitude) as coords FROM projects WHERE documentId = 1 ORDER BY projectName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, projectName, latitude, longitude, CONCAT(latitude, ',', longitude) as coords FROM projects WHERE documentId = 1 ORDER BY projectName;",
+  "rows": [
+    {
+      "id": "300036",
+      "projectName": "Digital Transformation Initiative",
+      "latitude": "51.507400",
+      "longitude": "-0.127800",
+      "coords": "51.507400,-0.127800"
+    },
+    {
+      "id": "300039",
+      "projectName": "Enterprise System Modernization",
+      "latitude": "40.712800",
+      "longitude": "-74.006000",
+      "coords": "40.712800,-74.006000"
+    },
+    {
+      "id": "300040",
+      "projectName": "Infrastructure Upgrade Program",
+      "latitude": "-33.868800",
+      "longitude": "151.209300",
+      "coords": "-33.868800,151.209300"
+    },
+    {
+      "id": "300041",
+      "projectName": "London Finance System",
+      "latitude": "51.507400",
+      "longitude": "-0.127800",
+      "coords": "51.507400,-0.127800"
+    },
+    {
+      "id": "300037",
+      "projectName": "Sample Project NYC",
+      "latitude": "40.712800",
+      "longitude": "-74.006000",
+      "coords": "40.712800,-74.006000"
+    },
+    {
+      "id": "300038",
+      "projectName": "Sample Project Tokyo",
+      "latitude": "35.676200",
+      "longitude": "139.650300",
+      "coords": "35.676200,139.650300"
+    },
+    {
+      "id": "300042",
+      "projectName": "Tokyo Retail Platform",
+      "latitude": "35.676200",
+      "longitude": "139.650300",
+      "coords": "35.676200,139.650300"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tprojectName\tlatitude\tlongitude\tcoords\n300036\tDigital Transformation Initiative\t51.507400\t-0.127800\t51.507400,-0.127800\n300039\tEnterprise System Modernization\t40.712800\t-74.006000\t40.712800,-74.006000\n300040\tInfrastructure Upgrade Program\t-33.868800\t151.209300\t-33.868800,151.209300\n300041\tLondon Finance System\t51.507400\t-0.127800\t51.507400,-0.127800\n300037\tSample Project NYC\t40.712800\t-74.006000\t40.712800,-74.006000\n300038\tSample Project Tokyo\t35.676200\t139.650300\t35.676200,139.650300\n300042\tTokyo Retail Platform\t35.676200\t139.650300\t35.676200,139.650300\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

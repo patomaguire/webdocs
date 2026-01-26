@@ -1,0 +1,45 @@
+{
+  "query": "SELECT projectName, latitude, longitude, CHAR_LENGTH(latitude) as lat_len, CHAR_LENGTH(longitude) as lng_len FROM projects WHERE documentId = 1 LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT projectName, latitude, longitude, CHAR_LENGTH(latitude) as lat_len, CHAR_LENGTH(longitude) as lng_len FROM projects WHERE documentId = 1 LIMIT 5;",
+  "rows": [
+    {
+      "projectName": "CTRL Phase 2",
+      "latitude": "54.475000",
+      "longitude": "-0.889000",
+      "lat_len": "9",
+      "lng_len": "9"
+    },
+    {
+      "projectName": "Klippoortjie",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "lat_len": "10",
+      "lng_len": "9"
+    },
+    {
+      "projectName": "Juruti Bauxite - Plant Expansion",
+      "latitude": "-18.910000",
+      "longitude": "-43.420000",
+      "lat_len": "10",
+      "lng_len": "10"
+    },
+    {
+      "projectName": "ACB Debottlenecking and Polokwane second Caster",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "lat_len": "10",
+      "lng_len": "9"
+    },
+    {
+      "projectName": "Amandelbult",
+      "latitude": "-25.670000",
+      "longitude": "27.240000",
+      "lat_len": "10",
+      "lng_len": "9"
+    }
+  ],
+  "messages": [],
+  "stdout": "projectName\tlatitude\tlongitude\tlat_len\tlng_len\nCTRL Phase 2\t54.475000\t-0.889000\t9\t9\nKlippoortjie\t-25.670000\t27.240000\t10\t9\nJuruti Bauxite - Plant Expansion\t-18.910000\t-43.420000\t10\t10\nACB Debottlenecking and Polokwane second Caster\t-25.670000\t27.240000\t10\t9\nAmandelbult\t-25.670000\t27.240000\t10\t9\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

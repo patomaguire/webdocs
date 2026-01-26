@@ -84,6 +84,16 @@ function ProposalContent({ documentId }: { documentId: number }) {
   const { data: teamMembers } = trpc.team.getAll.useQuery({ documentId });
   const { data: projects } = trpc.projects.getAll.useQuery({ documentId });
   const { data: comments } = trpc.commentsRouter.getAll.useQuery({ documentId });
+  
+  // Debug: Log projects data immediately after fetch
+  useEffect(() => {
+    console.log('[Proposal Debug] documentId:', documentId);
+    console.log('[Proposal Debug] projects data:', projects);
+    console.log('[Proposal Debug] projects length:', projects?.length);
+    if (projects && projects.length > 0) {
+      console.log('[Proposal Debug] First project:', projects[0]);
+    }
+  }, [documentId, projects]);
   const { data: mapsConfig } = trpc.settings.getGoogleMapsApiKey.useQuery();
   
   const utils = trpc.useUtils();
@@ -859,7 +869,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
   );
 }
 
-// Experience Map Section Component with Google Maps
+// NEW SIMPLE MAP COMPONENT - BUILT FROM SCRATCH
 function ExperienceMapSection({ 
   projects, 
   primaryColor, 
@@ -872,322 +882,132 @@ function ExperienceMapSection({
   apiKey?: string;
 }) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [markers, setMarkers] = useState<google.maps.Marker[]>([]);
-  const [entityFilter, setEntityFilter] = useState("all");
-  const [serviceFilter, setServiceFilter] = useState("all");
-  const [clientFilter, setClientFilter] = useState("all");
+  const [map, setMap] = useState<any>(null);
 
-  // Load Google Maps script
+  // Filter visible projects with coordinates
+  const visibleProjects = projects.filter(p => 
+    p.isVisible === true && 
+    p.latitude && 
+    p.longitude
+  );
+
+  console.log('[MAP] Total projects:', projects.length);
+  console.log('[MAP] Visible projects:', visibleProjects.length);
+  console.log('[MAP] API Key exists:', !!apiKey);
+
+  // Load Google Maps
   useEffect(() => {
-    if (!apiKey) return;
-    if (typeof google !== 'undefined' && google.maps) {
-      initMap();
+    if (!apiKey || !mapRef.current) {
+      console.log('Missing apiKey or mapRef');
       return;
     }
-    
+
+    // Check if already loaded
+    if (window.google && window.google.maps) {
+      console.log('Google Maps already loaded, initializing...');
+      initializeMap();
+      return;
+    }
+
+    // Load script
+    console.log('Loading Google Maps script...');
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
     script.async = true;
-    script.defer = true;
-    script.onload = initMap;
+    script.onload = () => {
+      console.log('Google Maps script loaded');
+      initializeMap();
+    };
+    script.onerror = () => console.error('Failed to load Google Maps');
     document.head.appendChild(script);
   }, [apiKey]);
 
-  const initMap = () => {
-    if (!mapRef.current) return;
+  const initializeMap = () => {
+    if (!mapRef.current || !window.google) return;
     
-    const mapInstance = new google.maps.Map(mapRef.current, {
+    console.log('Creating map instance...');
+    const mapInstance = new window.google.maps.Map(mapRef.current, {
       zoom: 2,
-      center: { lat: 5, lng: 0 },
-      mapTypeId: 'terrain',
-      styles: [
-        {
-          featureType: "water",
-          elementType: "geometry",
-          stylers: [{ color: "#a3ccff" }]
-        },
-        {
-          featureType: "landscape",
-          elementType: "geometry",
-          stylers: [{ color: "#f5f5f5" }]
-        }
-      ]
+      center: { lat: 0, lng: 0 },
+      mapTypeId: 'roadmap'
     });
     
     setMap(mapInstance);
+    console.log('Map instance created');
   };
 
-  // Update markers when filters change
+  // Add markers
   useEffect(() => {
-    if (!map) return;
+    if (!map || !window.google) {
+      console.log('Map or Google not ready');
+      return;
+    }
+
+    console.log('Adding markers for', visibleProjects.length, 'projects');
     
-    // Clear existing markers
-    markers.forEach(m => m.setMap(null));
-    
-    const filteredProjects = projects.filter(p => {
-      if (entityFilter !== "all" && p.entity !== entityFilter) return false;
-      if (clientFilter !== "all" && p.client !== clientFilter) return false;
-      if (serviceFilter !== "all") {
-        try {
-          const services = JSON.parse(p.services || "[]");
-          if (!services.includes(serviceFilter)) return false;
-        } catch {
-          return false;
-        }
+    visibleProjects.forEach((project, index) => {
+      const lat = parseFloat(project.latitude);
+      const lng = parseFloat(project.longitude);
+      
+      if (isNaN(lat) || isNaN(lng)) {
+        console.warn('Invalid coords:', project.projectName, lat, lng);
+        return;
       }
-      return p.isVisible && p.latitude && p.longitude;
-    });
-    
-    const infoWindow = new google.maps.InfoWindow();
-    const newMarkers: google.maps.Marker[] = [];
-    
-    filteredProjects.forEach(project => {
-      const markerColor = project.entity === 'EPCM' ? primaryColor : '#2563eb';
-      
-      const marker = new google.maps.Marker({
-        position: { 
-          lat: parseFloat(project.latitude), 
-          lng: parseFloat(project.longitude) 
-        },
+
+      if (index < 5) {
+        console.log(`Creating marker ${index}:`, project.projectName, lat, lng);
+      }
+
+      const marker = new window.google.maps.Marker({
+        position: { lat, lng },
         map: map,
-        title: project.projectName,
-        icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          scale: 10,
-          fillColor: markerColor,
-          fillOpacity: 0.9,
-          strokeColor: "#ffffff",
-          strokeWeight: 2
-        }
+        title: project.projectName
       });
-      
-      marker.addListener('click', () => {
-        const content = `
-          <div style="max-width: 300px; font-family: Arial, sans-serif;">
-            <h3 style="margin: 0 0 8px; color: ${markerColor};">${project.projectName}</h3>
+
+      const infoWindow = new window.google.maps.InfoWindow({
+        content: `
+          <div style="padding: 10px;">
+            <h3 style="margin: 0 0 8px; color: ${primaryColor};">${project.projectName}</h3>
+            <p style="margin: 4px 0;"><strong>Location:</strong> ${project.location || 'N/A'}</p>
             <p style="margin: 4px 0;"><strong>Client:</strong> ${project.client || 'N/A'}</p>
-            <p style="margin: 4px 0;"><strong>Location:</strong> ${project.location}</p>
-            <p style="margin: 4px 0;"><strong>Value:</strong> ${project.projectValue || 'N/A'}</p>
-            <p style="margin: 4px 0;"><strong>Year:</strong> ${project.projectYear || 'N/A'}</p>
-            <p style="margin: 4px 0;"><strong>Entity:</strong> 
-              <span style="background: ${markerColor}; color: white; padding: 2px 8px; border-radius: 4px;">
-                ${project.entity}
-              </span>
-            </p>
           </div>
-        `;
-        infoWindow.setContent(content);
+        `
+      });
+
+      marker.addListener('click', () => {
         infoWindow.open(map, marker);
       });
-      
-      newMarkers.push(marker);
     });
-    
-    setMarkers(newMarkers);
-  }, [map, projects, entityFilter, clientFilter, serviceFilter, primaryColor]);
 
-  const entities = Array.from(new Set(projects.map(p => p.entity).filter(Boolean)));
-  const clients = Array.from(new Set(projects.map(p => p.client).filter(Boolean)));
-  const allServices = projects.flatMap(p => {
-    try { return JSON.parse(p.services || "[]"); } 
-    catch { return []; }
-  });
-  const services = Array.from(new Set(allServices));
-
-  const filteredProjects = projects.filter(p => {
-    if (!p.isVisible) return false;
-    if (entityFilter !== "all" && p.entity !== entityFilter) return false;
-    if (clientFilter !== "all" && p.client !== clientFilter) return false;
-    if (serviceFilter !== "all") {
-      try {
-        const projectServices = JSON.parse(p.services || "[]");
-        if (!projectServices.includes(serviceFilter)) return false;
-      } catch {
-        return false;
-      }
-    }
-    return true;
-  });
+    console.log('Markers added');
+  }, [map, visibleProjects, primaryColor]);
 
   return (
     <div>
-      <div 
-        dangerouslySetInnerHTML={{ __html: "<p>Explore our portfolio of successful projects across various industries and sectors. Use the filters to view projects by entity or service type.</p>" }} 
-        className="prose max-w-none mb-6"
-        style={{ '--tw-prose-headings': primaryColor } as React.CSSProperties}
-      />
+      <p className="mb-4">Explore our portfolio of successful projects across various industries and sectors.</p>
       
-      {/* Filters and Map Layout */}
-      <div className="flex flex-col md:flex-row gap-4 mb-8">
-        {/* Left Sidebar: Entity and Client Filters */}
-        <div className="w-full md:w-48 flex-shrink-0 space-y-4 md:max-h-[500px] md:overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
-          {/* Entity Filter */}
-          <div>
-            <Label className="block text-sm font-medium mb-2">
-              {language === "en" ? "Entity" : "Entidad"}
-            </Label>
-            <div className="flex flex-col gap-2">
-            <button
-              onClick={() => setEntityFilter("all")}
-              className={`px-4 py-2 rounded transition ${
-                entityFilter === "all"
-                  ? "text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-              style={{
-                backgroundColor: entityFilter === "all" ? primaryColor : undefined,
-              }}
-            >
-              {language === "en" ? "All" : "Todas"}
-            </button>
-            {entities.map(e => (
-              <button
-                key={e}
-                onClick={() => setEntityFilter(e)}
-                className={`px-3 py-1 rounded text-xs transition ${
-                  entityFilter === e
-                    ? "text-white"
-                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                }`}
-                style={{
-                  backgroundColor: entityFilter === e ? primaryColor : undefined,
-                }}
-              >
-                {e}
-              </button>
-            ))}
-            </div>
-          </div>
+      {/* Map */}
+      <div 
+        ref={mapRef} 
+        className="w-full h-[500px] rounded-lg shadow-lg mb-8"
+        style={{ background: '#e5e7eb' }}
+      />
 
-          {/* Client Filter */}
-          <div>
-            <Label className="block text-sm font-medium mb-2">
-              {language === "en" ? "Client" : "Cliente"}
-            </Label>
-            <div className="flex flex-col gap-2">
-            <button
-              onClick={() => setClientFilter("all")}
-              className={`px-4 py-2 rounded transition ${
-                clientFilter === "all"
-                  ? "text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-              style={{
-                backgroundColor: clientFilter === "all" ? primaryColor : undefined,
-              }}
-            >
-              {language === "en" ? "All" : "Todos"}
-            </button>
-            {clients.map(c => (
-              <button
-                key={c}
-                onClick={() => setClientFilter(c)}
-                className={`px-3 py-1 rounded text-xs transition ${
-                  clientFilter === c
-                    ? "text-white"
-                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                }`}
-                style={{
-                  backgroundColor: clientFilter === c ? primaryColor : undefined,
-                }}
-              >
-                {c}
-              </button>
-            ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Center: Google Map */}
-        <div className="flex-1 order-first md:order-none">
-          {apiKey ? (
-            <div 
-              ref={mapRef} 
-              className="w-full h-[500px] rounded-lg shadow-lg"
-              style={{ background: '#e5e7eb' }}
-            />
-          ) : (
-            <div className="w-full h-[500px] rounded-lg shadow-lg bg-gray-200 flex items-center justify-center">
-              <p className="text-gray-600">{language === "en" ? "Map requires Google Maps API key" : "El mapa requiere clave API de Google Maps"}</p>
-            </div>
-          )}
-        </div>
-
-        {/* Right Sidebar: Service Filter */}
-        <div className="w-full md:w-48 flex-shrink-0 md:max-h-[500px] md:overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
-          <div>
-            <Label className="block text-sm font-medium mb-2">
-              {language === "en" ? "Service" : "Servicio"}
-            </Label>
-            <div className="flex flex-col gap-2">
-            <button
-              onClick={() => setServiceFilter("all")}
-              className={`px-4 py-2 rounded transition ${
-                serviceFilter === "all"
-                  ? "text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-              style={{
-                backgroundColor: serviceFilter === "all" ? primaryColor : undefined,
-              }}
-            >
-              {language === "en" ? "All" : "Todos"}
-            </button>
-            {services.map(s => (
-              <button
-                key={s}
-                onClick={() => setServiceFilter(s)}
-                className={`px-3 py-1 rounded text-xs transition ${
-                  serviceFilter === s
-                    ? "text-white"
-                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                }`}
-                style={{
-                  backgroundColor: serviceFilter === s ? primaryColor : undefined,
-                }}
-              >
-                {s}
-              </button>
-            ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Project Cards Grid */}
+      {/* Project Cards */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredProjects.map((project) => (
+        {visibleProjects.map((project) => (
           <Card key={project.id}>
             <CardContent className="pt-6">
               <h3 className="text-lg font-bold mb-2" style={{ color: primaryColor }}>
                 {project.projectName}
               </h3>
+              <p className="text-sm text-gray-700 mb-1">
+                <strong>Location:</strong> {project.location}
+              </p>
               {project.client && (
                 <p className="text-sm text-gray-700 mb-1">
-                  <strong>{language === "en" ? "Client:" : "Cliente:"}</strong> {project.client}
+                  <strong>Client:</strong> {project.client}
                 </p>
-              )}
-              <p className="text-sm text-gray-700 mb-1">
-                <strong>{language === "en" ? "Location:" : "Ubicación:"}</strong> {project.location}
-              </p>
-              {project.projectValue && (
-                <p className="text-sm text-gray-700 mb-1">
-                  <strong>{language === "en" ? "Value:" : "Valor:"}</strong> {project.projectValue}
-                </p>
-              )}
-              {project.projectYear && (
-                <p className="text-sm text-gray-700 mb-2">
-                  <strong>{language === "en" ? "Year:" : "Año:"}</strong> {project.projectYear}
-                </p>
-              )}
-              {project.entity && (
-                <span 
-                  className="inline-block px-3 py-1 rounded text-white text-sm font-semibold"
-                  style={{ backgroundColor: project.entity === 'EPCM' ? primaryColor : '#2563eb' }}
-                >
-                  {project.entity}
-                </span>
               )}
             </CardContent>
           </Card>

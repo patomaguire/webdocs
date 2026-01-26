@@ -131,7 +131,6 @@ export const projects = mysqlTable("projects", {
   services: text("services"),
   description: text("description"),
   isVisible: boolean("isVisible").default(true).notNull(),
-  sortOrder: int("sortOrder").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

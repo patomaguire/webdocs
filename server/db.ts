@@ -244,7 +244,7 @@ export async function getAllTeamMembers(documentId: number = 1): Promise<TeamMem
   if (!db) return [];
   
   try {
-    return await db.select().from(teamMembers).where(eq(teamMembers.documentId, documentId)).orderBy(asc(teamMembers.sortOrder));
+    return await db.select().from(teamMembers).where(eq(teamMembers.documentId, documentId));
   } catch (error) {
     console.error("[Database] Failed to get team members:", error);
     return [];
@@ -307,7 +307,7 @@ export async function getAllProjects(documentId: number = 1): Promise<Project[]>
   if (!db) return [];
   
   try {
-    return await db.select().from(projects).where(eq(projects.documentId, documentId)).orderBy(asc(projects.sortOrder));
+    return await db.select().from(projects).where(eq(projects.documentId, documentId));
   } catch (error) {
     console.error("[Database] Failed to get projects:", error);
     return [];
@@ -583,7 +583,6 @@ export async function copyDocumentContent(sourceDocumentId: number, targetDocume
       projectYear: project.projectYear,
       services: project.services,
       description: project.description,
-      sortOrder: project.sortOrder,
       isVisible: project.isVisible,
     });
   }

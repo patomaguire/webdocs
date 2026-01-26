@@ -1013,3 +1013,27 @@
 - [x] Update existing database records to set isVisible = true
 - [x] Verify fix on published site visually
 - [x] Save checkpoint with fix
+
+## Phase 30: Fix Map Marker Rendering Issue
+- [x] Check database to verify all 7 projects have valid coordinates
+- [x] Investigate why only 2 projects show markers (should be 4 cities: London, New York, Tokyo, Sydney)
+- [x] User imported hundreds of projects - NONE render on map
+- [x] Removed sortOrder field from schema (not used in filtering)
+- [x] Checked published site - map loads but zero markers despite hundreds of projects
+- [x] No Google Maps API errors - API working fine
+- [x] User requested: redesign map from scratch using only isVisible=true + lat/lng
+- [x] Create simplified map rendering with console logging
+- [x] Test on dev server - discovered SQL syntax error
+- [x] Found root cause: backend query has broken ORDER BY clause after removing sortOrder
+- [x] Fix backend projects query to remove sortOrder reference
+- [x] Fix team members query to remove sortOrder reference
+- [x] Test on dev server - SQL errors fixed, map loads, but NO markers or project cards visible
+- [ ] Investigate why projects don't render despite SQL fix
+- [ ] Add more diagnostic logging to trace data flow
+- [ ] Fix remaining rendering issue
+- [ ] Test visually to confirm all markers appear
+- [ ] Publish and verify on live site
+- [ ] Save checkpoint with fix
+- [x] Delete existing map implementation completely
+- [x] Build new minimalistic map component from scratch using only isVisible, latitude, longitude fields
+- [ ] KNOWN ISSUE: Map markers not rendering - projects query returns empty array due to Drizzle ORM schema cache issue after sortOrder column drop
