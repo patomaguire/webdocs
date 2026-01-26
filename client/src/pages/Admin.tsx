@@ -1732,7 +1732,8 @@ function TeamTab({ documentId }: { documentId: number }) {
           if (row.yearsExperience) member.yearsExperience = parseInt(row.yearsExperience) || 0;
           if (row.keySkills) member.keySkills = row.keySkills;
           if (row.sortOrder) member.sortOrder = parseInt(row.sortOrder) || 0;
-          if (row.isVisible !== undefined) member.isVisible = row.isVisible === 'true' || row.isVisible === '1';
+          // Default isVisible to true if not specified in CSV
+          member.isVisible = row.isVisible !== undefined ? (row.isVisible === 'true' || row.isVisible === '1' || row.isVisible === true) : true;
           
           try {
             await createMutation.mutateAsync(member);
@@ -2235,7 +2236,8 @@ function ProjectsTab({ documentId }: { documentId: number }) {
           if (row.services) project.services = row.services;
           if (row.description) project.description = row.description;
           if (row.sortOrder) project.sortOrder = parseInt(row.sortOrder) || 0;
-          if (row.isVisible !== undefined) project.isVisible = row.isVisible === 'true' || row.isVisible === '1';
+          // Default isVisible to true if not specified in CSV
+          project.isVisible = row.isVisible !== undefined ? (row.isVisible === 'true' || row.isVisible === '1' || row.isVisible === true) : true;
           
           try {
             await createMutation.mutateAsync(project);

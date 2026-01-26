@@ -1,0 +1,31 @@
+{
+  "query": "SELECT projectName FROM projects WHERE documentId = 1 LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT projectName FROM projects WHERE documentId = 1 LIMIT 10;",
+  "rows": [
+    {
+      "projectName": "Digital Transformation Initiative"
+    },
+    {
+      "projectName": "Sample Project NYC"
+    },
+    {
+      "projectName": "Sample Project Tokyo"
+    },
+    {
+      "projectName": "Enterprise System Modernization"
+    },
+    {
+      "projectName": "Infrastructure Upgrade Program"
+    },
+    {
+      "projectName": "London Finance System"
+    },
+    {
+      "projectName": "Tokyo Retail Platform"
+    }
+  ],
+  "messages": [],
+  "stdout": "projectName\nDigital Transformation Initiative\nSample Project NYC\nSample Project Tokyo\nEnterprise System Modernization\nInfrastructure Upgrade Program\nLondon Finance System\nTokyo Retail Platform\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

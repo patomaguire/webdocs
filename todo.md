@@ -997,3 +997,19 @@
 - [x] Verify imported data renders correctly in UI
 - [x] Identify malformed CSV data issue (multi-line garbage text)
 - [x] Save checkpoint with delimiter fix
+
+## Phase 29: Fix Published Site Data Rendering
+- [ ] Investigate why published site doesn't show imported CSV data
+- [ ] Identify root cause of data fetching failure on published frontend
+- [ ] Fix bug preventing published site from displaying database data
+- [ ] Test by importing new data and verifying it appears on published site immediately
+- [ ] Ensure Admin data changes reflect on published site without needing new checkpoints
+- [ ] Save checkpoint with fix
+
+## Phase 29: Fix Published Site Data Rendering
+- [x] Investigate why published site doesn't render imported CSV data
+- [x] Identify root cause (isVisible field not set)
+- [x] Fix CSV imports to default isVisible to true
+- [x] Update existing database records to set isVisible = true
+- [x] Verify fix on published site visually
+- [x] Save checkpoint with fix
