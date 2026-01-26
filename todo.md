@@ -956,3 +956,9 @@
 - [ ] Test export all data functionality
 - [ ] Test import overwrites existing data
 - [ ] Save checkpoint
+
+## Phase 25: CSV Export/Import Bug Fixes
+- [x] Fix Team Members export button - not triggering download
+- [x] Fix Projects map rendering after CSV import - coordinates not displaying on map
+- [x] Test both fixes visually
+- [x] Save checkpoint with fixes

@@ -1654,13 +1654,13 @@ function TeamTab({ documentId }: { documentId: number }) {
   };
 
   const exportTeamData = () => {
-    if (!teamMembers || teamMembers.length === 0) {
+    if (!members || members.length === 0) {
       toast.error('No team members to export');
       return;
     }
     const csvContent = [
       'name,title,bio,yearsExperience,keySkills,isVisible',
-      ...teamMembers.map(member => 
+      ...members.map(member => 
         `"${member.name}","${member.title || ''}","${member.bio || ''}",${member.yearsExperience || 0},"${member.keySkills || ''}",${member.isVisible !== false}`
       )
     ].join('\n');
@@ -1670,9 +1670,11 @@ function TeamTab({ documentId }: { documentId: number }) {
     const a = document.createElement('a');
     a.href = url;
     a.download = `team_members_${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    toast.success(`Exported ${teamMembers.length} team members`);
+    toast.success(`Exported ${members.length} team members`);
   };
 
   const downloadTeamTemplate = () => {
@@ -2164,7 +2166,9 @@ function ProjectsTab({ documentId }: { documentId: number }) {
     const a = document.createElement('a');
     a.href = url;
     a.download = `projects_${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
     toast.success(`Exported ${projects.length} projects`);
   };
@@ -2220,8 +2224,8 @@ function ProjectsTab({ documentId }: { documentId: number }) {
           if (row.client) project.client = row.client;
           if (row.location) project.location = row.location;
           if (row.country) project.country = row.country;
-          if (row.latitude) project.latitude = row.latitude;
-          if (row.longitude) project.longitude = row.longitude;
+          if (row.latitude) project.latitude = String(row.latitude);
+          if (row.longitude) project.longitude = String(row.longitude);
           if (row.projectValue) project.projectValue = row.projectValue;
           if (row.projectYear) project.projectYear = row.projectYear;
           if (row.services) project.services = row.services;
