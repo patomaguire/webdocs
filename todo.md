@@ -976,3 +976,24 @@
 - [x] Visually test Projects import end-to-end (delete + insert + render)
 - [x] Visually test Team Members import end-to-end (delete + insert + render)
 - [x] Save checkpoint with verified fixes
+
+## Phase 28: CSV Import Rendering Failure - Critical Bug
+- [ ] Test Projects CSV import with user's file (projects_2026-01-26.csv) - should show 7 projects
+- [ ] Verify visually if 7 projects render in map and list after import
+- [ ] Test Team Members CSV import with user's file (team_members_2026-01-26.csv) - should show 2 members
+- [ ] Verify visually if 2 team members render in gallery after import
+- [ ] Diagnose why import success messages show but no data renders
+- [ ] Fix root cause of rendering failure after successful import
+- [ ] Add CSV validation if data format issues found
+- [ ] Verify both imports work end-to-end visually
+- [ ] Save checkpoint with working imports
+
+## Phase 28: CSV Import Semicolon Delimiter Support
+- [x] Diagnose why Projects CSV import succeeds but items don't render
+- [x] Diagnose why Team Members CSV import button does nothing
+- [x] Fix Papa.parse to auto-detect delimiters (support both comma and semicolon)
+- [x] Test Projects CSV import with semicolon-delimited file (7 projects imported successfully)
+- [x] Test Team Members CSV import with semicolon-delimited file (2 members imported successfully)
+- [x] Verify imported data renders correctly in UI
+- [x] Identify malformed CSV data issue (multi-line garbage text)
+- [x] Save checkpoint with delimiter fix

@@ -1,0 +1,38 @@
+{
+  "query": "SELECT projectName, isVisible FROM projects WHERE documentId = 1 ORDER BY id DESC LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT projectName, isVisible FROM projects WHERE documentId = 1 ORDER BY id DESC LIMIT 10;",
+  "rows": [
+    {
+      "projectName": "Tokyo Retail Platform",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "London Finance System",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Infrastructure Upgrade Program",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Enterprise System Modernization",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Sample Project Tokyo",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Sample Project NYC",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Digital Transformation Initiative",
+      "isVisible": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "projectName\tisVisible\nTokyo Retail Platform\t0\nLondon Finance System\t0\nInfrastructure Upgrade Program\t0\nEnterprise System Modernization\t0\nSample Project Tokyo\t0\nSample Project NYC\t0\nDigital Transformation Initiative\t0\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

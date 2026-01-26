@@ -1705,6 +1705,7 @@ function TeamTab({ documentId }: { documentId: number }) {
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
+      delimiter: '', // Auto-detect delimiter (comma or semicolon)
       complete: async (results) => {
         console.log('[Team CSV] Parsed rows:', results.data.length);
         console.log('[Team CSV] Using documentId:', documentId);
@@ -2202,6 +2203,7 @@ function ProjectsTab({ documentId }: { documentId: number }) {
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
+      delimiter: '', // Auto-detect delimiter (comma or semicolon)
       complete: async (results) => {
         console.log('[Projects CSV] Parsed rows:', results.data.length);
         console.log('[Projects CSV] Using documentId:', documentId);
