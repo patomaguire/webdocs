@@ -1653,14 +1653,27 @@ function TeamTab({ documentId }: { documentId: number }) {
     }
   };
 
+  const downloadTeamTemplate = () => {
+    const csv = 'name,title,bio,yearsExperience,keySkills,photoUrl,isVisible\n"John Doe","Senior Engineer","Expert in systems",10,"Python,AWS","https://example.com/photo.jpg",true';
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'team_members_template.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    console.log('[Team CSV] Starting import...');
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
       complete: async (results) => {
+        console.log('[Team CSV] Parsed rows:', results.data.length);
         let imported = 0;
         for (const row of results.data as any[]) {
           const member: any = { documentId };
@@ -1676,8 +1689,9 @@ function TeamTab({ documentId }: { documentId: number }) {
           try {
             await createMutation.mutateAsync(member);
             imported++;
+            console.log('[Team CSV] Imported:', member.name);
           } catch (error) {
-            console.error('Failed to import member:', member, error);
+            console.error('[Team CSV] Failed to import member:', member, error);
           }
         }
         toast.success(`Imported ${imported} team members`);
@@ -1711,6 +1725,10 @@ function TeamTab({ documentId }: { documentId: number }) {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Team Members</h2>
         <div className="flex gap-2">
+          <Button variant="outline" onClick={downloadTeamTemplate}>
+            <Download className="mr-2 h-4 w-4" />
+            Download Template
+          </Button>
           <label htmlFor="team-csv-upload">
             <Button variant="outline" asChild>
               <span className="cursor-pointer">
@@ -2080,14 +2098,27 @@ function ProjectsTab({ documentId }: { documentId: number }) {
     }
   };
 
+  const downloadProjectsTemplate = () => {
+    const csv = 'projectName,entity,client,location,country,latitude,longitude,projectValue,projectYear,services,description,isVisible\n"Metro Line 5","EPCM","City Transit","New York","USA",40.7128,-74.0060,"$50M","2024","Engineering,Design","Major transit project",true';
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'projects_template.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    console.log('[Projects CSV] Starting import...');
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
       complete: async (results) => {
+        console.log('[Projects CSV] Parsed rows:', results.data.length);
         let imported = 0;
         for (const row of results.data as any[]) {
           const project: any = { documentId };
@@ -2108,8 +2139,9 @@ function ProjectsTab({ documentId }: { documentId: number }) {
           try {
             await createMutation.mutateAsync(project);
             imported++;
+            console.log('[Projects CSV] Imported:', project.projectName);
           } catch (error) {
-            console.error('Failed to import project:', project, error);
+            console.error('[Projects CSV] Failed to import project:', project, error);
           }
         }
         toast.success(`Imported ${imported} projects`);
@@ -2148,6 +2180,10 @@ function ProjectsTab({ documentId }: { documentId: number }) {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Projects</h2>
         <div className="flex gap-2">
+          <Button variant="outline" onClick={downloadProjectsTemplate}>
+            <Download className="mr-2 h-4 w-4" />
+            Download Template
+          </Button>
           <label htmlFor="projects-csv-upload">
             <Button variant="outline" asChild>
               <span className="cursor-pointer">

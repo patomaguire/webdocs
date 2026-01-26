@@ -1,0 +1,18 @@
+{
+  "query": "\nSELECT 'projects' as table_name, COUNT(*) as count FROM projects WHERE documentId = 1\nUNION ALL\nSELECT 'team_members', COUNT(*) FROM team_members WHERE documentId = 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute \nSELECT 'projects' as table_name, COUNT(*) as count FROM projects WHERE documentId = 1\nUNION ALL\nSELECT 'team_members', COUNT(*) FROM team_members WHERE documentId = 1;\n",
+  "rows": [
+    {
+      "table_name": "projects",
+      "count": "34"
+    },
+    {
+      "table_name": "team_members",
+      "count": "4"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\tcount\nprojects\t34\nteam_members\t4\n",
+  "stderr": "",
+  "execution_time_ms": 97
+}

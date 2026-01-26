@@ -917,3 +917,30 @@
 - [ ] Improve markdown-to-HTML conversion reliability
 - [ ] Test all fixes in browser
 - [ ] Save checkpoint
+
+## Phase 69: Critical Bug Fixes - Projects/Team Display & CSV Import/Export
+- [x] Check why projects are not displaying on external website (tab 1200 - interactive map)
+- [x] Check why team members are not displaying on external website (tab 800 - team gallery)
+- [x] Verify data exists in database for projects and team (35 projects, 3 team members exist)
+- [x] Check if tabs 800 and 1200 have proper display components (FOUND: checking for tab 8 and 11 instead of 800 and 1200)
+- [x] Fix tab number checks in Proposal.tsx (changed from 8/11 to 800/1200)
+- [ ] Add CSV export template button for Projects (downloads sample CSV with correct column names)
+- [ ] Add CSV export template button for Team Members (downloads sample CSV with correct column names)
+- [ ] Fix CSV import for Projects - ensure it actually saves to database
+- [ ] Fix CSV import for Team Members - ensure it actually saves to database
+- [ ] Add visual feedback when CSV import succeeds/fails
+- [ ] Test CSV export templates download correctly
+- [ ] Test CSV import with downloaded templates
+- [ ] Verify projects display on external site after import
+- [ ] Verify team members display on external site after import
+- [ ] Save checkpoint after all fixes verified
+
+## Phase 69: Critical Bug Fixes - Projects/Team Display & CSV Import/Export
+- [x] Fix team gallery not displaying on external website (tab 800) - changed check from tab 8 to 800
+- [x] Fix projects not displaying on interactive map (tab 1200) - changed check from tab 11 to 1200
+- [x] Add console logging to CSV import handlers for debugging
+- [x] Add CSV export template buttons for Team Members
+- [x] Add CSV export template buttons for Projects
+- [x] Add success/error toast messages for CSV import feedback
+- [ ] Test CSV import with downloaded templates in browser
+- [ ] Save checkpoint

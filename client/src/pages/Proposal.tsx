@@ -692,8 +692,8 @@ function ProposalContent({ documentId }: { documentId: number }) {
                 {currentTab.tabTitle}
               </h2>
 
-              {/* Tab 8: Team Section */}
-              {activeTab === 8 && (
+              {/* Tab 800: Team Section */}
+              {activeTab === 800 && (
                 <div className="mb-8">
                   <div 
                     dangerouslySetInnerHTML={{ 
@@ -744,8 +744,8 @@ function ProposalContent({ documentId }: { documentId: number }) {
                 </div>
               )}
 
-              {/* Tab 11: Experience Map */}
-              {activeTab === 11 && (
+              {/* Tab 1200: Experience Map */}
+              {activeTab === 1200 && (
                 <ExperienceMapSection 
                   projects={projects || []} 
                   primaryColor={primaryColor}
