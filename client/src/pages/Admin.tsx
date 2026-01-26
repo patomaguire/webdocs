@@ -1653,8 +1653,30 @@ function TeamTab({ documentId }: { documentId: number }) {
     }
   };
 
+  const exportTeamData = () => {
+    if (!teamMembers || teamMembers.length === 0) {
+      toast.error('No team members to export');
+      return;
+    }
+    const csvContent = [
+      'name,title,bio,yearsExperience,keySkills,isVisible',
+      ...teamMembers.map(member => 
+        `"${member.name}","${member.title || ''}","${member.bio || ''}",${member.yearsExperience || 0},"${member.keySkills || ''}",${member.isVisible !== false}`
+      )
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `team_members_${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success(`Exported ${teamMembers.length} team members`);
+  };
+
   const downloadTeamTemplate = () => {
-    const csv = 'name,title,bio,yearsExperience,keySkills,photoUrl,isVisible\n"John Doe","Senior Engineer","Expert in systems",10,"Python,AWS","https://example.com/photo.jpg",true';
+    const csv = 'name,title,bio,yearsExperience,keySkills,isVisible\n"John Doe","Senior Engineer","Expert in systems",10,"Python,AWS",true';
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1669,18 +1691,40 @@ function TeamTab({ documentId }: { documentId: number }) {
     if (!file) return;
 
     console.log('[Team CSV] Starting import...');
+    
+    // Confirm overwrite
+    if (teamMembers && teamMembers.length > 0) {
+      if (!confirm(`This will delete all ${teamMembers.length} existing team members and replace them with CSV data. Continue?`)) {
+        e.target.value = ''; // Reset file input
+        return;
+      }
+    }
+
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
       complete: async (results) => {
         console.log('[Team CSV] Parsed rows:', results.data.length);
+        
+        // Delete all existing team members for this document
+        if (teamMembers && teamMembers.length > 0) {
+          for (const member of teamMembers) {
+            try {
+              await deleteMutation.mutateAsync({ id: member.id });
+            } catch (error) {
+              console.error('[Team CSV] Failed to delete member:', member.id, error);
+            }
+          }
+        }
+        
+        // Import new team members
         let imported = 0;
         for (const row of results.data as any[]) {
           const member: any = { documentId };
           if (row.name) member.name = row.name;
           if (row.title) member.title = row.title;
           if (row.bio) member.bio = row.bio;
-          if (row.photoUrl) member.photoUrl = row.photoUrl;
+          // photoUrl removed - handle separately via Admin UI
           if (row.yearsExperience) member.yearsExperience = parseInt(row.yearsExperience) || 0;
           if (row.keySkills) member.keySkills = row.keySkills;
           if (row.sortOrder) member.sortOrder = parseInt(row.sortOrder) || 0;
@@ -1694,8 +1738,9 @@ function TeamTab({ documentId }: { documentId: number }) {
             console.error('[Team CSV] Failed to import member:', member, error);
           }
         }
-        toast.success(`Imported ${imported} team members`);
+        toast.success(`Imported ${imported} team members (replaced all existing)`);
         refetch();
+        e.target.value = ''; // Reset file input
       },
       error: (error) => {
         toast.error(`CSV parse error: ${error.message}`);
@@ -1728,6 +1773,10 @@ function TeamTab({ documentId }: { documentId: number }) {
           <Button variant="outline" onClick={downloadTeamTemplate}>
             <Download className="mr-2 h-4 w-4" />
             Download Template
+          </Button>
+          <Button variant="outline" onClick={exportTeamData}>
+            <Download className="mr-2 h-4 w-4" />
+            Export Data
           </Button>
           <label htmlFor="team-csv-upload">
             <Button variant="outline" asChild>
@@ -2098,6 +2147,28 @@ function ProjectsTab({ documentId }: { documentId: number }) {
     }
   };
 
+  const exportProjectsData = () => {
+    if (!projects || projects.length === 0) {
+      toast.error('No projects to export');
+      return;
+    }
+    const csvContent = [
+      'projectName,entity,client,location,country,latitude,longitude,projectValue,projectYear,services,description,isVisible',
+      ...projects.map(project => 
+        `"${project.projectName}","${project.entity || ''}","${project.client || ''}","${project.location || ''}","${project.country || ''}",${project.latitude || ''},${project.longitude || ''},"${project.projectValue || ''}","${project.projectYear || ''}","${project.services || ''}","${project.description || ''}",${project.isVisible !== false}`
+      )
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `projects_${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success(`Exported ${projects.length} projects`);
+  };
+
   const downloadProjectsTemplate = () => {
     const csv = 'projectName,entity,client,location,country,latitude,longitude,projectValue,projectYear,services,description,isVisible\n"Metro Line 5","EPCM","City Transit","New York","USA",40.7128,-74.0060,"$50M","2024","Engineering,Design","Major transit project",true';
     const blob = new Blob([csv], { type: 'text/csv' });
@@ -2114,11 +2185,33 @@ function ProjectsTab({ documentId }: { documentId: number }) {
     if (!file) return;
 
     console.log('[Projects CSV] Starting import...');
+    
+    // Confirm overwrite
+    if (projects && projects.length > 0) {
+      if (!confirm(`This will delete all ${projects.length} existing projects and replace them with CSV data. Continue?`)) {
+        e.target.value = ''; // Reset file input
+        return;
+      }
+    }
+
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
       complete: async (results) => {
         console.log('[Projects CSV] Parsed rows:', results.data.length);
+        
+        // Delete all existing projects for this document
+        if (projects && projects.length > 0) {
+          for (const project of projects) {
+            try {
+              await deleteMutation.mutateAsync({ id: project.id });
+            } catch (error) {
+              console.error('[Projects CSV] Failed to delete project:', project.id, error);
+            }
+          }
+        }
+        
+        // Import new projects
         let imported = 0;
         for (const row of results.data as any[]) {
           const project: any = { documentId };
@@ -2144,8 +2237,9 @@ function ProjectsTab({ documentId }: { documentId: number }) {
             console.error('[Projects CSV] Failed to import project:', project, error);
           }
         }
-        toast.success(`Imported ${imported} projects`);
+        toast.success(`Imported ${imported} projects (replaced all existing)`);
         refetch();
+        e.target.value = ''; // Reset file input
       },
       error: (error) => {
         toast.error(`CSV parse error: ${error.message}`);
@@ -2183,6 +2277,10 @@ function ProjectsTab({ documentId }: { documentId: number }) {
           <Button variant="outline" onClick={downloadProjectsTemplate}>
             <Download className="mr-2 h-4 w-4" />
             Download Template
+          </Button>
+          <Button variant="outline" onClick={exportProjectsData}>
+            <Download className="mr-2 h-4 w-4" />
+            Export Data
           </Button>
           <label htmlFor="projects-csv-upload">
             <Button variant="outline" asChild>

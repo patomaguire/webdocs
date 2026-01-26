@@ -944,3 +944,15 @@
 - [x] Add success/error toast messages for CSV import feedback
 - [ ] Test CSV import with downloaded templates in browser
 - [ ] Save checkpoint
+
+## Phase 70: CSV Export/Import Enhancements
+- [x] Add "Export Data" button for Team Members that exports ALL existing records
+- [ ] Add "Export Data" button for Projects that exports ALL existing records - NEXT
+- [x] Update Team Members import to delete all existing records before inserting CSV data
+- [ ] Update Projects import to delete all existing records before inserting CSV data - NEXT
+- [x] Remove photoUrl column from Team Members CSV template
+- [x] Remove photoUrl handling from Team Members import logic
+- [ ] Keep photo upload in Admin UI (separate from CSV)
+- [ ] Test export all data functionality
+- [ ] Test import overwrites existing data
+- [ ] Save checkpoint
