@@ -1688,15 +1688,15 @@ function TeamTab({ documentId }: { documentId: number }) {
     URL.revokeObjectURL(url);
   };
 
-  const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTeamCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     console.log('[Team CSV] Starting import...');
     
     // Confirm overwrite
-    if (teamMembers && teamMembers.length > 0) {
-      if (!confirm(`This will delete all ${teamMembers.length} existing team members and replace them with CSV data. Continue?`)) {
+    if (members && members.length > 0) {
+      if (!confirm(`This will delete all ${members.length} existing team members and replace them with CSV data. Continue?`)) {
         e.target.value = ''; // Reset file input
         return;
       }
@@ -1709,8 +1709,8 @@ function TeamTab({ documentId }: { documentId: number }) {
         console.log('[Team CSV] Parsed rows:', results.data.length);
         
         // Delete all existing team members for this document
-        if (teamMembers && teamMembers.length > 0) {
-          for (const member of teamMembers) {
+        if (members && members.length > 0) {
+          for (const member of members) {
             try {
               await deleteMutation.mutateAsync({ id: member.id });
             } catch (error) {
@@ -1793,7 +1793,7 @@ function TeamTab({ documentId }: { documentId: number }) {
             type="file"
             accept=".csv"
             className="hidden"
-            onChange={handleCSVUpload}
+            onChange={handleTeamCSVUpload}
           />
           <Button onClick={() => setShowForm(!showForm)}>
             <Plus className="mr-2 h-4 w-4" />
@@ -2184,7 +2184,7 @@ function ProjectsTab({ documentId }: { documentId: number }) {
     URL.revokeObjectURL(url);
   };
 
-  const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleProjectsCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -2299,7 +2299,7 @@ function ProjectsTab({ documentId }: { documentId: number }) {
             type="file"
             accept=".csv"
             className="hidden"
-            onChange={handleCSVUpload}
+            onChange={handleProjectsCSVUpload}
           />
           <Button onClick={() => setShowForm(!showForm)}>
             <Plus className="mr-2 h-4 w-4" />

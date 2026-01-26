@@ -962,3 +962,10 @@
 - [x] Fix Projects map rendering after CSV import - coordinates not displaying on map
 - [x] Test both fixes visually
 - [x] Save checkpoint with fixes
+
+## Phase 26: CSV Import Rendering Issues
+- [x] Fix Projects CSV import - items don't render on map or list after successful import
+- [x] Fix Team Members CSV import - button does nothing when clicked
+- [x] Test both imports with real CSV files
+- [x] Verify imported data displays correctly
+- [x] Save checkpoint with fixes
