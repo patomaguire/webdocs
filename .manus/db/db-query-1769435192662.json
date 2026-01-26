@@ -1,0 +1,60 @@
+{
+  "query": "SELECT id, projectName, documentId FROM projects LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, projectName, documentId FROM projects LIMIT 10;",
+  "rows": [
+    {
+      "id": "180001",
+      "projectName": "Update Test Project",
+      "documentId": "60002"
+    },
+    {
+      "id": "180002",
+      "projectName": "Sample Project London",
+      "documentId": "60002"
+    },
+    {
+      "id": "180003",
+      "projectName": "Update Test Project",
+      "documentId": "60002"
+    },
+    {
+      "id": "180004",
+      "projectName": "Test Project",
+      "documentId": "60002"
+    },
+    {
+      "id": "180005",
+      "projectName": "Update Test Project",
+      "documentId": "60002"
+    },
+    {
+      "id": "180006",
+      "projectName": "Test Project",
+      "documentId": "60002"
+    },
+    {
+      "id": "180007",
+      "projectName": "Update Test Project",
+      "documentId": "60002"
+    },
+    {
+      "id": "180008",
+      "projectName": "Test Project",
+      "documentId": "60002"
+    },
+    {
+      "id": "180009",
+      "projectName": "Update Test Project",
+      "documentId": "60002"
+    },
+    {
+      "id": "180010",
+      "projectName": "Test Project",
+      "documentId": "60002"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tprojectName\tdocumentId\n180001\tUpdate Test Project\t60002\n180002\tSample Project London\t60002\n180003\tUpdate Test Project\t60002\n180004\tTest Project\t60002\n180005\tUpdate Test Project\t60002\n180006\tTest Project\t60002\n180007\tUpdate Test Project\t60002\n180008\tTest Project\t60002\n180009\tUpdate Test Project\t60002\n180010\tTest Project\t60002\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

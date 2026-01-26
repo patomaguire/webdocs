@@ -969,3 +969,10 @@
 - [x] Test both imports with real CSV files
 - [x] Verify imported data displays correctly
 - [x] Save checkpoint with fixes
+
+## Phase 27: CSV Import Visual Verification & Fixes
+- [x] Fix Projects import - deletes old data but doesn't render new items on map/list
+- [x] Fix Team Members import - shows wrong "projects" message and doesn't add new data
+- [x] Visually test Projects import end-to-end (delete + insert + render)
+- [x] Visually test Team Members import end-to-end (delete + insert + render)
+- [x] Save checkpoint with verified fixes

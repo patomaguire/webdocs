@@ -1707,6 +1707,7 @@ function TeamTab({ documentId }: { documentId: number }) {
       skipEmptyLines: true,
       complete: async (results) => {
         console.log('[Team CSV] Parsed rows:', results.data.length);
+        console.log('[Team CSV] Using documentId:', documentId);
         
         // Delete all existing team members for this document
         if (members && members.length > 0) {
@@ -1746,9 +1747,9 @@ function TeamTab({ documentId }: { documentId: number }) {
       },
       error: (error) => {
         toast.error(`CSV parse error: ${error.message}`);
+        e.target.value = ''; // Reset on error
       }
     });
-    e.target.value = '';
   };
 
   const resetForm = () => {
@@ -2203,6 +2204,7 @@ function ProjectsTab({ documentId }: { documentId: number }) {
       skipEmptyLines: true,
       complete: async (results) => {
         console.log('[Projects CSV] Parsed rows:', results.data.length);
+        console.log('[Projects CSV] Using documentId:', documentId);
         
         // Delete all existing projects for this document
         if (projects && projects.length > 0) {
@@ -2247,9 +2249,9 @@ function ProjectsTab({ documentId }: { documentId: number }) {
       },
       error: (error) => {
         toast.error(`CSV parse error: ${error.message}`);
+        e.target.value = ''; // Reset on error
       }
     });
-    e.target.value = '';
   };
 
   const resetForm = () => {

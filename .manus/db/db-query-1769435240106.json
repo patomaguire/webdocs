@@ -1,0 +1,21 @@
+{
+  "query": "SELECT documentId, COUNT(*) as count FROM projects GROUP BY documentId; SELECT id FROM documents;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT documentId, COUNT(*) as count FROM projects GROUP BY documentId; SELECT id FROM documents;",
+  "rows": [
+    {
+      "documentId": "30002",
+      "count": "30"
+    },
+    {
+      "documentId": "60002",
+      "count": "30"
+    }
+  ],
+  "messages": [
+    "id",
+    "1"
+  ],
+  "stdout": "documentId\tcount\n30002\t30\n60002\t30\nid\n1\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

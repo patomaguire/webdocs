@@ -1,0 +1,22 @@
+{
+  "query": "SELECT d.id as valid_doc_id, d.name, p.documentId as project_doc_id, COUNT(*) as project_count \nFROM documents d \nLEFT JOIN projects p ON p.documentId != d.id OR p.documentId IS NULL\nGROUP BY d.id, d.name, p.documentId;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT d.id as valid_doc_id, d.name, p.documentId as project_doc_id, COUNT(*) as project_count \nFROM documents d \nLEFT JOIN projects p ON p.documentId != d.id OR p.documentId IS NULL\nGROUP BY d.id, d.name, p.documentId;",
+  "rows": [
+    {
+      "valid_doc_id": "1",
+      "name": "Default Proposal",
+      "project_doc_id": "60002",
+      "project_count": "30"
+    },
+    {
+      "valid_doc_id": "1",
+      "name": "Default Proposal",
+      "project_doc_id": "30002",
+      "project_count": "30"
+    }
+  ],
+  "messages": [],
+  "stdout": "valid_doc_id\tname\tproject_doc_id\tproject_count\n1\tDefault Proposal\t60002\t30\n1\tDefault Proposal\t30002\t30\n",
+  "stderr": "",
+  "execution_time_ms": 48
+}
