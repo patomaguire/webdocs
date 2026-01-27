@@ -1149,3 +1149,13 @@ Testing completed - all changes verified in browser:
 - [x] Project cards display below map sorted by Service
 - [x] All project fields shown except entity
 - [x] Introductory text support added to Admin interface
+
+## Phase 33: Fix Services Filter Parsing
+- [ ] Update services parsing to split by ";" instead of ":"
+- [ ] Update service matching logic to handle semicolon-separated values
+- [ ] Test with multi-service projects
+- [ ] Save checkpoint
+
+- [x] Update services parsing to split by ";" instead of ":"
+- [x] Update service matching logic to handle semicolon-separated values
+- [x] Test with multi-service projects

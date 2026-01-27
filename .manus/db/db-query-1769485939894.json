@@ -1,0 +1,16 @@
+{
+  "query": "SELECT id, slug, name, password FROM documents;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT id, slug, name, password FROM documents;",
+  "rows": [
+    {
+      "id": "1",
+      "slug": "default",
+      "name": "Default Proposal",
+      "password": "Default"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tslug\tname\tpassword\n1\tdefault\tDefault Proposal\tDefault\n",
+  "stderr": "",
+  "execution_time_ms": 348
+}

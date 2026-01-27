@@ -913,12 +913,12 @@ function ExperienceMapSection({
     return uniqueCountries.sort();
   }, [validProjects]);
 
-  // Get unique services for filter (services can be comma-separated)
+  // Get unique services for filter (services are semicolon-separated)
   const services = useMemo(() => {
     const allServices = validProjects
       .map(p => p.services)
       .filter(Boolean)
-      .flatMap(s => s.split(':').map((svc: string) => svc.trim()))
+      .flatMap(s => s.split(';').map((svc: string) => svc.trim()))
       .filter(Boolean);
     const uniqueServices = [...new Set(allServices)];
     return uniqueServices.sort();
@@ -1025,7 +1025,7 @@ function ExperienceMapSection({
       const matchesCountry = countryFilter === 'all' || project.country === countryFilter;
       
       const matchesService = serviceFilter === 'all' || 
-        (project.services && project.services.split(':').map((s: string) => s.trim()).includes(serviceFilter));
+        (project.services && project.services.split(';').map((s: string) => s.trim()).includes(serviceFilter));
 
       return matchesSearch && matchesClient && matchesCountry && matchesService;
     });
