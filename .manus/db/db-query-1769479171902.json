@@ -1,0 +1,20 @@
+{
+  "query": "SELECT * FROM proposal_settings WHERE documentId = 1 LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT * FROM proposal_settings WHERE documentId = 1 LIMIT 1;",
+  "rows": [
+    {
+      "id": "1",
+      "documentId": "1",
+      "settingKey": "password",
+      "settingValue": "default-123",
+      "updatedAt": "2026-01-12 19:30:29",
+      "showMap": "1",
+      "showTeam": "1",
+      "showComments": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tdocumentId\tsettingKey\tsettingValue\tupdatedAt\tshowMap\tshowTeam\tshowComments\n1\t1\tpassword\tdefault-123\t2026-01-12 19:30:29\t1\t1\t1\n",
+  "stderr": "",
+  "execution_time_ms": 354
+}

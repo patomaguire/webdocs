@@ -1082,3 +1082,22 @@
 - [x] Visually verified 76 projects display correctly on Experience Map
 - [x] Verified marker clustering, color-coding, and filters all working
 - [x] Save final checkpoint with working CSV import
+
+## Phase 29: Fix CSV Import - 73 Projects Lost
+- [ ] Analyze CSV file structure (149 rows expected, only 76 imported)
+- [ ] Check for duplicate project names or IDs causing silent failures
+- [ ] Check for missing required fields in CSV rows
+- [ ] Debug CSV parsing logic in Admin.tsx
+- [ ] Add error logging to identify which rows fail to import
+- [ ] Fix import logic to handle all rows correctly
+- [ ] Delete existing projects and re-import CSV
+- [ ] Verify all 149 projects appear on Experience Map
+- [ ] Save checkpoint with fixed import
+
+## Phase 30: Convert CSV to Comma-Delimited Format
+- [x] Convert existing semicolon-delimited CSV to comma-delimited format
+- [x] Handle quoted fields with commas inside (e.g., "Chile, Argentina")
+- [x] Update Admin UI CSV import code to use comma delimiter instead of auto-detect
+- [x] Verified CSV columns match database fields (projectValue, projectYear, etc.)
+- [x] Provided corrected CSV file for manual import by user
+- [x] Save checkpoint with comma-delimited CSV import support
