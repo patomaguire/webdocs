@@ -1159,3 +1159,15 @@ Testing completed - all changes verified in browser:
 - [x] Update services parsing to split by ";" instead of ":"
 - [x] Update service matching logic to handle semicolon-separated values
 - [x] Test with multi-service projects
+- [x] Save checkpoint
+
+## Phase 34: Interactive Map UX Improvements
+- [ ] Make filter headings sticky (Client, Country, Services) with bold font
+- [ ] Fix marker click zoom from street level to country level
+- [ ] Move introductory text above map and cards layout
+- [ ] Test all changes
+- [ ] Save checkpoint
+- [x] Make filter headings sticky (Client, Country, Services) with bold font
+- [x] Fix marker click zoom from street level to country level
+- [x] Move introductory text above map and cards layout (already correctly positioned)
+- [x] Test all changes

@@ -1063,6 +1063,12 @@ function ExperienceMapSection({
       });
 
       marker.bindPopup(createPopupContent(project));
+      
+      // Set zoom to country level (zoom 5) when marker is clicked
+      marker.on('click', () => {
+        mapInstanceRef.current?.setView([lat, lng], 5);
+      });
+      
       markerCluster.addLayer(marker);
     });
 
@@ -1098,7 +1104,7 @@ function ExperienceMapSection({
             overflowY: 'auto',
             maxHeight: '600px'
           }}>
-            <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#333' }}>
+            <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#333', fontWeight: 'bold', position: 'sticky', top: 0, background: 'white', zIndex: 10, paddingTop: '5px', paddingBottom: '5px' }}>
               {language === 'es' ? 'Cliente' : 'Client'}
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -1163,7 +1169,7 @@ function ExperienceMapSection({
               flex: '0 0 auto',
               maxHeight: '290px'
             }}>
-              <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#333' }}>
+              <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#333', fontWeight: 'bold', position: 'sticky', top: 0, background: 'white', zIndex: 10, paddingTop: '5px', paddingBottom: '5px' }}>
                 {language === 'es' ? 'País' : 'Country'}
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -1216,7 +1222,7 @@ function ExperienceMapSection({
               overflowY: 'auto',
               flex: '1 1 auto'
             }}>
-              <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#333' }}>
+              <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#333', fontWeight: 'bold', position: 'sticky', top: 0, background: 'white', zIndex: 10, paddingTop: '5px', paddingBottom: '5px' }}>
                 {language === 'es' ? 'Servicios' : 'Services'}
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
