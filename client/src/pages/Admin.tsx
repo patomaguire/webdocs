@@ -1592,6 +1592,8 @@ function TeamTab({ documentId }: { documentId: number }) {
       refetch();
     },
   });
+  const imageUploadMutation = trpc.imageUpload.uploadImage.useMutation();
+  const utils = trpc.useUtils();
 
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -1893,12 +1895,39 @@ function TeamTab({ documentId }: { documentId: number }) {
             </div>
 
             <div>
-              <Label htmlFor="photoUrl">Photo URL</Label>
-              <Input
-                id="photoUrl"
-                value={formData.photoUrl}
-                onChange={(e) => setFormData({ ...formData, photoUrl: e.target.value })}
-              />
+              <Label htmlFor="photoUrl">Photo</Label>
+              {formData.photoUrl && (
+                <div className="mb-2">
+                  <img src={formData.photoUrl} alt="Preview" className="w-24 h-24 rounded-full object-cover mx-auto" />
+                </div>
+              )}
+              <div className="flex gap-2">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    try {
+                      const result = await imageUploadMutation.mutateAsync(formData);
+                      setFormData(prev => ({ ...prev, photoUrl: result.url }));
+                      toast.success('Image uploaded');
+                    } catch (error) {
+                      toast.error('Upload failed');
+                    }
+                  }}
+                  className="flex-1"
+                />
+                <Input
+                  id="photoUrl"
+                  placeholder="Or paste URL"
+                  value={formData.photoUrl}
+                  onChange={(e) => setFormData({ ...formData, photoUrl: e.target.value })}
+                  className="flex-1"
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -1977,7 +2006,26 @@ function TeamTab({ documentId }: { documentId: number }) {
                   <p className="text-xs text-muted-foreground">{member.yearsExperience} years experience</p>
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className="flex items-center gap-2">
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={member.isVisible !== false}
+                    onChange={(e) => {
+                      updateMutation.mutate(
+                        { id: member.id, isVisible: e.target.checked },
+                        {
+                          onSuccess: () => {
+                            toast.success(e.target.checked ? 'Member visible' : 'Member hidden');
+                            utils.team.getAll.invalidate();
+                          },
+                        }
+                      );
+                    }}
+                    className="w-4 h-4"
+                  />
+                  Visible
+                </label>
                 <Button variant="outline" size="sm" onClick={() => handleEdit(member)}>Edit</Button>
                 <Button variant="destructive" size="sm" onClick={() => handleDelete(member.id)}>
                   <Trash2 className="h-4 w-4" />

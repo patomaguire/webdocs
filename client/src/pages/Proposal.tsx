@@ -737,14 +737,9 @@ function ProposalContent({ documentId }: { documentId: number }) {
                           {member.title && (
                             <p className="text-center text-gray-600 mb-3">{member.title}</p>
                           )}
-                          {member.yearsExperience && (
+                          {member.certifications && (
                             <p className="text-sm text-gray-600 mb-2">
-                              <strong>{language === "en" ? "Experience:" : "Experiencia:"}</strong> {member.yearsExperience} {language === "en" ? "years" : "años"}
-                            </p>
-                          )}
-                          {member.industry && (
-                            <p className="text-sm text-gray-600 mb-2">
-                              <strong>{language === "en" ? "Industry:" : "Industria:"}</strong> {member.industry}
+                              <strong>{language === "en" ? "Certifications:" : "Certificaciones:"}</strong> {member.certifications}
                             </p>
                           )}
                           {member.bio && (
@@ -752,9 +747,14 @@ function ProposalContent({ documentId }: { documentId: number }) {
                               {language === "es" && member.bioEs ? member.bioEs : member.bio}
                             </p>
                           )}
-                          {member.certifications && (
+                          {member.yearsExperience && (
                             <p className="text-sm text-gray-600 mb-2">
-                              <strong>{language === "en" ? "Certifications:" : "Certificaciones:"}</strong> {member.certifications}
+                              <strong>{language === "en" ? "Experience:" : "Experiencia:"}</strong> {member.yearsExperience} {language === "en" ? "years" : "años"}
+                            </p>
+                          )}
+                          {member.industry && (
+                            <p className="text-sm text-gray-600 mb-2">
+                              <strong>{language === "en" ? "Industries:" : "Industrias:"}</strong> {member.industry}
                             </p>
                           )}
                           {member.keySkills && (
@@ -781,7 +781,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
               )}
 
               {/* Other Tabs: Regular Content */}
-              {activeTab !== 8 && activeTab !== 11 && activeTab !== 1200 && (
+              {activeTab !== 8 && activeTab !== 11 && activeTab !== 800 && activeTab !== 1200 && (
                 <div 
                   dangerouslySetInnerHTML={{ 
                     __html: renderContent(tabContent, {

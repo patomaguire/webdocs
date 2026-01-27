@@ -1223,3 +1223,14 @@ Testing completed - all changes verified in browser:
 - [x] Update print section with new fields
 - [ ] Add image picker for photo field in Admin (currently using text input for URL)
 - [x] Photos display as circular in external view
+
+## Phase 38: Teams Page Fixes
+- [ ] Remove duplicate intro text (exclude tab 800 from htmlContent rendering)
+- [ ] Reorder fields: Name → Title → Certifications → Bio → Years Experience → Industries → Skills
+- [ ] Add isVisible toggle on each team member card in Admin
+- [ ] Add image picker with preview in edit mode
+- [ ] Save checkpoint
+- [x] Remove duplicate intro text (exclude tab 800 from htmlContent rendering)
+- [x] Reorder fields: Name → Title → Certifications → Bio → Years Experience → Industries → Skills
+- [x] Add isVisible toggle on each team member card in Admin
+- [x] Add image picker with preview in edit mode
