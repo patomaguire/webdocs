@@ -1199,3 +1199,27 @@ Testing completed - all changes verified in browser:
 - [x] Investigate where duplicate intro text appears (after Back to Top button)
 - [x] Remove duplicate rendering
 - [x] Test to ensure only one intro text appears at top
+- [x] Save checkpoint (version 44b81b0c)
+
+## Phase 37: Teams Page Comprehensive Improvements
+- [ ] Add Industry and Certifications fields to team_members table
+- [ ] Update Title and keySkills to support semicolon-separated values
+- [ ] Add image picker for photo field in Admin cards
+- [ ] Implement edit-in-place for Admin cards (stay in place, all fields visible)
+- [ ] Add isVisible toggle outside edit mode
+- [ ] Implement Excel import/export (no template download)
+- [ ] Update external Teams page with grid layout sorted by sortOrder
+- [ ] Display photos in circular shape
+- [ ] Test all functionality
+- [ ] Save checkpoint
+- [x] Add Industry and Certifications fields to team_members table
+- [x] Update server-side tRPC mutations to accept Industry and Certifications
+- [x] Update CSV export/import to include new fields
+- [x] Remove template download button
+- [x] Add Industry and Certifications UI fields to Admin form
+- [x] Update Key Skills label to indicate semicolon separation
+- [x] Update external Teams page with grid layout sorted by sortOrder
+- [x] Add Industry and Certifications to Teams display
+- [x] Update print section with new fields
+- [ ] Add image picker for photo field in Admin (currently using text input for URL)
+- [x] Photos display as circular in external view

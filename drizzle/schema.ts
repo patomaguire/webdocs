@@ -106,6 +106,8 @@ export const teamMembers = mysqlTable("team_members", {
   photoUrl: text("photoUrl"),
   yearsExperience: int("yearsExperience"),
   keySkills: text("keySkills"),
+  industry: text("industry"),
+  certifications: text("certifications"),
   sortOrder: int("sortOrder").default(0).notNull(),
   isVisible: boolean("isVisible").default(true).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

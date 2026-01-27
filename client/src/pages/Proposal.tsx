@@ -210,7 +210,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
       
       // Add team members for tab 8
       if (tab.tabNumber === 8 && teamMembers) {
-        teamMembers.filter(m => m.isVisible).forEach(member => {
+        teamMembers.filter(m => m.isVisible).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)).forEach(member => {
           const memberDiv = document.createElement('div');
           memberDiv.style.marginTop = '16px';
           memberDiv.style.padding = '12px';
@@ -218,8 +218,10 @@ function ProposalContent({ documentId }: { documentId: number }) {
           memberDiv.innerHTML = `
             <h3 style="font-size: 14pt; margin-bottom: 8px;">${member.name}</h3>
             ${member.title ? `<p style="color: #666; margin-bottom: 8px;">${member.title}</p>` : ''}
+            ${member.yearsExperience ? `<p style="font-size: 10pt; margin-bottom: 4px;"><strong>${language === "en" ? "Experience:" : "Experiencia:"}</strong> ${member.yearsExperience} ${language === "en" ? "years" : "años"}</p>` : ''}
+            ${member.industry ? `<p style="font-size: 10pt; margin-bottom: 4px;"><strong>${language === "en" ? "Industry:" : "Industria:"}</strong> ${member.industry}</p>` : ''}
             ${member.bio ? `<p style="font-size: 10pt; margin-bottom: 8px;">${language === "es" && member.bioEs ? member.bioEs : member.bio}</p>` : ''}
-            ${member.yearsExperience ? `<p style="font-size: 10pt;"><strong>${language === "en" ? "Experience:" : "Experiencia:"}</strong> ${member.yearsExperience} ${language === "en" ? "years" : "años"}</p>` : ''}
+            ${member.certifications ? `<p style="font-size: 10pt; margin-bottom: 4px;"><strong>${language === "en" ? "Certifications:" : "Certificaciones:"}</strong> ${member.certifications}</p>` : ''}
             ${member.keySkills ? `<p style="font-size: 10pt;"><strong>${language === "en" ? "Skills:" : "Habilidades:"}</strong> ${member.keySkills}</p>` : ''}
           `;
           tabSection.appendChild(memberDiv);
@@ -720,7 +722,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
                     style={{ '--contrast-color': contrastColor, '--secondary-color': secondaryColor, '--tw-prose-headings': primaryColor } as React.CSSProperties}
                   />
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {teamMembers?.filter(m => m.isVisible).map((member) => (
+                    {teamMembers?.filter(m => m.isVisible).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)).map((member) => (
                       <Card key={member.id}>
                         <CardContent className="pt-6">
                           {member.photoUrl && (
@@ -735,14 +737,24 @@ function ProposalContent({ documentId }: { documentId: number }) {
                           {member.title && (
                             <p className="text-center text-gray-600 mb-3">{member.title}</p>
                           )}
+                          {member.yearsExperience && (
+                            <p className="text-sm text-gray-600 mb-2">
+                              <strong>{language === "en" ? "Experience:" : "Experiencia:"}</strong> {member.yearsExperience} {language === "en" ? "years" : "años"}
+                            </p>
+                          )}
+                          {member.industry && (
+                            <p className="text-sm text-gray-600 mb-2">
+                              <strong>{language === "en" ? "Industry:" : "Industria:"}</strong> {member.industry}
+                            </p>
+                          )}
                           {member.bio && (
                             <p className="text-sm text-gray-700 mb-3">
                               {language === "es" && member.bioEs ? member.bioEs : member.bio}
                             </p>
                           )}
-                          {member.yearsExperience && (
+                          {member.certifications && (
                             <p className="text-sm text-gray-600 mb-2">
-                              <strong>{language === "en" ? "Experience:" : "Experiencia:"}</strong> {member.yearsExperience} {language === "en" ? "years" : "años"}
+                              <strong>{language === "en" ? "Certifications:" : "Certificaciones:"}</strong> {member.certifications}
                             </p>
                           )}
                           {member.keySkills && (

@@ -1603,6 +1603,8 @@ function TeamTab({ documentId }: { documentId: number }) {
     photoUrl: "",
     yearsExperience: 0,
     keySkills: "",
+    industry: "",
+    certifications: "",
     sortOrder: 0,
   });
   
@@ -1664,6 +1666,8 @@ function TeamTab({ documentId }: { documentId: number }) {
       photoUrl: member.photoUrl || "",
       yearsExperience: member.yearsExperience || 0,
       keySkills: member.keySkills || "",
+      industry: member.industry || "",
+      certifications: member.certifications || "",
       sortOrder: member.sortOrder || 0,
     });
     setShowForm(true);
@@ -1689,9 +1693,9 @@ function TeamTab({ documentId }: { documentId: number }) {
       return;
     }
     const csvContent = [
-      'name,title,bio,yearsExperience,keySkills,isVisible',
+      'name,title,bio,yearsExperience,keySkills,industry,certifications,sortOrder,isVisible',
       ...members.map(member => 
-        `"${member.name}","${member.title || ''}","${member.bio || ''}",${member.yearsExperience || 0},"${member.keySkills || ''}",${member.isVisible !== false}`
+        `"${member.name}","${member.title || ''}","${member.bio || ''}",${member.yearsExperience || 0},"${member.keySkills || ''}","${member.industry || ''}","${member.certifications || ''}",${member.sortOrder || 0},${member.isVisible !== false}`
       )
     ].join('\n');
     
@@ -1707,16 +1711,7 @@ function TeamTab({ documentId }: { documentId: number }) {
     toast.success(`Exported ${members.length} team members`);
   };
 
-  const downloadTeamTemplate = () => {
-    const csv = 'name,title,bio,yearsExperience,keySkills,isVisible\n"John Doe","Senior Engineer","Expert in systems",10,"Python,AWS",true';
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'team_members_template.csv';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+
 
   const handleTeamCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -1761,6 +1756,8 @@ function TeamTab({ documentId }: { documentId: number }) {
           // photoUrl removed - handle separately via Admin UI
           if (row.yearsExperience) member.yearsExperience = parseInt(row.yearsExperience) || 0;
           if (row.keySkills) member.keySkills = row.keySkills;
+          if (row.industry) member.industry = row.industry;
+          if (row.certifications) member.certifications = row.certifications;
           if (row.sortOrder) member.sortOrder = parseInt(row.sortOrder) || 0;
           // Default isVisible to true if not specified in CSV
           member.isVisible = row.isVisible !== undefined ? 
@@ -1795,6 +1792,8 @@ function TeamTab({ documentId }: { documentId: number }) {
       photoUrl: "",
       yearsExperience: 0,
       keySkills: "",
+      industry: "",
+      certifications: "",
       sortOrder: 0,
     });
     setShowForm(false);
@@ -1807,10 +1806,7 @@ function TeamTab({ documentId }: { documentId: number }) {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Team Members</h2>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={downloadTeamTemplate}>
-            <Download className="mr-2 h-4 w-4" />
-            Download Template
-          </Button>
+
           <Button variant="outline" onClick={exportTeamData}>
             <Download className="mr-2 h-4 w-4" />
             Export Data
@@ -1927,11 +1923,32 @@ function TeamTab({ documentId }: { documentId: number }) {
             </div>
 
             <div>
-              <Label htmlFor="keySkills">Key Skills (comma separated)</Label>
+              <Label htmlFor="keySkills">Key Skills (semicolon separated)</Label>
               <Input
                 id="keySkills"
                 value={formData.keySkills}
                 onChange={(e) => setFormData({ ...formData, keySkills: e.target.value })}
+                placeholder="Python; AWS; Docker"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="industry">Industry (semicolon separated)</Label>
+              <Input
+                id="industry"
+                value={formData.industry}
+                onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
+                placeholder="Mining; Construction"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="certifications">Certifications (semicolon separated)</Label>
+              <Input
+                id="certifications"
+                value={formData.certifications}
+                onChange={(e) => setFormData({ ...formData, certifications: e.target.value })}
+                placeholder="PMP; AWS Certified"
               />
             </div>
 

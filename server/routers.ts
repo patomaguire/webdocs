@@ -147,6 +147,8 @@ export const appRouter = router({
         photoUrl: z.string().optional(),
         yearsExperience: z.number().optional(),
         keySkills: z.string().optional(),
+        industry: z.string().optional(),
+        certifications: z.string().optional(),
         sortOrder: z.number().optional(),
         isVisible: z.boolean().optional(),
       }))
@@ -163,6 +165,8 @@ export const appRouter = router({
         photoUrl: z.string().optional(),
         yearsExperience: z.number().optional(),
         keySkills: z.string().optional(),
+        industry: z.string().optional(),
+        certifications: z.string().optional(),
         sortOrder: z.number().optional(),
         isVisible: z.boolean().optional(),
       }))
