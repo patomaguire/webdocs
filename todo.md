@@ -1234,3 +1234,12 @@ Testing completed - all changes verified in browser:
 - [x] Reorder fields: Name → Title → Certifications → Bio → Years Experience → Industries → Skills
 - [x] Add isVisible toggle on each team member card in Admin
 - [x] Add image picker with preview in edit mode
+
+## Phase 39: Fix Image Picker Upload Error
+- [ ] Investigate image upload mutation error
+- [ ] Fix image upload implementation
+- [ ] Test image upload functionality
+- [ ] Save checkpoint
+- [x] Investigate image upload mutation error - expects base64 data, not FormData
+- [x] Fix image upload implementation - convert file to base64 using FileReader
+- [x] Test image upload functionality - SUCCESS (circular preview appears, S3 URL populated)

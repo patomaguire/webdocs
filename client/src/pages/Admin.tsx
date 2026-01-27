@@ -1908,15 +1908,25 @@ function TeamTab({ documentId }: { documentId: number }) {
                   onChange={async (e) => {
                     const file = e.target.files?.[0];
                     if (!file) return;
-                    const formData = new FormData();
-                    formData.append('file', file);
-                    try {
-                      const result = await imageUploadMutation.mutateAsync(formData);
-                      setFormData(prev => ({ ...prev, photoUrl: result.url }));
-                      toast.success('Image uploaded');
-                    } catch (error) {
-                      toast.error('Upload failed');
-                    }
+                    
+                    // Convert file to base64
+                    const reader = new FileReader();
+                    reader.onload = async () => {
+                      try {
+                        const result = await imageUploadMutation.mutateAsync({
+                          fileData: reader.result as string,
+                          fileName: file.name,
+                          contentType: file.type,
+                          folder: 'team-photos',
+                        });
+                        setFormData(prev => ({ ...prev, photoUrl: result.url }));
+                        toast.success('Image uploaded');
+                      } catch (error) {
+                        toast.error('Upload failed');
+                        console.error('Upload error:', error);
+                      }
+                    };
+                    reader.readAsDataURL(file);
                   }}
                   className="flex-1"
                 />
