@@ -769,7 +769,7 @@ function ProposalContent({ documentId }: { documentId: number }) {
               )}
 
               {/* Other Tabs: Regular Content */}
-              {activeTab !== 8 && activeTab !== 11 && (
+              {activeTab !== 8 && activeTab !== 11 && activeTab !== 1200 && (
                 <div 
                   dangerouslySetInnerHTML={{ 
                     __html: renderContent(tabContent, {

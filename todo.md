@@ -1189,3 +1189,13 @@ Testing completed - all changes verified in browser:
 - [x] Verified intro text displays correctly above map
 - [x] Removed debug messages and styling
 - [x] Cleaned up server-side logging
+- [x] Checkpoint saved (version f3099ead)
+
+## Phase 36: Remove Duplicate Introductory Text
+- [ ] Investigate where duplicate intro text appears (after Back to Top button)
+- [ ] Remove duplicate rendering
+- [ ] Test to ensure only one intro text appears at top
+- [ ] Save checkpoint
+- [x] Investigate where duplicate intro text appears (after Back to Top button)
+- [x] Remove duplicate rendering
+- [x] Test to ensure only one intro text appears at top
