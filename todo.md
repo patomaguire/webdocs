@@ -1127,3 +1127,25 @@
 - [x] Add import validation dialog with error warnings and success summary
 - [x] Test all changes in Admin Console - all improvements working correctly
 - [x] Save checkpoint with improved Admin UX
+
+## Phase 32: Interactive Map Redesign
+- [x] Add introText and introTextEs fields to tabs_content table schema
+- [x] Push database schema changes
+- [x] Update Admin interface to add introText editor fields for each tab
+- [x] Redesign ExperienceMapSection component:
+  - [x] Remove entity filter and display from public view
+  - [x] Reorganize filters: Client (left), Country & Services (right)
+  - [x] Add project cards below map sorted by Service
+  - [x] Display all project fields except entity in cards
+  - [x] Add introductory text support from tab settings
+- [ ] Test all changes in browser
+- [ ] Save checkpoint
+
+Testing completed - all changes verified in browser:
+- [x] Entity filter removed from public display (used internally for markers)
+- [x] Client filter displays on left side of map
+- [x] Country and Services filters display on right side of map
+- [x] All filters use clickable button blocks
+- [x] Project cards display below map sorted by Service
+- [x] All project fields shown except entity
+- [x] Introductory text support added to Admin interface

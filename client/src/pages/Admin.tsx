@@ -924,6 +924,7 @@ function TabsContentTab({ documentId }: { documentId: number }) {
     },
   });
   const imageUploadMutation = trpc.imageUpload.uploadImage.useMutation();
+  const notionPageImportMutation = trpc.notion.importPage.useMutation();
   const deleteMutation = trpc.tabs.delete.useMutation({
     onSuccess: () => {
       toast.success("Tab deleted!");
@@ -934,15 +935,20 @@ function TabsContentTab({ documentId }: { documentId: number }) {
 
 
   const [selectedTab, setSelectedTab] = useState<number | null>(null);
-
+  const [notionMarkdownInput, setNotionMarkdownInput] = useState("");
+  const [notionPageUrl, setNotionPageUrl] = useState("");
 
   const [formData, setFormData] = useState({
     tabTitle: "",
     htmlContent: "",
+    introText: "",
+    introTextEs: "",
     isVisible: true,
     backgroundType: "color" as "color" | "gradient" | "image",
     backgroundValue: "#FFFFFF",
-
+    notionDatabaseUrl: "",
+    notionDatabaseUrl2: "",
+    notionDatabaseUrl3: "",
   });
 
   // Sync textarea and preview heights
@@ -983,6 +989,8 @@ function TabsContentTab({ documentId }: { documentId: number }) {
       setFormData({
         tabTitle: tab.tabTitle || "",
         htmlContent: tab.htmlContent || "",
+        introText: tab.introText || "",
+        introTextEs: tab.introTextEs || "",
         isVisible: tab.isVisible ?? true,
         backgroundType: (tab.backgroundType as "color" | "gradient" | "image") || "color",
         backgroundValue: tab.backgroundValue || "#FFFFFF",
@@ -1098,6 +1106,8 @@ function TabsContentTab({ documentId }: { documentId: number }) {
               tabNumber: nextTabNumber,
               tabTitle: `New Tab ${nextTabNumber}`,
               htmlContent: "",
+              introText: "",
+              introTextEs: "",
               isVisible: true,
               backgroundType: "color",
               backgroundValue: "#FFFFFF",
@@ -1173,6 +1183,28 @@ function TabsContentTab({ documentId }: { documentId: number }) {
                   id="tabTitle"
                   value={formData.tabTitle}
                   onChange={(e) => setFormData({ ...formData, tabTitle: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="introText">Introductory Text (English)</Label>
+                <Textarea
+                  id="introText"
+                  value={formData.introText}
+                  onChange={(e) => setFormData({ ...formData, introText: e.target.value })}
+                  placeholder="Optional introductory text that appears before the main content (e.g., map introduction)"
+                  className="min-h-[80px]"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="introTextEs">Introductory Text (Spanish)</Label>
+                <Textarea
+                  id="introTextEs"
+                  value={formData.introTextEs}
+                  onChange={(e) => setFormData({ ...formData, introTextEs: e.target.value })}
+                  placeholder="Texto introductorio opcional (traducción al español)"
+                  className="min-h-[80px]"
                 />
               </div>
 

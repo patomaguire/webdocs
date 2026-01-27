@@ -760,6 +760,8 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   projects={projects || []} 
                   primaryColor={primaryColor}
                   language={language}
+                  introText={currentTab?.introText}
+                  introTextEs={currentTab?.introTextEs}
                 />
               )}
 
@@ -872,18 +874,23 @@ function ProposalContent({ documentId }: { documentId: number }) {
 function ExperienceMapSection({ 
   projects, 
   primaryColor, 
-  language 
+  language,
+  introText,
+  introTextEs
 }: { 
   projects: any[]; 
   primaryColor: string; 
   language: "en" | "es";
+  introText?: string;
+  introTextEs?: string;
 }) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
   const markerClusterRef = useRef<any>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [entityFilter, setEntityFilter] = useState("all");
+  const [clientFilter, setClientFilter] = useState("all");
   const [countryFilter, setCountryFilter] = useState("all");
+  const [serviceFilter, setServiceFilter] = useState("all");
   const [visibleCount, setVisibleCount] = useState(0);
 
   // Filter visible projects with coordinates
@@ -894,19 +901,30 @@ function ExperienceMapSection({
     p.longitude
   );
 
+  // Get unique clients for filter
+  const clients = useMemo(() => {
+    const uniqueClients = [...new Set(validProjects.map(p => p.client).filter(Boolean))];
+    return uniqueClients.sort();
+  }, [validProjects]);
+
   // Get unique countries for filter
   const countries = useMemo(() => {
     const uniqueCountries = [...new Set(validProjects.map(p => p.country).filter(Boolean))];
     return uniqueCountries.sort();
   }, [validProjects]);
 
-  // Get unique entities
-  const entities = useMemo(() => {
-    const uniqueEntities = [...new Set(validProjects.map(p => p.entity).filter(Boolean))];
-    return uniqueEntities.sort();
+  // Get unique services for filter (services can be comma-separated)
+  const services = useMemo(() => {
+    const allServices = validProjects
+      .map(p => p.services)
+      .filter(Boolean)
+      .flatMap(s => s.split(':').map((svc: string) => svc.trim()))
+      .filter(Boolean);
+    const uniqueServices = [...new Set(allServices)];
+    return uniqueServices.sort();
   }, [validProjects]);
 
-  // Entity colors
+  // Entity colors (used internally for markers, not displayed)
   const ENTITY_COLORS: Record<string, string> = {
     'IPP': '#4285F4',
     'Axton': '#EA4335',
@@ -980,7 +998,7 @@ function ExperienceMapSection({
     });
   };
 
-  // Create popup content
+  // Create popup content (no entity display)
   const createPopupContent = (project: any) => {
     return `
       <div style="font-family: sans-serif;">
@@ -988,12 +1006,39 @@ function ExperienceMapSection({
         <div style="margin: 4px 0; font-size: 13px;"><strong>Client:</strong> ${project.client || 'N/A'}</div>
         <div style="margin: 4px 0; font-size: 13px;"><strong>Location:</strong> ${project.location || 'N/A'}</div>
         <div style="margin: 4px 0; font-size: 13px;"><strong>Country:</strong> ${project.country || 'N/A'}</div>
-        <div style="margin: 4px 0; font-size: 13px;"><strong>Entity:</strong> ${project.entity || 'N/A'}</div>
         ${project.projectYear ? `<div style="margin: 4px 0; font-size: 13px;"><strong>Year:</strong> ${project.projectYear}</div>` : ''}
+        ${project.projectValue ? `<div style="margin: 4px 0; font-size: 13px;"><strong>Value:</strong> ${project.projectValue}</div>` : ''}
         ${project.services ? `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee; font-size: 12px;"><strong>Services:</strong> ${project.services}</div>` : ''}
       </div>
     `;
   };
+
+  // Filter projects
+  const filteredProjects = useMemo(() => {
+    return validProjects.filter(project => {
+      const matchesSearch = !searchTerm || 
+        project.projectName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        project.client?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        project.services?.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesClient = clientFilter === 'all' || project.client === clientFilter;
+      const matchesCountry = countryFilter === 'all' || project.country === countryFilter;
+      
+      const matchesService = serviceFilter === 'all' || 
+        (project.services && project.services.split(':').map((s: string) => s.trim()).includes(serviceFilter));
+
+      return matchesSearch && matchesClient && matchesCountry && matchesService;
+    });
+  }, [validProjects, searchTerm, clientFilter, countryFilter, serviceFilter]);
+
+  // Sort filtered projects by Service
+  const sortedProjects = useMemo(() => {
+    return [...filteredProjects].sort((a, b) => {
+      const serviceA = a.services || '';
+      const serviceB = b.services || '';
+      return serviceA.localeCompare(serviceB);
+    });
+  }, [filteredProjects]);
 
   // Update markers based on filters
   useEffect(() => {
@@ -1006,20 +1051,7 @@ function ExperienceMapSection({
     // Clear existing markers
     markerCluster.clearLayers();
 
-    // Filter projects
-    const filteredProjects = validProjects.filter(project => {
-      const matchesSearch = !searchTerm || 
-        project.projectName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        project.client?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        project.services?.toLowerCase().includes(searchTerm.toLowerCase());
-
-      const matchesEntity = entityFilter === 'all' || project.entity === entityFilter;
-      const matchesCountry = countryFilter === 'all' || project.country === countryFilter;
-
-      return matchesSearch && matchesEntity && matchesCountry;
-    });
-
-    // Add markers
+    // Add markers for filtered projects
     filteredProjects.forEach(project => {
       const lat = parseFloat(project.latitude);
       const lng = parseFloat(project.longitude);
@@ -1040,158 +1072,256 @@ function ExperienceMapSection({
     if (filteredProjects.length > 0 && markerCluster.getBounds().isValid()) {
       mapInstanceRef.current.fitBounds(markerCluster.getBounds().pad(0.1));
     }
-  }, [validProjects, searchTerm, entityFilter, countryFilter]);
+  }, [filteredProjects]);
 
   return (
     <div style={{ width: '100%' }}>
-      {/* Map Container */}
-      <div style={{ position: 'relative', width: '100%', height: '600px', marginBottom: '2rem' }}>
-        <div ref={mapRef} style={{ width: '100%', height: '100%', borderRadius: '8px', overflow: 'hidden' }} />
-        
-        {/* Controls Panel */}
-        <div style={{
-          position: 'absolute',
-          top: '10px',
-          left: '10px',
-          background: 'white',
-          padding: '15px',
-          borderRadius: '8px',
-          boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
-          zIndex: 1000,
-          maxWidth: '280px'
-        }}>
-          <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#333' }}>
-            {language === 'es' ? 'Filtros de Proyectos' : 'Project Filters'}
-          </h3>
-          
-          {/* Search */}
-          <div style={{ marginBottom: '12px' }}>
-            <label style={{ display: 'block', marginBottom: '5px', fontSize: '13px', color: '#666', fontWeight: 500 }}>
-              {language === 'es' ? 'Buscar Proyectos' : 'Search Projects'}
-            </label>
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder={language === 'es' ? 'Buscar por nombre, cliente...' : 'Search by name, client...'}
-              style={{
-                width: '100%',
-                padding: '8px',
-                border: '1px solid #ddd',
-                borderRadius: '4px',
-                fontSize: '13px'
-              }}
-            />
-          </div>
-          
-          {/* Entity Filter */}
-          {entities.length > 0 && (
-            <div style={{ marginBottom: '12px' }}>
-              <label style={{ display: 'block', marginBottom: '5px', fontSize: '13px', color: '#666', fontWeight: 500 }}>
-                {language === 'es' ? 'Entidad' : 'Entity'}
-              </label>
-              <select
-                value={entityFilter}
-                onChange={(e) => setEntityFilter(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '8px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '13px'
-                }}
-              >
-                <option value="all">{language === 'es' ? 'Todas las Entidades' : 'All Entities'}</option>
-                {entities.map(entity => (
-                  <option key={entity} value={entity}>{entity}</option>
-                ))}
-              </select>
-            </div>
-          )}
-          
-          {/* Country Filter */}
-          {countries.length > 0 && (
-            <div style={{ marginBottom: '12px' }}>
-              <label style={{ display: 'block', marginBottom: '5px', fontSize: '13px', color: '#666', fontWeight: 500 }}>
-                {language === 'es' ? 'País' : 'Country'}
-              </label>
-              <select
-                value={countryFilter}
-                onChange={(e) => setCountryFilter(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '8px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '13px'
-                }}
-              >
-                <option value="all">{language === 'es' ? 'Todos los Países' : 'All Countries'}</option>
-                {countries.map(country => (
-                  <option key={country} value={country}>{country}</option>
-                ))}
-              </select>
-            </div>
-          )}
-          
-          {/* Stats */}
-          <div style={{
-            fontSize: '12px',
-            color: '#888',
-            paddingTop: '10px',
-            borderTop: '1px solid #eee'
-          }}>
-            {language === 'es' 
-              ? `Mostrando ${visibleCount} de ${validProjects.length} proyectos`
-              : `Showing ${visibleCount} of ${validProjects.length} projects`
-            }
-          </div>
+      {/* Introductory Text */}
+      {(introText || introTextEs) && (
+        <div style={{ marginBottom: '2rem', padding: '1.5rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <p style={{ margin: 0, fontSize: '1rem', color: '#333', lineHeight: '1.6' }}>
+            {language === 'es' ? (introTextEs || introText) : (introText || introTextEs)}
+          </p>
         </div>
+      )}
 
-        {/* Legend */}
-        {entities.length > 0 && (
+      {/* Map Container with Side Filters */}
+      <div style={{ position: 'relative', width: '100%', height: '600px', marginBottom: '2rem', display: 'flex', gap: '10px' }}>
+        {/* Left Filter: Client */}
+        {clients.length > 0 && (
           <div style={{
-            position: 'absolute',
-            bottom: '30px',
-            left: '10px',
+            width: '200px',
             background: 'white',
-            padding: '12px',
+            padding: '15px',
             borderRadius: '8px',
             boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
-            zIndex: 1000
+            overflowY: 'auto',
+            maxHeight: '600px'
           }}>
-            <h4 style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#333' }}>
-              {language === 'es' ? 'Leyenda de Entidades' : 'Entity Legend'}
-            </h4>
-            {entities.map(entity => (
-              <div key={entity} style={{ display: 'flex', alignItems: 'center', margin: '5px 0', fontSize: '12px' }}>
-                <div style={{
-                  width: '12px',
-                  height: '12px',
-                  borderRadius: '50%',
-                  backgroundColor: ENTITY_COLORS[entity] || ENTITY_COLORS.default,
-                  marginRight: '8px',
-                  border: '2px solid white',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.3)'
-                }} />
-                <span>{entity}</span>
-              </div>
-            ))}
+            <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#333' }}>
+              {language === 'es' ? 'Cliente' : 'Client'}
+            </h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <button
+                onClick={() => setClientFilter('all')}
+                style={{
+                  padding: '8px 12px',
+                  border: clientFilter === 'all' ? `2px solid ${primaryColor}` : '1px solid #ddd',
+                  borderRadius: '6px',
+                  background: clientFilter === 'all' ? `${primaryColor}15` : 'white',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  textAlign: 'left',
+                  fontWeight: clientFilter === 'all' ? '600' : '400',
+                  color: clientFilter === 'all' ? primaryColor : '#333'
+                }}
+              >
+                {language === 'es' ? 'Todos' : 'All'}
+              </button>
+              {clients.map(client => (
+                <button
+                  key={client}
+                  onClick={() => setClientFilter(client)}
+                  style={{
+                    padding: '8px 12px',
+                    border: clientFilter === client ? `2px solid ${primaryColor}` : '1px solid #ddd',
+                    borderRadius: '6px',
+                    background: clientFilter === client ? `${primaryColor}15` : 'white',
+                    cursor: 'pointer',
+                    fontSize: '13px',
+                    textAlign: 'left',
+                    fontWeight: clientFilter === client ? '600' : '400',
+                    color: clientFilter === client ? primaryColor : '#333'
+                  }}
+                >
+                  {client}
+                </button>
+              ))}
+            </div>
           </div>
         )}
+
+        {/* Map */}
+        <div ref={mapRef} style={{ flex: 1, borderRadius: '8px', overflow: 'hidden' }} />
+
+        {/* Right Filters: Country and Services */}
+        <div style={{
+          width: '200px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          maxHeight: '600px'
+        }}>
+          {/* Country Filter */}
+          {countries.length > 0 && (
+            <div style={{
+              background: 'white',
+              padding: '15px',
+              borderRadius: '8px',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
+              overflowY: 'auto',
+              flex: '0 0 auto',
+              maxHeight: '290px'
+            }}>
+              <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#333' }}>
+                {language === 'es' ? 'País' : 'Country'}
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <button
+                  onClick={() => setCountryFilter('all')}
+                  style={{
+                    padding: '8px 12px',
+                    border: countryFilter === 'all' ? `2px solid ${primaryColor}` : '1px solid #ddd',
+                    borderRadius: '6px',
+                    background: countryFilter === 'all' ? `${primaryColor}15` : 'white',
+                    cursor: 'pointer',
+                    fontSize: '13px',
+                    textAlign: 'left',
+                    fontWeight: countryFilter === 'all' ? '600' : '400',
+                    color: countryFilter === 'all' ? primaryColor : '#333'
+                  }}
+                >
+                  {language === 'es' ? 'Todos' : 'All'}
+                </button>
+                {countries.map(country => (
+                  <button
+                    key={country}
+                    onClick={() => setCountryFilter(country)}
+                    style={{
+                      padding: '8px 12px',
+                      border: countryFilter === country ? `2px solid ${primaryColor}` : '1px solid #ddd',
+                      borderRadius: '6px',
+                      background: countryFilter === country ? `${primaryColor}15` : 'white',
+                      cursor: 'pointer',
+                      fontSize: '13px',
+                      textAlign: 'left',
+                      fontWeight: countryFilter === country ? '600' : '400',
+                      color: countryFilter === country ? primaryColor : '#333'
+                    }}
+                  >
+                    {country}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Services Filter */}
+          {services.length > 0 && (
+            <div style={{
+              background: 'white',
+              padding: '15px',
+              borderRadius: '8px',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
+              overflowY: 'auto',
+              flex: '1 1 auto'
+            }}>
+              <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#333' }}>
+                {language === 'es' ? 'Servicios' : 'Services'}
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <button
+                  onClick={() => setServiceFilter('all')}
+                  style={{
+                    padding: '8px 12px',
+                    border: serviceFilter === 'all' ? `2px solid ${primaryColor}` : '1px solid #ddd',
+                    borderRadius: '6px',
+                    background: serviceFilter === 'all' ? `${primaryColor}15` : 'white',
+                    cursor: 'pointer',
+                    fontSize: '13px',
+                    textAlign: 'left',
+                    fontWeight: serviceFilter === 'all' ? '600' : '400',
+                    color: serviceFilter === 'all' ? primaryColor : '#333'
+                  }}
+                >
+                  {language === 'es' ? 'Todos' : 'All'}
+                </button>
+                {services.map(service => (
+                  <button
+                    key={service}
+                    onClick={() => setServiceFilter(service)}
+                    style={{
+                      padding: '8px 12px',
+                      border: serviceFilter === service ? `2px solid ${primaryColor}` : '1px solid #ddd',
+                      borderRadius: '6px',
+                      background: serviceFilter === service ? `${primaryColor}15` : 'white',
+                      cursor: 'pointer',
+                      fontSize: '13px',
+                      textAlign: 'left',
+                      fontWeight: serviceFilter === service ? '600' : '400',
+                      color: serviceFilter === service ? primaryColor : '#333'
+                    }}
+                  >
+                    {service}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Description */}
-      <div style={{ marginTop: '2rem', padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-        <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.25rem', color: primaryColor }}>
-          {language === 'es' ? 'Nuestra Experiencia' : 'Our Experience'}
+      {/* Project Cards - Sorted by Service */}
+      <div style={{ marginTop: '2rem' }}>
+        <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.5rem', color: primaryColor }}>
+          {language === 'es' ? `Proyectos (${visibleCount})` : `Projects (${visibleCount})`}
         </h3>
-        <p style={{ margin: 0, fontSize: '0.95rem', color: '#666' }}>
-          {language === 'es' 
-            ? 'Explore nuestro portafolio de proyectos exitosos en diversas industrias y sectores. Utilice los filtros para ver proyectos por entidad o tipo de servicio.'
-            : 'Explore our portfolio of successful projects across various industries and sectors. Use the filters to view projects by entity or service type.'
-          }
-        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+          {sortedProjects.map((project, index) => (
+            <div key={index} style={{
+              background: 'white',
+              border: '1px solid #e0e0e0',
+              borderRadius: '8px',
+              padding: '1.5rem',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+              transition: 'transform 0.2s, box-shadow 0.2s'
+            }}>
+              <h4 style={{ margin: '0 0 0.75rem 0', fontSize: '1.1rem', color: primaryColor }}>
+                {project.projectName}
+              </h4>
+              <div style={{ fontSize: '0.9rem', color: '#555', lineHeight: '1.6' }}>
+                {project.client && (
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <strong>{language === 'es' ? 'Cliente:' : 'Client:'}</strong> {project.client}
+                  </div>
+                )}
+                {project.location && (
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <strong>{language === 'es' ? 'Ubicación:' : 'Location:'}</strong> {project.location}
+                  </div>
+                )}
+                {project.country && (
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <strong>{language === 'es' ? 'País:' : 'Country:'}</strong> {project.country}
+                  </div>
+                )}
+                {project.projectYear && (
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <strong>{language === 'es' ? 'Año:' : 'Year:'}</strong> {project.projectYear}
+                  </div>
+                )}
+                {project.projectValue && (
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <strong>{language === 'es' ? 'Valor:' : 'Value:'}</strong> {project.projectValue}
+                  </div>
+                )}
+                {project.services && (
+                  <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid #e0e0e0' }}>
+                    <strong>{language === 'es' ? 'Servicios:' : 'Services:'}</strong>
+                    <div style={{ marginTop: '0.25rem', fontSize: '0.85rem', color: '#666' }}>
+                      {project.services}
+                    </div>
+                  </div>
+                )}
+                {project.description && (
+                  <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid #e0e0e0', fontSize: '0.85rem', color: '#666' }}>
+                    {project.description}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

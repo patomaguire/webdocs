@@ -77,6 +77,8 @@ export const tabsContent = mysqlTable("tabs_content", {
   tabTitle: varchar("tabTitle", { length: 255 }).notNull(),
   htmlContent: text("htmlContent"),
   htmlContentEs: text("htmlContentEs"), // Spanish translation
+  introText: text("introText"), // Introductory text for the tab (e.g., map introduction)
+  introTextEs: text("introTextEs"), // Spanish translation of intro text
   backgroundType: mysqlEnum("backgroundType", ["color", "gradient", "image"]).default("color"),
   backgroundValue: text("backgroundValue"), // Hex color or image URL
   notionDatabaseUrl: text("notionDatabaseUrl"), // Notion database URL for chart generation
