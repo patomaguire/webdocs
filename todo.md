@@ -1055,3 +1055,11 @@
 - [x] Verify marker clustering works correctly
 - [x] Remove debug logging and clean up code
 - [x] Save final checkpoint with working Leaflet map
+
+## Phase 27: Fix CSV Import to Preserve isVisible Values
+- [x] Find CSV import code for projects in Admin interface
+- [x] Analyze why isVisible defaults to false instead of preserving CSV value
+- [x] Fix Notion import logic to properly parse and preserve isVisible
+- [x] Verify CSV import already has correct logic (defaults to true if missing)
+- [x] Both import methods now preserve isVisible values correctly
+- [x] Save checkpoint with fixed import behavior

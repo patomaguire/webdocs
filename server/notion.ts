@@ -205,6 +205,7 @@ export function parseNotionProjects(notionData: any): Array<{
   projectYear?: string;
   services?: string;
   description?: string;
+  isVisible?: boolean;
   sortOrder?: number;
 }> {
   const projects: any[] = [];
@@ -232,6 +233,10 @@ export function parseNotionProjects(notionData: any): Array<{
           const projectName = findPropertyValue(properties, 'projectName');
           
           if (projectName) {
+            // Parse isVisible (default to true if not specified)
+            const isVisibleValue = findPropertyValue(properties, 'isVisible');
+            const isVisible = isVisibleValue ? (isVisibleValue === 'true' || isVisibleValue === '1') : true;
+            
             projects.push({
               projectName,
               entity: findPropertyValue(properties, 'entity') || undefined,
@@ -244,6 +249,7 @@ export function parseNotionProjects(notionData: any): Array<{
               projectYear: findPropertyValue(properties, 'projectYear') || undefined,
               services: findPropertyValue(properties, 'services') || undefined,
               description: findPropertyValue(properties, 'description') || undefined,
+              isVisible,
               sortOrder: parseInt(findPropertyValue(properties, 'sortOrder')) || projects.length,
             });
           }

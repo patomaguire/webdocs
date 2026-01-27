@@ -1,0 +1,70 @@
+{
+  "query": "SELECT projectName, isVisible, client, entity FROM projects WHERE documentId = 1 LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT projectName, isVisible, client, entity FROM projects WHERE documentId = 1 LIMIT 10;",
+  "rows": [
+    {
+      "projectName": "CTRL Phase 2",
+      "isVisible": "1",
+      "client": "ACT Joint Venture",
+      "entity": "IPP"
+    },
+    {
+      "projectName": "Klippoortjie",
+      "isVisible": "1",
+      "client": "AEMFC",
+      "entity": "IPP"
+    },
+    {
+      "projectName": "Juruti Bauxite - Plant Expansion",
+      "isVisible": "1",
+      "client": "Alcoa",
+      "entity": "IPP"
+    },
+    {
+      "projectName": "ACB Debottlenecking and Polokwane second Caster",
+      "isVisible": "1",
+      "client": "Anglo American",
+      "entity": "IPP"
+    },
+    {
+      "projectName": "Amandelbult",
+      "isVisible": "1",
+      "client": "Anglo American",
+      "entity": "IPP"
+    },
+    {
+      "projectName": "Bathopele Phase 5",
+      "isVisible": "1",
+      "client": "Anglo American",
+      "entity": "IPP"
+    },
+    {
+      "projectName": "Bess Venetia Pfs Study",
+      "isVisible": "1",
+      "client": "Anglo American",
+      "entity": "IPP"
+    },
+    {
+      "projectName": "Canyon Cole - Mine Closure",
+      "isVisible": "1",
+      "client": "Anglo American",
+      "entity": "IPP"
+    },
+    {
+      "projectName": "Commercial Assistance",
+      "isVisible": "1",
+      "client": "Anglo American",
+      "entity": "IPP"
+    },
+    {
+      "projectName": "Future of Mogalakwena - Early Capacity",
+      "isVisible": "1",
+      "client": "Anglo American",
+      "entity": "IPP"
+    }
+  ],
+  "messages": [],
+  "stdout": "projectName\tisVisible\tclient\tentity\nCTRL Phase 2\t1\tACT Joint Venture\tIPP\nKlippoortjie\t1\tAEMFC\tIPP\nJuruti Bauxite - Plant Expansion\t1\tAlcoa\tIPP\nACB Debottlenecking and Polokwane second Caster\t1\tAnglo American\tIPP\nAmandelbult\t1\tAnglo American\tIPP\nBathopele Phase 5\t1\tAnglo American\tIPP\nBess Venetia Pfs Study\t1\tAnglo American\tIPP\nCanyon Cole - Mine Closure\t1\tAnglo American\tIPP\nCommercial Assistance\t1\tAnglo American\tIPP\nFuture of Mogalakwena - Early Capacity\t1\tAnglo American\tIPP\n",
+  "stderr": "",
+  "execution_time_ms": 174
+}
