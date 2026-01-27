@@ -1101,3 +1101,29 @@
 - [x] Verified CSV columns match database fields (projectValue, projectYear, etc.)
 - [x] Provided corrected CSV file for manual import by user
 - [x] Save checkpoint with comma-delimited CSV import support
+
+## Phase 31: Admin Console UX Improvements
+- [ ] Fix project gallery to show ALL database fields (currently incomplete)
+- [ ] Display all field values accurately (no truncation or missing data)
+- [ ] Fix edit mode: maintain card size (no grow/shrink)
+- [ ] Fix edit mode: keep card in same position (no scroll to top)
+- [ ] Add visibility toggle button directly on project cards (outside edit mode)
+- [ ] Purpose: Quick visibility changes after filtering projects
+- [ ] Remove "Download Template" button (redundant)
+- [ ] Keep "Export Data" and "Import CSV" buttons
+- [ ] Add import validation dialog showing:
+  * Validation warnings for logical errors (e.g., text in projectYear field)
+  * Count of deleted records
+  * Count of imported records
+  * Success/failure summary
+- [ ] Test all changes in Admin Console
+- [ ] Save checkpoint with improved Admin UX
+
+## Phase 31: Admin Console UX Improvements
+- [x] Fix project gallery to display all database fields with accurate values
+- [x] Fix edit mode layout to maintain card size and position (no scroll to top)
+- [x] Add visibility toggle button directly on project cards (outside edit mode)
+- [x] Remove Download Template button, keep Export Data and Import CSV
+- [x] Add import validation dialog with error warnings and success summary
+- [x] Test all changes in Admin Console - all improvements working correctly
+- [x] Save checkpoint with improved Admin UX

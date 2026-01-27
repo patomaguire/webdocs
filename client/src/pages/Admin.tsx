@@ -2209,7 +2209,55 @@ function ProjectsTab({ documentId }: { documentId: number }) {
         console.log('[Projects CSV] Parsed rows:', results.data.length);
         console.log('[Projects CSV] Using documentId:', documentId);
         
+        // Validation phase
+        const validationErrors: string[] = [];
+        const validationWarnings: string[] = [];
+        
+        (results.data as any[]).forEach((row, index) => {
+          const rowNum = index + 2; // +2 because index starts at 0 and we skip header
+          
+          // Check required fields
+          if (!row.projectName || String(row.projectName).trim() === '') {
+            validationErrors.push(`Row ${rowNum}: Missing required field 'projectName'`);
+          }
+          
+          // Check projectYear is numeric or empty
+          if (row.projectYear && row.projectYear !== '' && isNaN(Number(row.projectYear))) {
+            validationWarnings.push(`Row ${rowNum} (${row.projectName || 'Unknown'}): 'projectYear' contains non-numeric value "${row.projectYear}"`);
+          }
+          
+          // Check latitude/longitude are numeric or empty
+          if (row.latitude && row.latitude !== '' && isNaN(Number(row.latitude))) {
+            validationWarnings.push(`Row ${rowNum} (${row.projectName || 'Unknown'}): 'latitude' contains non-numeric value "${row.latitude}"`);
+          }
+          if (row.longitude && row.longitude !== '' && isNaN(Number(row.longitude))) {
+            validationWarnings.push(`Row ${rowNum} (${row.projectName || 'Unknown'}): 'longitude' contains non-numeric value "${row.longitude}"`);
+          }
+        });
+        
+        // If there are validation errors, show dialog and abort
+        if (validationErrors.length > 0 || validationWarnings.length > 0) {
+          const errorMsg = [
+            validationErrors.length > 0 ? `**Errors (${validationErrors.length}):**\n${validationErrors.slice(0, 10).join('\n')}${validationErrors.length > 10 ? '\n...and ' + (validationErrors.length - 10) + ' more' : ''}` : '',
+            validationWarnings.length > 0 ? `\n**Warnings (${validationWarnings.length}):**\n${validationWarnings.slice(0, 10).join('\n')}${validationWarnings.length > 10 ? '\n...and ' + (validationWarnings.length - 10) + ' more' : ''}` : ''
+          ].filter(Boolean).join('\n');
+          
+          if (validationErrors.length > 0) {
+            toast.error(`CSV validation failed:\n\n${errorMsg}`, { duration: 10000 });
+            e.target.value = ''; // Reset file input
+            return;
+          } else {
+            // Only warnings - ask user to confirm
+            const proceed = confirm(`CSV validation warnings found:\n\n${errorMsg}\n\nDo you want to proceed with import?`);
+            if (!proceed) {
+              e.target.value = ''; // Reset file input
+              return;
+            }
+          }
+        }
+        
         // Delete all existing projects for this document
+        const deletedCount = projects?.length || 0;
         if (projects && projects.length > 0) {
           for (const project of projects) {
             try {
@@ -2222,6 +2270,7 @@ function ProjectsTab({ documentId }: { documentId: number }) {
         
         // Import new projects
         let imported = 0;
+        const importErrors: string[] = [];
         for (const row of results.data as any[]) {
           const project: any = { documentId };
           if (row.projectName) project.projectName = row.projectName;
@@ -2246,9 +2295,25 @@ function ProjectsTab({ documentId }: { documentId: number }) {
             console.log('[Projects CSV] Imported:', project.projectName);
           } catch (error) {
             console.error('[Projects CSV] Failed to import project:', project, error);
+            importErrors.push(`${project.projectName || 'Unknown'}: ${error}`);
           }
         }
-        toast.success(`Imported ${imported} projects (replaced all existing)`);
+        
+        // Show detailed success/failure summary
+        const summaryMsg = [
+          `**Import Summary:**`,
+          `✓ Deleted: ${deletedCount} projects`,
+          `✓ Imported: ${imported} projects`,
+          importErrors.length > 0 ? `✗ Failed: ${importErrors.length} projects` : '',
+          importErrors.length > 0 ? `\nFirst 5 errors:\n${importErrors.slice(0, 5).join('\n')}` : ''
+        ].filter(Boolean).join('\n');
+        
+        if (importErrors.length > 0) {
+          toast.warning(summaryMsg, { duration: 10000 });
+        } else {
+          toast.success(summaryMsg, { duration: 5000 });
+        }
+        
         refetch();
         e.target.value = ''; // Reset file input
       },
@@ -2285,10 +2350,6 @@ function ProjectsTab({ documentId }: { documentId: number }) {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Projects</h2>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={downloadProjectsTemplate}>
-            <Download className="mr-2 h-4 w-4" />
-            Download Template
-          </Button>
           <Button variant="outline" onClick={exportProjectsData}>
             <Download className="mr-2 h-4 w-4" />
             Export Data
@@ -2473,22 +2534,108 @@ function ProjectsTab({ documentId }: { documentId: number }) {
 
       <div className="grid gap-4">
         {filteredAndSortedProjects?.map(project => (
-          <Card key={project.id}>
+          <Card key={project.id} className="relative">
             <CardContent className="p-4">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-semibold">{project.projectName}</h3>
-                  <p className="text-sm text-muted-foreground">{project.entity} • {project.client}</p>
-                  <p className="text-sm text-muted-foreground">{project.location}, {project.country}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{project.projectYear} • {project.projectValue}</p>
+              {editingId === project.id ? (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="edit-projectName">Project Name</Label>
+                      <Input id="edit-projectName" value={formData.projectName} onChange={(e) => setFormData({ ...formData, projectName: e.target.value })} />
+                    </div>
+                    <div>
+                      <Label htmlFor="edit-entity">Entity</Label>
+                      <Input id="edit-entity" value={formData.entity} onChange={(e) => setFormData({ ...formData, entity: e.target.value })} />
+                    </div>
+                    <div>
+                      <Label htmlFor="edit-client">Client</Label>
+                      <Input id="edit-client" value={formData.client} onChange={(e) => setFormData({ ...formData, client: e.target.value })} />
+                    </div>
+                    <div>
+                      <Label htmlFor="edit-location">Location</Label>
+                      <Input id="edit-location" value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} />
+                    </div>
+                    <div>
+                      <Label htmlFor="edit-country">Country</Label>
+                      <Input id="edit-country" value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })} />
+                    </div>
+                    <div>
+                      <Label htmlFor="edit-latitude">Latitude</Label>
+                      <Input id="edit-latitude" value={formData.latitude} onChange={(e) => setFormData({ ...formData, latitude: e.target.value })} />
+                    </div>
+                    <div>
+                      <Label htmlFor="edit-longitude">Longitude</Label>
+                      <Input id="edit-longitude" value={formData.longitude} onChange={(e) => setFormData({ ...formData, longitude: e.target.value })} />
+                    </div>
+                    <div>
+                      <Label htmlFor="edit-projectValue">Project Value</Label>
+                      <Input id="edit-projectValue" value={formData.projectValue} onChange={(e) => setFormData({ ...formData, projectValue: e.target.value })} />
+                    </div>
+                    <div>
+                      <Label htmlFor="edit-projectYear">Project Year</Label>
+                      <Input id="edit-projectYear" value={formData.projectYear} onChange={(e) => setFormData({ ...formData, projectYear: e.target.value })} />
+                    </div>
+                    <div className="col-span-2">
+                      <Label htmlFor="edit-services">Services</Label>
+                      <Input id="edit-services" value={formData.services} onChange={(e) => setFormData({ ...formData, services: e.target.value })} />
+                    </div>
+                    <div className="col-span-2">
+                      <Label htmlFor="edit-description">Description</Label>
+                      <Textarea id="edit-description" value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Switch id="edit-isVisible" checked={formData.isVisible} onCheckedChange={(checked) => setFormData({ ...formData, isVisible: checked })} />
+                      <Label htmlFor="edit-isVisible">Visible on Map</Label>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button onClick={handleUpdate}>Save</Button>
+                    <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={() => handleEdit(project)}>Edit</Button>
-                  <Button variant="destructive" size="sm" onClick={() => handleDelete(project.id)}>
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
+              ) : (
+                <>
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="flex-1 space-y-2 text-sm">
+                      <div className="flex items-start justify-between">
+                        <h3 className="font-semibold text-base">{project.projectName}</h3>
+                      </div>
+                      <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                        <div><span className="font-medium">Entity:</span> {project.entity || '-'}</div>
+                        <div><span className="font-medium">Client:</span> {project.client || '-'}</div>
+                        <div><span className="font-medium">Location:</span> {project.location || '-'}</div>
+                        <div><span className="font-medium">Country:</span> {project.country || '-'}</div>
+                        <div><span className="font-medium">Latitude:</span> {project.latitude || '-'}</div>
+                        <div><span className="font-medium">Longitude:</span> {project.longitude || '-'}</div>
+                        <div><span className="font-medium">Value:</span> {project.projectValue || '-'}</div>
+                        <div><span className="font-medium">Year:</span> {project.projectYear || '-'}</div>
+                        <div className="col-span-2"><span className="font-medium">Services:</span> {project.services || '-'}</div>
+                        {project.description && <div className="col-span-2"><span className="font-medium">Description:</span> {project.description}</div>}
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-2 shrink-0">
+                      <div className="flex items-center gap-2">
+                        <Switch
+                          checked={project.isVisible !== false}
+                          onCheckedChange={async (checked) => {
+                            try {
+                              await updateMutation.mutateAsync({ id: project.id, isVisible: checked });
+                              toast.success(checked ? "Project visible on map" : "Project hidden from map");
+                            } catch (error) {
+                              toast.error("Failed to update visibility");
+                            }
+                          }}
+                        />
+                        <span className="text-xs text-muted-foreground">Visible</span>
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => handleEdit(project)}>Edit</Button>
+                      <Button variant="destructive" size="sm" onClick={() => handleDelete(project.id)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              )}
             </CardContent>
           </Card>
         ))}
