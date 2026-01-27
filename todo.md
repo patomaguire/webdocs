@@ -1243,3 +1243,19 @@ Testing completed - all changes verified in browser:
 - [x] Investigate image upload mutation error - expects base64 data, not FormData
 - [x] Fix image upload implementation - convert file to base64 using FileReader
 - [x] Test image upload functionality - SUCCESS (circular preview appears, S3 URL populated)
+
+## Phase 40: Debug Persistent Image Upload Error
+- [ ] Check browser console for actual error message
+- [ ] Identify root cause of upload failure
+- [ ] Implement fix
+- [ ] Test with real user interaction
+- [ ] Save checkpoint
+
+## Phase 41: Fix Missing Team Member Photos in External View
+- [ ] Investigate why photos aren't rendering in external Teams cards
+- [ ] Fix photo rendering implementation
+- [ ] Test on external page
+- [ ] Save checkpoint
+- [x] Investigate why photos aren't rendering - No team members exist for default document
+- [x] Photo rendering code verified as correct
+- [x] Image picker functionality confirmed working
