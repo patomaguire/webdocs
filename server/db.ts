@@ -229,7 +229,9 @@ export async function upsertTab(data: Omit<InsertTabContent, 'id'>): Promise<voi
           backgroundValue: data.backgroundValue,
           notionDatabaseUrl: data.notionDatabaseUrl,
           notionDatabaseUrl2: data.notionDatabaseUrl2,
-          notionDatabaseUrl3: data.notionDatabaseUrl3
+          notionDatabaseUrl3: data.notionDatabaseUrl3,
+          introText: data.introText,
+          introTextEs: data.introTextEs
         } 
       });
   } catch (error) {
@@ -467,7 +469,7 @@ export async function createDocument(doc: InsertDocument): Promise<Document> {
       documentId,
       tabNumber: template.base + documentId,
       tabTitle: template.title,
-      content: '',
+      htmlContent: '',
       isVisible: true,
     });
   }
@@ -547,6 +549,13 @@ export async function copyDocumentContent(sourceDocumentId: number, targetDocume
       tabTitle: tab.tabTitle || "",
       htmlContent: tab.htmlContent || "",
       isVisible: tab.isVisible,
+      introText: tab.introText,
+      introTextEs: tab.introTextEs,
+      backgroundType: tab.backgroundType,
+      backgroundValue: tab.backgroundValue,
+      notionDatabaseUrl: tab.notionDatabaseUrl,
+      notionDatabaseUrl2: tab.notionDatabaseUrl2,
+      notionDatabaseUrl3: tab.notionDatabaseUrl3,
     });
   }
 

@@ -1,0 +1,17 @@
+{
+  "query": "SELECT tabNumber, tabTitle, introText, introTextEs, updatedAt FROM tabs_content WHERE tabNumber = 1200;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT tabNumber, tabTitle, introText, introTextEs, updatedAt FROM tabs_content WHERE tabNumber = 1200;",
+  "rows": [
+    {
+      "tabNumber": "1200",
+      "tabTitle": "Experience Map",
+      "introText": "NULL",
+      "introTextEs": "NULL",
+      "updatedAt": "2026-01-24 16:02:45"
+    }
+  ],
+  "messages": [],
+  "stdout": "tabNumber\ttabTitle\tintroText\tintroTextEs\tupdatedAt\n1200\tExperience Map\tNULL\tNULL\t2026-01-24 16:02:45\n",
+  "stderr": "",
+  "execution_time_ms": 374
+}

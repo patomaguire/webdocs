@@ -111,7 +111,11 @@ export const appRouter = router({
         isVisible: z.boolean().optional(),
         backgroundType: z.enum(["color", "gradient", "image"]).optional(),
         backgroundValue: z.string().optional(),
-
+        introText: z.string().optional(),
+        introTextEs: z.string().optional(),
+        notionDatabaseUrl: z.string().optional(),
+        notionDatabaseUrl2: z.string().optional(),
+        notionDatabaseUrl3: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
         await upsertTab(input);

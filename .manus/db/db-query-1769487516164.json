@@ -1,0 +1,15 @@
+{
+  "query": "SELECT tabTitle, introText, introTextEs FROM tabs_content WHERE tabNumber = 1200 AND documentId = (SELECT id FROM documents WHERE slug = 'default');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT tabTitle, introText, introTextEs FROM tabs_content WHERE tabNumber = 1200 AND documentId = (SELECT id FROM documents WHERE slug = 'default');",
+  "rows": [
+    {
+      "tabTitle": "Experience Map",
+      "introText": "NULL",
+      "introTextEs": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "tabTitle\tintroText\tintroTextEs\nExperience Map\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 362
+}

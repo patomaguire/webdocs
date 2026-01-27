@@ -1171,3 +1171,21 @@ Testing completed - all changes verified in browser:
 - [x] Fix marker click zoom from street level to country level
 - [x] Move introductory text above map and cards layout (already correctly positioned)
 - [x] Test all changes
+- [x] Save checkpoint
+
+## Phase 35: Fix Introductory Text Position
+- [ ] Investigate where intro text is currently rendered
+- [ ] Move intro text above map (not below cards)
+- [ ] Test visual layout
+- [ ] Save checkpoint
+- [x] Investigate where intro text is currently rendered (found: heading renders before ExperienceMapSection)
+- [x] Move intro text above map (not below cards) - heading now in ExperienceMapSection
+
+## Phase 35: Fix Introductory Text Display
+- [x] Identified root cause: tRPC mutation schema missing introText fields
+- [x] Added introText and introTextEs to tabs.upsert mutation schema
+- [x] Added notionDatabaseUrl fields to mutation schema
+- [x] Re-saved Experience Map tab with intro text
+- [x] Verified intro text displays correctly above map
+- [x] Removed debug messages and styling
+- [x] Cleaned up server-side logging

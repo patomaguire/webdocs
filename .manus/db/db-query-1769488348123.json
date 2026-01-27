@@ -1,0 +1,16 @@
+{
+  "query": "SELECT tabNumber, tabTitle, LENGTH(introText) as intro_len, introText FROM tabs_content WHERE tabNumber = 1200;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT tabNumber, tabTitle, LENGTH(introText) as intro_len, introText FROM tabs_content WHERE tabNumber = 1200;",
+  "rows": [
+    {
+      "tabNumber": "1200",
+      "tabTitle": "Experience Map",
+      "intro_len": "NULL",
+      "introText": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "tabNumber\ttabTitle\tintro_len\tintroText\n1200\tExperience Map\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 352
+}

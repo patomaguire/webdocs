@@ -698,9 +698,12 @@ function ProposalContent({ documentId }: { documentId: number }) {
         >
           {currentTab && (
             <div>
-              <h2 className="text-3xl font-bold mb-6 scroll-mt-4" style={{ color: primaryColor }}>
-                {currentTab.tabTitle}
-              </h2>
+              {/* Skip heading for Experience Map tab (1200) - it renders its own with intro text */}
+              {activeTab !== 1200 && (
+                <h2 className="text-3xl font-bold mb-6 scroll-mt-4" style={{ color: primaryColor }}>
+                  {currentTab.tabTitle}
+                </h2>
+              )}
 
               {/* Tab 800: Team Section */}
               {activeTab === 800 && (
@@ -760,8 +763,8 @@ function ProposalContent({ documentId }: { documentId: number }) {
                   projects={projects || []} 
                   primaryColor={primaryColor}
                   language={language}
-                  introText={currentTab?.introText}
-                  introTextEs={currentTab?.introTextEs}
+                  introText={currentTab?.introText ?? undefined}
+                  introTextEs={currentTab?.introTextEs ?? undefined}
                 />
               )}
 
@@ -1082,9 +1085,14 @@ function ExperienceMapSection({
 
   return (
     <div style={{ width: '100%' }}>
+      {/* Tab Heading */}
+      <h2 className="text-3xl font-bold mb-6 scroll-mt-4" style={{ color: primaryColor }}>
+        {language === 'es' ? 'Mapa de Experiencia' : 'Experience Map'}
+      </h2>
+      
       {/* Introductory Text */}
       {(introText || introTextEs) && (
-        <div style={{ marginBottom: '2rem', padding: '1.5rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+        <div style={{ marginBottom: '2rem', padding: '1.5rem', backgroundColor: '#f8f9fa', borderRadius: '8px', border: '1px solid #dee2e6' }}>
           <p style={{ margin: 0, fontSize: '1rem', color: '#333', lineHeight: '1.6' }}>
             {language === 'es' ? (introTextEs || introText) : (introText || introTextEs)}
           </p>
