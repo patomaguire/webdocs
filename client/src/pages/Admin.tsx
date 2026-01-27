@@ -931,20 +931,18 @@ function TabsContentTab({ documentId }: { documentId: number }) {
       setSelectedTab(null);
     },
   });
-  const notionPageImportMutation = trpc.notionPage.fetchPageContent.useMutation();
+
 
   const [selectedTab, setSelectedTab] = useState<number | null>(null);
-  const [notionPageUrl, setNotionPageUrl] = useState("");
-  const [notionMarkdownInput, setNotionMarkdownInput] = useState("");
+
+
   const [formData, setFormData] = useState({
     tabTitle: "",
     htmlContent: "",
     isVisible: true,
     backgroundType: "color" as "color" | "gradient" | "image",
     backgroundValue: "#FFFFFF",
-    notionDatabaseUrl: "",
-    notionDatabaseUrl2: "",
-    notionDatabaseUrl3: "",
+
   });
 
   // Sync textarea and preview heights
@@ -1733,7 +1731,9 @@ function TeamTab({ documentId }: { documentId: number }) {
           if (row.keySkills) member.keySkills = row.keySkills;
           if (row.sortOrder) member.sortOrder = parseInt(row.sortOrder) || 0;
           // Default isVisible to true if not specified in CSV
-          member.isVisible = row.isVisible !== undefined ? (row.isVisible === 'true' || row.isVisible === '1' || row.isVisible === true) : true;
+          member.isVisible = row.isVisible !== undefined ? 
+            (String(row.isVisible).toLowerCase() === 'true' || row.isVisible === '1' || row.isVisible === true) : 
+            true;
           
           try {
             await createMutation.mutateAsync(member);
@@ -2236,7 +2236,9 @@ function ProjectsTab({ documentId }: { documentId: number }) {
           if (row.services) project.services = row.services;
           if (row.description) project.description = row.description;
           // Default isVisible to true if not specified in CSV
-          project.isVisible = row.isVisible !== undefined ? (row.isVisible === 'true' || row.isVisible === '1' || row.isVisible === true) : true;
+          project.isVisible = row.isVisible !== undefined ? 
+            (String(row.isVisible).toLowerCase() === 'true' || row.isVisible === '1' || row.isVisible === true) : 
+            true;
           
           try {
             await createMutation.mutateAsync(project);

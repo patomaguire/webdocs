@@ -2,9 +2,7 @@ import { z } from "zod";
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { notionDataRouter } from "./notionDataRouter";
 import { imageUploadRouter } from "./imageUploadRouter";
-import { notionPageRouter } from "./notionPageRouter";
 import { tabDocumentsRouter } from "./tabDocumentsRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { ENV } from "./_core/env";
@@ -46,9 +44,7 @@ import {
 
 export const appRouter = router({
   system: systemRouter,
-  notionData: notionDataRouter,
   imageUpload: imageUploadRouter,
-  notionPage: notionPageRouter,
   tabDocuments: tabDocumentsRouter,
   
   auth: router({
@@ -115,9 +111,7 @@ export const appRouter = router({
         isVisible: z.boolean().optional(),
         backgroundType: z.enum(["color", "gradient", "image"]).optional(),
         backgroundValue: z.string().optional(),
-        notionDatabaseUrl: z.string().optional(),
-        notionDatabaseUrl2: z.string().optional(),
-        notionDatabaseUrl3: z.string().optional(),
+
       }))
       .mutation(async ({ input }) => {
         await upsertTab(input);
@@ -179,47 +173,7 @@ export const appRouter = router({
         await deleteTeamMember(input.id);
         return { success: true };
       }),
-    importFromNotion: publicProcedure
-      .input(z.object({
-        databaseId: z.string(),
-        documentId: z.number(),
-      }))
-      .mutation(async ({ input }) => {
-        const { fetchNotionDatabase, validateTeamMemberFields, parseNotionTeamMembers } = await import('./notion');
-        
-        // Fetch Notion database
-        const notionData = await fetchNotionDatabase(input.databaseId);
-        
-        // Validate fields
-        const validation = validateTeamMemberFields(notionData);
-        if (!validation.valid) {
-          return {
-            success: false,
-            error: `Missing required fields: ${validation.missingFields.join(', ')}`,
-            availableFields: validation.availableFields,
-          };
-        }
-        
-        // Parse and import
-        const members = parseNotionTeamMembers(notionData);
-        
-        if (members.length === 0) {
-          return {
-            success: false,
-            error: 'No team members found in Notion database',
-          };
-        }
-        
-        // Bulk insert
-        for (const member of members) {
-          await createTeamMember({ ...member, documentId: input.documentId });
-        }
-        
-        return {
-          success: true,
-          imported: members.length,
-        };
-      }),
+
   }),
 
   // Projects router
@@ -278,47 +232,7 @@ export const appRouter = router({
         await deleteProject(input.id);
         return { success: true };
       }),
-    importFromNotion: publicProcedure
-      .input(z.object({
-        databaseId: z.string(),
-        documentId: z.number(),
-      }))
-      .mutation(async ({ input }) => {
-        const { fetchNotionDatabase, validateProjectFields, parseNotionProjects } = await import('./notion');
-        
-        // Fetch Notion database
-        const notionData = await fetchNotionDatabase(input.databaseId);
-        
-        // Validate fields
-        const validation = validateProjectFields(notionData);
-        if (!validation.valid) {
-          return {
-            success: false,
-            error: `Missing required fields: ${validation.missingFields.join(', ')}`,
-            availableFields: validation.availableFields,
-          };
-        }
-        
-        // Parse and import
-        const projects = parseNotionProjects(notionData);
-        
-        if (projects.length === 0) {
-          return {
-            success: false,
-            error: 'No projects found in Notion database',
-          };
-        }
-        
-        // Bulk insert
-        for (const project of projects) {
-          await createProject({ ...project, documentId: input.documentId });
-        }
-        
-        return {
-          success: true,
-          imported: projects.length,
-        };
-      }),
+
   }),
 
   // Documents router

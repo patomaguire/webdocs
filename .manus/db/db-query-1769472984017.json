@@ -1,0 +1,50 @@
+{
+  "query": "SELECT projectName, isVisible FROM projects WHERE documentId = 1 LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2fBkiNFiDGExDsE.fc940ce39930 --database jkvEoGLbv7QkcKGpVwBVtE --execute SELECT projectName, isVisible FROM projects WHERE documentId = 1 LIMIT 10;",
+  "rows": [
+    {
+      "projectName": "CTRL Phase 2",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Klippoortjie",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Juruti Bauxite - Plant Expansion",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "ACB Debottlenecking and Polokwane second Caster",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Amandelbult",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Bathopele Phase 5",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Bess Venetia Pfs Study",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Canyon Cole - Mine Closure",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Commercial Assistance",
+      "isVisible": "0"
+    },
+    {
+      "projectName": "Future of Mogalakwena - Early Capacity",
+      "isVisible": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "projectName\tisVisible\nCTRL Phase 2\t0\nKlippoortjie\t0\nJuruti Bauxite - Plant Expansion\t0\nACB Debottlenecking and Polokwane second Caster\t0\nAmandelbult\t0\nBathopele Phase 5\t0\nBess Venetia Pfs Study\t0\nCanyon Cole - Mine Closure\t0\nCommercial Assistance\t0\nFuture of Mogalakwena - Early Capacity\t0\n",
+  "stderr": "",
+  "execution_time_ms": 119
+}

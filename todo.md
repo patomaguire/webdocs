@@ -1063,3 +1063,22 @@
 - [x] Verify CSV import already has correct logic (defaults to true if missing)
 - [x] Both import methods now preserve isVisible values correctly
 - [x] Save checkpoint with fixed import behavior
+
+## Phase 28: Remove Notion Integration and Test Real CSV Import
+- [ ] Delete server/notion.ts file
+- [ ] Remove Notion import mutations from server/routers.ts (teamMembers and projects)
+- [ ] Remove Notion import UI from Admin.tsx (both team and projects tabs)
+- [ ] Delete all existing projects from database
+- [ ] Import user's actual CSV file (ProjectList_260123_Rev.1.csv) through Admin UI
+- [ ] Visually verify projects appear on Experience Map
+- [ ] Check if isVisible values from CSV are preserved correctly
+- [ ] Save checkpoint with cleaned codebase
+
+## Phase 28: CSV Import Fix for isVisible Values
+- [x] Identified issue: CSV has uppercase TRUE, import code checks lowercase 'true'
+- [x] Fixed CSV import to handle case-insensitive isVisible values (TRUE/true/1)
+- [x] Removed Notion integration files (server/notion.ts, routers)
+- [x] Tested CSV import with user's actual ProjectList_260123_Rev.1.csv file
+- [x] Visually verified 76 projects display correctly on Experience Map
+- [x] Verified marker clustering, color-coding, and filters all working
+- [x] Save final checkpoint with working CSV import
